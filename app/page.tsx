@@ -46,11 +46,6 @@ export default function Home() {
       <div className="w-full max-w-2xl border border-neutral-800 rounded-2xl p-4 flex flex-col gap-4">
         <h1 className="text-xl font-semibold">/charles_bonnet.clone</h1>
 
-        <p className="text-sm text-neutral-400">
-          Posez votre question pour en savoir plus sur le parcours, les hard skills,
-          les soft skills et les hobbies de Charles Bonnet.
-        </p>
-
         <div className="flex-1 h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
           {messages.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
@@ -64,10 +59,6 @@ export default function Home() {
             <div className="text-left text-neutral-400 text-xs">
               Assistant en train d’écrire…
             </div>
-          )}
-
-          {messages.length === 0 && !loading && (
-           
           )}
         </div>
 
