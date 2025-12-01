@@ -29,9 +29,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-2xl border border-neutral-800 rounded-2xl p-4 flex flex-col gap-4">
-        <h1 className="text-xl font-semibold">
-          Assistant IA · Singular
-        </h1>
+        <h1 className="text-xl font-semibold">Assistant IA · Singular</h1>
 
         <div className="flex-1 h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
           {messages.map((m, i) => (
@@ -43,14 +41,12 @@ export default function Home() {
           ))}
 
           {loading && (
-            <div className="text-left text-neutral-400 text-xs">
-              Assistant en train d’écrire…
-            </div>
+            <div className="text-left text-neutral-400 text-xs">Assistant en train d’écrire…</div>
           )}
 
           {messages.length === 0 && !loading && (
             <div className="text-neutral-500 text-sm">
-              Pose une question sur l’IA, la techno, le futur, la finance perso…
+              Pose une question sur l’IA, la technologie, le futur, la finance perso…
             </div>
           )}
         </div>
@@ -60,20 +56,5 @@ export default function Home() {
             className="flex-1 rounded-xl border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm outline-none"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSend();
-            }}
-            placeholder="Écris ta question…"
-          />
-          <button
-            onClick={handleSend}
-            disabled={loading}
-            className="px-4 py-2 rounded-xl border border-cyan-400 text-sm disabled:opacity-50"
-          >
-            Envoyer
-          </button>
-        </div>
-      </div>
-    </main>
-  );
-}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            placeholder="Écr
