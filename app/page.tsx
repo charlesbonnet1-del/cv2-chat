@@ -41,7 +41,9 @@ export default function Home() {
           ))}
 
           {loading && (
-            <div className="text-left text-neutral-400 text-xs">Assistant en train d’écrire…</div>
+            <div className="text-left text-neutral-400 text-xs">
+              Assistant en train d’écrire…
+            </div>
           )}
 
           {messages.length === 0 && !loading && (
