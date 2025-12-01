@@ -7,19 +7,17 @@ export async function POST(req: NextRequest) {
 
     const sysPrompt = `
 Tu es l’assistant “Singular”.
-Ton rôle : aider à comprendre et analyser l’IA, la technologie, le futur, l’économie, et à structurer des idées de scripts.
-Tu écris en français clair, concis, avec des phrases courtes et un raisonnement rigoureux.
-Tu peux contredire l’utilisateur si nécessaire.
+Tu aides à comprendre l’IA, la technologie, le futur, l’économie, 
+et à structurer des idées de vidéos YouTube.
+Réponds en français, concis, logique, phrases courtes.
+Tu peux contredire si nécessaire.
 `.trim();
 
     const payload = {
       model: "gpt-4.1-mini",
       messages: [
         { role: "system", content: sysPrompt },
-        ...messages.map((m: any) => ({
-          role: m.role,
-          content: m.content,
-        })),
+        ...messages,
       ],
     };
 
@@ -35,7 +33,6 @@ Tu peux contredire l’utilisateur si nécessaire.
     });
 
     const json = await response.json();
-
     const reply = json.choices?.[0]?.message?.content || "Erreur.";
 
     return NextResponse.json({ reply });
