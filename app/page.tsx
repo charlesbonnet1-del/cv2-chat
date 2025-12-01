@@ -15,7 +15,6 @@ export default function Home() {
   async function handleSend() {
     if (!input.trim()) return;
 
-    // Nouvelle liste de messages typée explicitement
     const newMessages: ChatMessage[] = [
       ...messages,
       { role: "user", content: input },
@@ -25,7 +24,6 @@ export default function Home() {
     setInput("");
     setLoading(true);
 
-    // Appel à ton API backend
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,7 +33,6 @@ export default function Home() {
     const data = await res.json();
     const reply = data.reply || "Erreur.";
 
-    // Ajout du message assistant avec typage strict
     setMessages([
       ...newMessages,
       { role: "assistant", content: reply },
@@ -47,7 +44,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-2xl border border-neutral-800 rounded-2xl p-4 flex flex-col gap-4">
-        <h1 className="text-xl font-semibold">Assistant IA · Singular</h1>
+        <h1 className="text-xl font-semibold">/charles_bonnet.clone</h1>
+
+        <p className="text-sm text-neutral-400">
+          Posez votre question pour en savoir plus sur le parcours, les hard skills,
+          les soft skills et les hobbies de Charles Bonnet.
+        </p>
 
         <div className="flex-1 h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
           {messages.map((m, i) => (
@@ -66,7 +68,8 @@ export default function Home() {
 
           {messages.length === 0 && !loading && (
             <div className="text-neutral-500 text-sm">
-              Pose une question sur l’IA, la technologie, le futur, la finance perso…
+              Posez une question sur le parcours, les compétences ou les intérêts de Charles
+              pour commencer la conversation.
             </div>
           )}
         </div>
@@ -77,7 +80,7 @@ export default function Home() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Écris ta question…"
+            placeholder="Posez votre question sur Charles Bonnet…"
           />
           <button
             onClick={handleSend}
