@@ -67,10 +67,7 @@ export default function Home() {
           )}
 
           {messages.length === 0 && !loading && (
-            <div className="text-neutral-500 text-sm">
-              Posez une question sur le parcours, les compétences ou les intérêts de Charles
-              pour commencer la conversation.
-            </div>
+           
           )}
         </div>
 
