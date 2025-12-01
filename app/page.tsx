@@ -2,19 +2,30 @@
 
 import { useState } from "react";
 
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export default function Home() {
-  const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSend() {
     if (!input.trim()) return;
 
-    const newMessages = [...messages, { role: "user", content: input }];
+    // Nouvelle liste de messages typée explicitement
+    const newMessages: ChatMessage[] = [
+      ...messages,
+      { role: "user", content: input },
+    ];
+
     setMessages(newMessages);
     setInput("");
     setLoading(true);
 
+    // Appel à ton API backend
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -22,7 +33,14 @@ export default function Home() {
     });
 
     const data = await res.json();
-    setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+    const reply = data.reply || "Erreur.";
+
+    // Ajout du message assistant avec typage strict
+    setMessages([
+      ...newMessages,
+      { role: "assistant", content: reply },
+    ]);
+
     setLoading(false);
   }
 
