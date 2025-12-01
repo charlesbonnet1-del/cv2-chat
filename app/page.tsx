@@ -57,4 +57,17 @@ export default function Home() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Écr
+            placeholder="Écris ta question…"
+          />
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="px-4 py-2 rounded-xl border border-cyan-400 text-sm disabled:opacity-50"
+          >
+            Envoyer
+          </button>
+        </div>
+      </div>
+    </main>
+  );
+}
