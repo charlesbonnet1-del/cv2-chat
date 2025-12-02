@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-// Import avec un seul point (./) pour éviter l'erreur de build
 import ThemeToggle from "./components/ThemeToggle";
 
 type ChatMessage = {
@@ -47,7 +46,6 @@ export default function Home() {
   }
 
   return (
-    // FIX MOBILE : h-[100dvh]
     <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none">
       
       {/* --- EN-TÊTE --- */}
@@ -98,22 +96,20 @@ export default function Home() {
             )}
             
             {messages.map((m, i) => (
-              // CONTENEUR FLEX POUR ALIGNER AVATAR + MESSAGE
               <div 
                 key={i} 
                 className={`flex gap-4 ${m.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 
-                {/* AVATAR (Visible uniquement pour l'assistant) */}
+                {/* AVATAR (CORRIGÉ EN .PNG) */}
                 {m.role === "assistant" && (
                   <img 
-                    src="/avatar.jpg" 
+                    src="/avatar.png" 
                     alt="IA" 
                     className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0"
                   />
                 )}
 
-                {/* BULLE DE TEXTE */}
                 <div 
                   data-role={m.role} 
                   className={m.role === "user" ? "max-w-[85%]" : "max-w-full"}
@@ -125,9 +121,9 @@ export default function Home() {
             
             {loading && (
               <div className="flex gap-4 justify-start">
-                 {/* Avatar pendant le chargement aussi */}
+                 {/* Avatar PNG pendant le chargement aussi */}
                  <img 
-                    src="/avatar.jpg" 
+                    src="/avatar.png" 
                     alt="IA" 
                     className="w-8 h-8 rounded-full object-cover mt-1 opacity-50 shrink-0"
                   />
