@@ -24,69 +24,86 @@ export default function Home() {
     setInput("");
     setLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: newMessages }),
-    });
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages }),
+      });
 
-    const data = await res.json();
-    const reply = data.reply || "Erreur.";
+      const data = await res.json();
+      const reply = data.reply || "Je ne peux pas répondre pour l'instant.";
 
-    setMessages([
-      ...newMessages,
-      { role: "assistant", content: reply },
-    ]);
-
-    setLoading(false);
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: reply },
+      ]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl border border-neutral-800 rounded-2xl p-4 flex flex-col gap-4">
+    // ON RETIRE bg-black et text-white. On laisse globals.css gérer.
+    <main className="min-h-screen flex items-center justify-center p-4">
+      
+      {/* Conteneur principal sans bordure forcée */}
+      <div className="w-full max-w-2xl flex flex-col gap-8">
 
-        {/* Boîte de dialogue (sans titre) */}
-        <div className="flex gap-2">
+        {/* ZONE 1 : INPUT (En haut selon ton design actuel) */}
+        {/* On utilise une balise form pour que le CSS global s'applique */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSend();
+          }}
+          className="flex gap-0 shadow-sm"
+        >
           <input
-            className="flex-1 rounded-xl border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm outline-none"
+            className="flex-1 px-4 py-3 outline-none"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Posez votre question…"
+            placeholder="Posez votre question sur mon parcours..."
           />
           <button
-            onClick={handleSend}
+            type="submit"
             disabled={loading}
-            className="px-4 py-2 rounded-xl border border-cyan-400 text-sm disabled:opacity-50"
+            className="px-6 py-3 disabled:opacity-50"
           >
-            Envoyer
+            {loading ? "..." : "Envoyer"}
           </button>
-        </div>
+        </form>
 
-        {/* Historique de messages */}
-        <div className="flex-1 max-h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
+        {/* ZONE 2 : HISTORIQUE */}
+        <div className="flex flex-col space-y-6">
+          
+          {/* Message d'accueil vide */}
+          {messages.length === 0 && !loading && (
+            <div className="text-center opacity-50 text-sm italic mt-10">
+              L'IA est prête. Posez une question.
+            </div>
+          )}
 
           {messages.map((m, i) => (
-            <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
-              <span className="inline-block px-3 py-2 rounded-lg bg-neutral-800">
-                {m.content}
-              </span>
+            <div 
+              key={i} 
+              // C'est ICI que la magie opère : data-role connecte le CSS global
+              data-role={m.role}
+              className={m.role === "user" ? "ml-auto max-w-[85%] p-3" : "mr-auto w-full"}
+            >
+              {m.content}
             </div>
           ))}
 
           {loading && (
-            <div className="text-left text-neutral-400 text-xs">
-              Assistant en train d’écrire…
+            <div className="text-sm opacity-50 animate-pulse pl-4 border-l-2 border-gray-300">
+              Réflexion en cours...
             </div>
           )}
-
-          {messages.length === 0 && !loading && (
-            <div className="text-neutral-500 text-sm">
-              Posez une question pour commencer la conversation.
-            </div>
-          )}
-
         </div>
+
       </div>
     </main>
   );
