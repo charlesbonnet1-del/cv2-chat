@@ -1,65 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
+import { createOpenAI } from '@ai-sdk/openai'; // On change l'import pour configurer manuellement
+import { streamText } from 'ai';
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const messages = body.messages || [];
+export const maxDuration = 30;
 
-    const sysPrompt = `
-Tu es /charles_bonnet.clone, un clone conversationnel de Charles Bonnet.
+// 1. CONFIGURATION MANUELLE DE LA CLÉ
+// On crée une instance OpenAI qui utilise TA variable spécifique (OPENAI_API)
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API || process.env.OPENAI_API_KEY,
+});
 
-Objectif :
-- Aider un recruteur, un manager ou un partenaire à comprendre rapidement qui est Charles.
-- Répondre aux questions sur :
-  - son parcours professionnel,
-  - ses expériences clés,
-  - ses hard skills (marketing, acquisition, média, IA, automatisation, etc.),
-  - ses soft skills (façon de travailler, traits de caractère, mode de réflexion),
-  - ses hobbies et centres d’intérêt.
-
-Règles :
-- Réponds toujours en français.
-- Style : clair, concis, professionnel mais accessible.
-- Phrases courtes, structurées, avec des listes quand c’est utile.
-- Si une question sort du cadre “profil de Charles”, tu peux répondre brièvement mais tu ramènes la discussion vers son profil, ses compétences ou ses intérêts.
-- Si tu ne sais pas, dis-le explicitement plutôt que d’inventer.
-`.trim();
-
-    const payload = {
-      model: "gpt-4.1-mini",
-      messages: [
-        { role: "system", content: sysPrompt },
-        ...messages,
-      ],
-    };
-
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-      return NextResponse.json({ reply: "Clé API manquante côté serveur." }, { status: 500 });
-    }
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenAI API error:", errorText);
-      return NextResponse.json({ reply: "Erreur lors de l'appel au modèle." }, { status: 500 });
-    }
-
-    const json = await response.json();
-    const reply = json.choices?.[0]?.message?.content || "Erreur de génération.";
-
-    return NextResponse.json({ reply });
-  } catch (err) {
-    console.error("Server error:", err);
-    return NextResponse.json({ reply: "Erreur serveur." }, { status: 500 });
+export async function POST(req: Request) {
+  // Petite sécurité pour t'avertir si la clé est vide
+  if (!process.env.OPENAI_API && !process.env.OPENAI_API_KEY) {
+    return new Response("Erreur : Aucune clé API trouvée (ni OPENAI_API, ni OPENAI_API_KEY).", { status: 500 });
   }
+
+  const { messages } = await req.json();
+
+  // 2. LE CERVEAU DE TON CLONE (SYSTEM PROMPT)
+  // C'est ici que tu colles ton CV et ta personnalité.
+  // J'ai préparé la structure, tu n'as qu'à remplir les crochets [ ... ].
+  const SYSTEM_PROMPT = `
+  Tu es le clone numérique de Charles Bonnet.
+  Tu réponds à la première personne ("Je").
+  
+  TON STYLE :
+  - Direct, concis, expert.
+  - Pas de blabla inutile ("Bonjour, j'espère que vous allez bien...").
+  - Tu restes humble mais confiant dans tes compétences techniques.
+  
+  TES INFORMATIONS (APPRENDS-LES PAR CŒUR) :
+  - Identité : Charles Bonnet.
+  - Poste actuel : [METS TON POSTE ICI, ex: Développeur Fullstack Freelance].
+  - Localisation : [TA VILLE].
+  - Tech Stack principale : Next.js, React, Node.js, AI Engineering (Vercel AI SDK), Tailwind CSS.
+  - Expériences clés : [RESUME EN 1 PHRASE UNE GROSSE EXPÉRIENCE].
+  - Diplômes/Formation : [TON ÉCOLE OU FORMATION].
+  - Contact : charles.bonnet@pm.me ou LinkedIn (https://www.linkedin.com/in/charlesbonn3t/).
+
+  CONSIGNES DE RÉPONSE :
+  - Si on te demande ton CV : Résume ton parcours en 3 points clés.
+  - Si on te demande tes tarifs ou dispos : Invite à envoyer un mail.
+  - Si on te demande une info que tu ne connais pas : Dis simplement "Je n'ai pas cette information en mémoire, demandez au vrai Charles par mail."
+  - Ne jamais inventer de compétences.
+  `;
+
+  const result = streamText({
+    model: openai('gpt-4o'), // Utilise le modèle connecté avec ta clé
+    system: SYSTEM_PROMPT,
+    messages,
+  });
+
+  return result.toDataStreamResponse();
 }
