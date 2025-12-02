@@ -18,7 +18,7 @@
   --button-bg: #1C1917;
   --button-text: #F9F7F1;
   
-  --font-main: var(--font-inter); 
+--font-main: "Consolas", "Monaco", "Lucida Console", "Courier New", monospace;
 }
 
 /* DARK MODE (Café Serré) */
