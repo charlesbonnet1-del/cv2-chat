@@ -153,25 +153,25 @@ export default function Home() {
         </div>
 
         {/* BARRE DE SAISIE */}
-        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
-          <input
-            className="w-full h-12 pl-5 pr-14 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-blue-500/50 outline-none transition-all placeholder:text-gray-400 text-[16px]" // text-16px évite le zoom sur iPhone
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Écrivez votre message..."
-            disabled={loading}
-          />
-          <button
-            type="submit"
-            disabled={loading || !input.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-white dark:bg-gray-700 rounded-full shadow-sm hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all text-blue-600 dark:text-blue-400"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-0.5">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-        </form>
+       <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
+  <input
+    className="w-full outline-none pr-14"
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    placeholder="Écrivez votre message..."
+    disabled={loading}
+  />
+  <button
+    type="submit"
+    disabled={loading || !input.trim()}
+    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-50 transition-colors hover:bg-black/5 rounded-full"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'translateX(-1px) translateY(1px)' }}>
+      <line x1="22" y1="2" x2="11" y2="13"></line>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+  </button>
+</form>
 
       </div>
     </main>
