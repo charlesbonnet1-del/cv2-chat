@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-// Import avec un seul point pour éviter l'erreur Vercel
+// Import avec un seul point (./) pour éviter l'erreur de build
 import ThemeToggle from "./components/ThemeToggle";
 
 type ChatMessage = {
@@ -47,15 +47,16 @@ export default function Home() {
   }
 
   return (
-    <main className="h-screen w-full flex flex-col items-center p-4 overflow-hidden">
+    // FIX MOBILE ICI : h-[100dvh] s'adapte à la barre d'adresse mobile
+    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none">
       
-      {/* --- EN-TÊTE (HEADER) --- */}
-      <header className="w-full max-w-2xl flex items-center justify-between mb-4 pt-2 shrink-0 z-10">
+      {/* --- EN-TÊTE --- */}
+      <header className="w-full max-w-2xl flex items-center justify-between mb-2 pt-2 shrink-0 z-10">
         
-        {/* 1. Espaceur gauche */}
+        {/* Espaceur gauche */}
         <div className="w-16"></div>
 
-        {/* 2. LIENS CENTRAUX (Logos uniquement) */}
+        {/* Liens Centraux */}
         <div className="flex gap-6">
           <a 
             href="https://www.linkedin.com/in/charlesbonn3t/" 
@@ -76,23 +77,22 @@ export default function Home() {
           </a>
         </div>
 
-        {/* 3. SWITCH DARK MODE */}
+        {/* Switch Dark Mode */}
         <div className="w-16 flex justify-end">
           <ThemeToggle />
         </div>
       </header>
 
 
-      {/* --- CONTENEUR PRINCIPAL DU CHAT --- */}
-      <div className="w-full max-w-2xl flex flex-col gap-6 flex-1 min-h-0">
+      {/* --- ZONE DE CHAT --- */}
+      <div className="w-full max-w-2xl flex flex-col gap-4 flex-1 min-h-0">
 
         {/* Historique */}
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
-          
           <div className="mt-auto flex flex-col space-y-6">
             
             {messages.length === 0 && !loading && (
-              <div className="text-center opacity-40 text-sm italic py-10">
+              <div className="text-center opacity-40 text-sm italic py-10 px-4">
                 Je suis le clone numérique de Charles à votre service : posez-moi vos questions.
               </div>
             )}
@@ -112,7 +112,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Input Bar */}
+        {/* Input Bar (avec padding bottom pour mobile) */}
         <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full shadow-sm mb-2 shrink-0">
           <input
             className="w-full outline-none pr-14"
