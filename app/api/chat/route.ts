@@ -38,11 +38,11 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: openai('gpt-4o'), // Utilise le modèle standard
+    model: openai('gpt-4o'),
     system: SYSTEM_PROMPT,
     messages,
-    // Hack de typage : On passe explicitement un objet vide pour contourner l'erreur de typage Tools/Provider
-    config: {} 
+    // FIX FINAL pour le type error : On annule la confusion des outils
+    tools: []
   });
 
   return result.toDataStreamResponse();
