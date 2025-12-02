@@ -28,6 +28,12 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         {children}
+
+        <RecruiterPopup />
+      </body>
+    </html>
+  )
+}
       </body>
     </html>
   );
