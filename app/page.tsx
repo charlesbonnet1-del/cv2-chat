@@ -98,21 +98,49 @@ export default function Home() {
             )}
             
             {messages.map((m, i) => (
-              <div key={i} data-role={m.role} className={m.role === "user" ? "ml-auto max-w-[85%]" : "mr-auto w-full"}>
-                {m.content}
+              // CONTENEUR FLEX POUR ALIGNER AVATAR + MESSAGE
+              <div 
+                key={i} 
+                className={`flex gap-4 ${m.role === "user" ? "justify-end" : "justify-start"}`}
+              >
+                
+                {/* AVATAR (Visible uniquement pour l'assistant) */}
+                {m.role === "assistant" && (
+                  <img 
+                    src="/avatar.jpg" 
+                    alt="IA" 
+                    className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0"
+                  />
+                )}
+
+                {/* BULLE DE TEXTE */}
+                <div 
+                  data-role={m.role} 
+                  className={m.role === "user" ? "max-w-[85%]" : "max-w-full"}
+                >
+                  {m.content}
+                </div>
               </div>
             ))}
             
             {loading && (
-              <div className="text-sm opacity-50 animate-pulse pl-4 border-l-2 border-gray-300">
-                Réflexion...
+              <div className="flex gap-4 justify-start">
+                 {/* Avatar pendant le chargement aussi */}
+                 <img 
+                    src="/avatar.jpg" 
+                    alt="IA" 
+                    className="w-8 h-8 rounded-full object-cover mt-1 opacity-50 shrink-0"
+                  />
+                <div className="text-sm opacity-50 animate-pulse pt-2">
+                  Réflexion...
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
         </div>
 
-        {/* Input Bar - CORRECTION ICI : Suppression de shadow-sm */}
+        {/* Input Bar */}
         <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
           <input
             className="w-full outline-none pr-14"
