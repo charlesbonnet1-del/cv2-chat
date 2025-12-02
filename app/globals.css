@@ -1,131 +1,140 @@
 @import "tailwindcss";
 
-/* --- 1. DÉFINITION DES VARIABLES (PALETTE CHAUDE) --- */
+/* --- 1. DÉFINITION DES VARIABLES --- */
 :root {
-  /* --- LIGHT MODE (Crème Moderne) --- */
-  --background: #F9F7F1;       /* Crème */
-  --foreground: #2D2D2D;       /* Anthracite */
-  --accent: #EA580C;           /* Orange Brûlé (Plus vif que le camel) */
+  /* LIGHT MODE (Crème Moderne) */
+  --background: #F9F7F1;
+  --foreground: #2D2D2D;
+  --accent: #EA580C;
   
-  --ai-text: #111827;          /* Noir presque pur */
-  --user-bg: #E5E0D8;          /* Beige un peu soutenu */
-  --user-text: #44403C;        /* Gris chaud */
+  --ai-text: #111827;
+  --user-bg: #E5E0D8;
+  --user-text: #44403C;
   
   --input-bg: #FFFFFF;
-  --input-border: #D6D3D1;     /* Gris pierre */
-  --button-bg: #1C1917;        /* Noir chaud */
+  --input-border: #D6D3D1;
+  --button-bg: #1C1917;
   --button-text: #F9F7F1;
   
   --font-main: var(--font-inter); 
 }
 
-/* --- DARK MODE (Café Serré / Dark Stone) --- */
+/* DARK MODE (Café Serré) */
 :root.dark {
-  --background: #1C1917;       /* Stone 900 (Noir chaud) */
-  --foreground: #E7E5E4;       /* Stone 200 (Gris chaud clair) */
-  --accent: #F97316;           /* Orange vif */
+  --background: #1C1917;
+  --foreground: #E7E5E4;
+  --accent: #F97316;
   
-  --ai-text: #F5F5F4;          /* Blanc cassé */
-  --user-bg: #292524;          /* Stone 800 */
-  --user-text: #A8A29E;        /* Stone 400 */
+  --ai-text: #F5F5F4;
+  --user-bg: #292524;
+  --user-text: #A8A29E;
   
-  --input-bg: #0C0A09;         /* Stone 950 */
+  --input-bg: #0C0A09;
   --input-border: #44403C;
-  --button-bg: #E7E5E4;        /* Gris clair */
-  --button-text: #1C1917;      /* Noir */
+  --button-bg: #E7E5E4;
+  --button-text: #1C1917;
 }
 
 /* --- 2. CONFIGURATION GLOBALE --- */
 html, body {
   background-color: var(--background) !important;
   color: var(--foreground) !important;
-  font-family: var(--font-main), sans-serif; /* Tout en Inter pour la modernité */
+  font-family: var(--font-main), sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* --- 3. DESIGN CHATBOT (MODERN CLEAN) --- */
+/* Scrollbar discrète */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--input-border); border-radius: 20px; }
 
-/* L'IA (Toi) - Épuré et Direct */
+/* --- 3. DESIGN CHATBOT --- */
+
 [data-role="assistant"] {
   font-family: var(--font-main), sans-serif !important;
-  font-size: 1rem !important; /* Taille standard lisible */
+  font-size: 1rem !important;
   line-height: 1.6 !important;
   color: var(--ai-text) !important;
-  
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  
-  /* On garde la ligne verticale, mais plus fine et élégante */
   border-left: 2px solid var(--accent) !important;
   padding-left: 20px;
-  margin-bottom: 32px; /* Plus d'espace pour respirer */
+  margin-bottom: 32px;
 }
 
-/* L'Utilisateur - Bloc distinct mais subtil */
 [data-role="user"] {
   font-family: var(--font-main), sans-serif !important;
   font-size: 0.95rem !important;
-  
   background: var(--user-bg) !important;
   color: var(--user-text) !important;
-  
-  /* Arrondis modernes mais pas excessifs */
-  border-radius: 12px 12px 2px 12px !important; 
+  border-radius: 18px 18px 2px 18px !important;
   padding: 12px 18px !important;
   font-weight: 500;
   box-shadow: none !important;
   border: none !important;
-  
-  /* Alignement visuel */
   margin-bottom: 32px;
-  display: inline-block; /* Pour que la bulle s'adapte au texte */
+  display: inline-block;
 }
 
-/* --- 4. INTERFACE (INPUT & BOUTONS) --- */
+/* --- 4. INPUT BAR (PILL SHAPE) --- */
 
 form {
-  background-color: var(--background) !important;
-  border-top: 1px solid rgba(128,128,128,0.1);
-  padding: 20px !important;
-  transition: background-color 0.4s ease;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
-/* Champ de saisie : Pill shape moderne */
+/* Champ de saisie : Pilule complète */
 input, textarea {
   background-color: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
   color: var(--foreground) !important;
   
-  border-radius: 12px !important; /* Arrondi moderne */
-  padding: 14px 20px !important;
-  font-size: 0.95rem !important;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+  border-radius: 9999px !important; /* Arrondi max */
+  
+  /* Espace à droite pour le bouton */
+  padding: 16px 56px 16px 24px !important;
+  
+  font-size: 1rem !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
   transition: all 0.2s ease;
 }
 
 input:focus, textarea:focus {
   border-color: var(--accent) !important;
-  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.1) !important; /* Glow subtil orange */
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15) !important;
   outline: none !important;
 }
 
-/* Bouton Envoyer : Solide et Contrasté */
+/* Bouton Envoyer : Cercle parfait */
 button[type="submit"] {
   background-color: var(--button-bg) !important;
   color: var(--button-text) !important;
   
-  border-radius: 12px !important;
-  font-weight: 600;
-  text-transform: none !important; /* On enlève le majuscule forcé qui fait vieux */
-  font-size: 0.95rem !important;
-  padding: 0 24px !important;
-  transition: opacity 0.2s;
+  border-radius: 9999px !important;
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-button[type="submit"]:hover {
-  opacity: 0.9;
+button[type="submit"]:hover:not(:disabled) {
+    transform: scale(1.05);
+    background-color: var(--accent) !important;
+    color: white !important;
+}
+
+button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
