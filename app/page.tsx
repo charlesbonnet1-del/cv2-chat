@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "./components/ThemeToggle";
 
 type ChatMessage = {
   role: "user" | "assistant";
