@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
+/* --- 1. PALETTE & VARIABLES --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Couleurs de la DA "Éditoriale" */
+  --background: #F9F7F1;       /* Crème / Papier */
+  --foreground: #2D2D2D;       /* Anthracite / Encre */
+  --accent: #D4A373;           /* Camel / Or (pour la ligne verticale) */
+  --user-bg: rgba(0,0,0,0.03); /* Gris très léger pour l'user */
+  --user-text: #555555;        /* Gris technique */
+  
+  /* Mapping des polices définies dans layout.tsx */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* --- 2. FORCER LE THÈME CLAIR (IMPORTANT) --- */
+/* On écrase le mode sombre système pour garder l'effet "Papier" tout le temps */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #F9F7F1;
+    --foreground: #2D2D2D;
   }
 }
 
+/* --- 3. CONFIGURATION GLOBALE --- */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- 4. DESIGN DU CHATBOT (OVERRIDES) --- */
+
+/* L'IA (TOI) : Style Roman / Littéraire */
+/* Cible les messages de l'assistant (standard Vercel AI SDK) */
+[data-role="assistant"] {
+  font-family: var(--font-playfair), serif !important;
+  font-size: 1.15rem !important;
+  line-height: 1.7 !important;
+  color: #1A1A1A !important; /* Noir plus profond pour la lisibilité */
+  
+  /* Reset des styles par défaut */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  
+  /* La signature visuelle : ligne verticale */
+  border-left: 3px solid var(--accent) !important;
+  padding-left: 18px;
+  border-radius: 0 !important;
+  margin-bottom: 24px;
+}
+
+/* L'UTILISATEUR : Style Technique / Note de marge */
+[data-role="user"] {
+  font-family: var(--font-inter), sans-serif !important;
+  font-size: 0.95rem !important;
+  
+  background: var(--user-bg) !important;
+  color: var(--user-text) !important;
+  
+  border-radius: 4px !important;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+
+/* --- 5. INTERFACE DE SAISIE --- */
+
+/* Champs de texte : Carrés et propres */
+input, textarea {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E0D8 !important;
+  color: var(--foreground) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  ring: 0 !important;
+}
+
+/* Bouton Envoyer : Minimaliste sombre */
+button[type="submit"] {
+  background-color: var(--foreground) !important;
+  color: var(--background) !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
 }
