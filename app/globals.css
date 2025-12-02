@@ -1,59 +1,57 @@
 @import "tailwindcss";
 
-/* --- 1. DÉFINITION DES VARIABLES --- */
+/* --- 1. DÉFINITION DES VARIABLES (PALETTE CHAUDE) --- */
 :root {
-  /* MODE LIGHT (Défaut - Éditorial) */
+  /* --- LIGHT MODE (Crème Moderne) --- */
   --background: #F9F7F1;       /* Crème */
-  --foreground: #2D2D2D;       /* Encre */
-  --accent: #D4A373;           /* Camel */
+  --foreground: #2D2D2D;       /* Anthracite */
+  --accent: #EA580C;           /* Orange Brûlé (Plus vif que le camel) */
   
-  --ai-text: #1A1A1A;
-  --user-bg: rgba(0,0,0,0.05);
-  --user-text: #555555;
+  --ai-text: #111827;          /* Noir presque pur */
+  --user-bg: #E5E0D8;          /* Beige un peu soutenu */
+  --user-text: #44403C;        /* Gris chaud */
   
   --input-bg: #FFFFFF;
-  --input-border: #E5E0D8;
+  --input-border: #D6D3D1;     /* Gris pierre */
+  --button-bg: #1C1917;        /* Noir chaud */
+  --button-text: #F9F7F1;
   
-  --font-serif: var(--font-playfair);
-  --font-sans: var(--font-inter);
+  --font-main: var(--font-inter); 
 }
 
-/* MODE DARK (Activé via le bouton) */
-/* On utilise :root.dark pour être hyper spécifique */
+/* --- DARK MODE (Café Serré / Dark Stone) --- */
 :root.dark {
-  --background: #0F172A;       /* Bleu Nuit (Slate 900) */
-  --foreground: #E2E8F0;       /* Gris Clair */
-  --accent: #38BDF8;           /* Cyan Électrique */
+  --background: #1C1917;       /* Stone 900 (Noir chaud) */
+  --foreground: #E7E5E4;       /* Stone 200 (Gris chaud clair) */
+  --accent: #F97316;           /* Orange vif */
   
-  --ai-text: #F8FAFC;          /* Blanc */
-  --user-bg: rgba(255,255,255,0.1);
-  --user-text: #CBD5E1;
+  --ai-text: #F5F5F4;          /* Blanc cassé */
+  --user-bg: #292524;          /* Stone 800 */
+  --user-text: #A8A29E;        /* Stone 400 */
   
-  --input-bg: #1E293B;         /* Slate 800 */
-  --input-border: #334155;
+  --input-bg: #0C0A09;         /* Stone 950 */
+  --input-border: #44403C;
+  --button-bg: #E7E5E4;        /* Gris clair */
+  --button-text: #1C1917;      /* Noir */
 }
 
-/* --- 2. APPLICATION FORCÉE DU FOND --- */
+/* --- 2. CONFIGURATION GLOBALE --- */
 html, body {
-  /* Le !important ici est la clé pour ton problème */
   background-color: var(--background) !important;
   color: var(--foreground) !important;
-  
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-main), sans-serif; /* Tout en Inter pour la modernité */
   margin: 0;
   padding: 0;
-  min-height: 100vh; /* Assure que le fond prend tout l'écran */
-  
-  /* Transition douce entre les modes */
-  transition: background-color 0.5s ease, color 0.5s ease;
+  min-height: 100vh;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* --- 3. DESIGN CHATBOT --- */
+/* --- 3. DESIGN CHATBOT (MODERN CLEAN) --- */
 
-/* L'IA (Toi) */
+/* L'IA (Toi) - Épuré et Direct */
 [data-role="assistant"] {
-  font-family: var(--font-serif), serif !important;
-  font-size: 1.15rem !important;
+  font-family: var(--font-main), sans-serif !important;
+  font-size: 1rem !important; /* Taille standard lisible */
   line-height: 1.6 !important;
   color: var(--ai-text) !important;
   
@@ -61,53 +59,73 @@ html, body {
   border: none !important;
   box-shadow: none !important;
   
-  border-left: 3px solid var(--accent) !important;
-  padding-left: 18px;
-  margin-bottom: 24px;
+  /* On garde la ligne verticale, mais plus fine et élégante */
+  border-left: 2px solid var(--accent) !important;
+  padding-left: 20px;
+  margin-bottom: 32px; /* Plus d'espace pour respirer */
 }
 
-/* L'Utilisateur */
+/* L'Utilisateur - Bloc distinct mais subtil */
 [data-role="user"] {
-  font-family: var(--font-sans), sans-serif !important;
+  font-family: var(--font-main), sans-serif !important;
   font-size: 0.95rem !important;
+  
   background: var(--user-bg) !important;
   color: var(--user-text) !important;
   
-  border-radius: 4px !important;
+  /* Arrondis modernes mais pas excessifs */
+  border-radius: 12px 12px 2px 12px !important; 
+  padding: 12px 18px !important;
   font-weight: 500;
   box-shadow: none !important;
   border: none !important;
+  
+  /* Alignement visuel */
+  margin-bottom: 32px;
+  display: inline-block; /* Pour que la bulle s'adapte au texte */
 }
 
-/* --- 4. INTERFACE --- */
+/* --- 4. INTERFACE (INPUT & BOUTONS) --- */
 
-/* Conteneur du bas */
 form {
   background-color: var(--background) !important;
   border-top: 1px solid rgba(128,128,128,0.1);
-  transition: background-color 0.5s ease;
+  padding: 20px !important;
+  transition: background-color 0.4s ease;
 }
 
-/* Champs de saisie */
+/* Champ de saisie : Pill shape moderne */
 input, textarea {
   background-color: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
   color: var(--foreground) !important;
-  border-radius: 0 !important;
+  
+  border-radius: 12px !important; /* Arrondi moderne */
+  padding: 14px 20px !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+  transition: all 0.2s ease;
 }
 
 input:focus, textarea:focus {
   border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.1) !important; /* Glow subtil orange */
   outline: none !important;
 }
 
-/* Bouton Envoyer */
+/* Bouton Envoyer : Solide et Contrasté */
 button[type="submit"] {
-  background-color: var(--foreground) !important;
-  color: var(--background) !important;
-  border-radius: 0 !important;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  background-color: var(--button-bg) !important;
+  color: var(--button-text) !important;
+  
+  border-radius: 12px !important;
   font-weight: 600;
+  text-transform: none !important; /* On enlève le majuscule forcé qui fait vieux */
+  font-size: 0.95rem !important;
+  padding: 0 24px !important;
+  transition: opacity 0.2s;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.9;
 }
