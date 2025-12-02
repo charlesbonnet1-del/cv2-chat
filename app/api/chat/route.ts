@@ -37,9 +37,9 @@ export async function POST(req: Request) {
 
   const { messages } = await req.json();
 
-  const result = streamText({
-    // LE FIX EST ICI : on ajoute "as any" pour contourner l'erreur de typage TypeScript
-    model: openai('gpt-4o') as any, 
+  // LE FIX EST ICI : J'ai ajouté 'await' devant streamText
+  const result = await streamText({
+    model: openai('gpt-4o') as any, // On garde le 'as any' qui a sauvé la mise avant
     system: SYSTEM_PROMPT,
     messages,
   });
