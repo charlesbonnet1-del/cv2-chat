@@ -1,89 +1,87 @@
 @import "tailwindcss";
 
-/* --- 1. PALETTE & VARIABLES --- */
+/* --- VARIABLES DE THÈMES --- */
 :root {
-  /* Couleurs de la DA "Éditoriale" */
-  --background: #F9F7F1;       /* Crème / Papier */
-  --foreground: #2D2D2D;       /* Anthracite / Encre */
-  --accent: #D4A373;           /* Camel / Or (pour la ligne verticale) */
-  --user-bg: rgba(0,0,0,0.03); /* Gris très léger pour l'user */
-  --user-text: #555555;        /* Gris technique */
+  /* MODE LIGHT (DÉFAUT - ÉDITORIAL) */
+  --background: #F9F7F1;       /* Crème */
+  --foreground: #2D2D2D;       /* Encre */
+  --accent: #D4A373;           /* Camel */
+  --ai-text: #1A1A1A;
+  --user-bg: rgba(0,0,0,0.05);
+  --user-text: #555555;
+  --input-bg: #FFFFFF;
+  --border-color: #E5E0D8;
   
-  /* Mapping des polices définies dans layout.tsx */
-  --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
 }
 
-/* --- 2. FORCER LE THÈME CLAIR (IMPORTANT) --- */
-/* On écrase le mode sombre système pour garder l'effet "Papier" tout le temps */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #F9F7F1;
-    --foreground: #2D2D2D;
-  }
+/* MODE DARK (ACTIVÉ VIA CLASSE - ALCHIMISTE) */
+.dark {
+  --background: #0F172A;       /* Bleu Nuit Profond (Slate 900) */
+  --foreground: #E2E8F0;       /* Gris Clair (Slate 200) */
+  --accent: #38BDF8;           /* Cyan Électrique */
+  --ai-text: #F8FAFC;          /* Blanc Presque Pur */
+  --user-bg: rgba(255,255,255,0.1);
+  --user-text: #CBD5E1;
+  --input-bg: #1E293B;         /* Slate 800 */
+  --border-color: #334155;
 }
 
-/* --- 3. CONFIGURATION GLOBALE --- */
-body {
-  background: var(--background);
+/* --- CONFIGURATION GLOBALE --- */
+html, body {
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transition douce */
 }
 
-/* --- 4. DESIGN DU CHATBOT (OVERRIDES) --- */
+/* --- DESIGN DES MESSAGES --- */
 
-/* L'IA (TOI) : Style Roman / Littéraire */
-/* Cible les messages de l'assistant (standard Vercel AI SDK) */
+/* L'IA (Toi) */
 [data-role="assistant"] {
-  font-family: var(--font-playfair), serif !important;
+  font-family: var(--font-serif), serif !important;
   font-size: 1.15rem !important;
-  line-height: 1.7 !important;
-  color: #1A1A1A !important; /* Noir plus profond pour la lisibilité */
-  
-  /* Reset des styles par défaut */
+  line-height: 1.6 !important;
+  color: var(--ai-text) !important;
   background: transparent !important;
-  box-shadow: none !important;
   border: none !important;
+  box-shadow: none !important;
   
-  /* La signature visuelle : ligne verticale */
   border-left: 3px solid var(--accent) !important;
   padding-left: 18px;
-  border-radius: 0 !important;
   margin-bottom: 24px;
 }
 
-/* L'UTILISATEUR : Style Technique / Note de marge */
+/* L'Utilisateur */
 [data-role="user"] {
-  font-family: var(--font-inter), sans-serif !important;
+  font-family: var(--font-sans), sans-serif !important;
   font-size: 0.95rem !important;
-  
   background: var(--user-bg) !important;
   color: var(--user-text) !important;
-  
   border-radius: 4px !important;
   font-weight: 500;
-  box-shadow: none !important;
+  border: none !important;
 }
 
-/* --- 5. INTERFACE DE SAISIE --- */
+/* --- INTERFACE --- */
+form {
+  background-color: var(--background) !important;
+  border-top: 1px solid rgba(128,128,128,0.1);
+}
 
-/* Champs de texte : Carrés et propres */
 input, textarea {
-  background-color: #FFFFFF !important;
-  border: 1px solid #E5E0D8 !important;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
   color: var(--foreground) !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
 }
 
 input:focus, textarea:focus {
   border-color: var(--accent) !important;
   outline: none !important;
-  ring: 0 !important;
 }
 
-/* Bouton Envoyer : Minimaliste sombre */
 button[type="submit"] {
   background-color: var(--foreground) !important;
   color: var(--background) !important;
