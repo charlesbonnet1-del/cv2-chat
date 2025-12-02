@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* --- 1. DÉFINITION DES VARIABLES --- */
 :root {
@@ -86,8 +88,6 @@ form {
   padding: 0 !important;
   background: transparent !important;
   border: none !important;
-  
-  /* CORRECTION CADRE GRIS */
   box-shadow: none !important; 
   outline: none !important;
 }
@@ -98,9 +98,8 @@ input, textarea {
   border: 1px solid var(--input-border) !important;
   color: var(--foreground) !important;
   
-  border-radius: 9999px !important; /* Arrondi max */
+  border-radius: 9999px !important;
   
-  /* Espace à droite pour le bouton */
   padding: 16px 56px 16px 24px !important;
   
   font-size: 1rem !important;
