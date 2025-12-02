@@ -1,5 +1,5 @@
 import { openai } from '@ai-sdk/openai';
-import { streamText } from 'ai';
+import { generateText } from 'ai'; // On utilise generateText au lieu de streamText
 
 export const maxDuration = 30;
 
@@ -30,19 +30,27 @@ CONSIGNES DE RÉPONSE :
 `;
 
 export async function POST(req: Request) {
-  // Vérification de la clé API
   if (!process.env.OPENAI_API_KEY) {
-    return new Response("Erreur Configuration : Clé API introuvable.", { status: 500 });
+    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API introuvable." }), { status: 500 });
   }
 
-  const { messages } = await req.json();
+  try {
+    const { messages } = await req.json();
 
-  // LE FIX EST ICI : J'ai ajouté 'await' devant streamText
-  const result = await streamText({
-    model: openai('gpt-4o') as any, // On garde le 'as any' qui a sauvé la mise avant
-    system: SYSTEM_PROMPT,
-    messages,
-  });
+    // ON GÉNÈRE LE TEXTE EN UN BLOC (Pas de streaming)
+    const { text } = await generateText({
+      model: openai('gpt-4o') as any, // On garde le fix de typage
+      system: SYSTEM_PROMPT,
+      messages,
+    });
 
-  return result.toDataStreamResponse();
+    // On renvoie un JSON propre que ton frontend sait lire
+    return new Response(JSON.stringify({ reply: text }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+  } catch (error: any) {
+    console.error("Erreur Backend:", error);
+    return new Response(JSON.stringify({ reply: "Erreur technique : " + error.message }), { status: 500 });
+  }
 }
