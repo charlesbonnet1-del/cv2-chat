@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 // On importe le bouton. Si ton dossier components est à la racine, le chemin "../components/..." est correct depuis "app/"
-import ThemeToggle from "../components/ThemeToggle"; 
+import ThemeToggle from "./components/ThemeToggle"; 
 
 const inter = Inter({
   subsets: ["latin"],
