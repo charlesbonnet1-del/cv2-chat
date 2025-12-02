@@ -47,7 +47,7 @@ export default function Home() {
   }
 
   return (
-    // FIX MOBILE ICI : h-[100dvh] s'adapte à la barre d'adresse mobile
+    // FIX MOBILE : h-[100dvh]
     <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none">
       
       {/* --- EN-TÊTE --- */}
@@ -112,8 +112,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Input Bar (avec padding bottom pour mobile) */}
-        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full shadow-sm mb-2 shrink-0">
+        {/* Input Bar - CORRECTION ICI : Suppression de shadow-sm */}
+        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
           <input
             className="w-full outline-none pr-14"
             value={input}
