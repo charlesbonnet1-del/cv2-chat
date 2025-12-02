@@ -44,9 +44,28 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-2xl border border-neutral-800 rounded-2xl p-4 flex flex-col gap-4">
-        <h1 className="text-xl font-semibold">/charles_bonnet.clone</h1>
 
-        <div className="flex-1 h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
+        {/* Boîte de dialogue (sans titre) */}
+        <div className="flex gap-2">
+          <input
+            className="flex-1 rounded-xl border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm outline-none"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            placeholder="Posez votre question…"
+          />
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="px-4 py-2 rounded-xl border border-cyan-400 text-sm disabled:opacity-50"
+          >
+            Envoyer
+          </button>
+        </div>
+
+        {/* Historique de messages */}
+        <div className="flex-1 max-h-96 border border-neutral-800 rounded-xl p-3 overflow-y-auto text-sm space-y-2 bg-neutral-950">
+
           {messages.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
               <span className="inline-block px-3 py-2 rounded-lg bg-neutral-800">
@@ -60,23 +79,13 @@ export default function Home() {
               Assistant en train d’écrire…
             </div>
           )}
-        </div>
 
-        <div className="flex gap-2">
-          <input
-            className="flex-1 rounded-xl border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm outline-none"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Posez votre question sur Charles Bonnet…"
-          />
-          <button
-            onClick={handleSend}
-            disabled={loading}
-            className="px-4 py-2 rounded-xl border border-cyan-400 text-sm disabled:opacity-50"
-          >
-            Envoyer
-          </button>
+          {messages.length === 0 && !loading && (
+            <div className="text-neutral-500 text-sm">
+              Posez une question pour commencer la conversation.
+            </div>
+          )}
+
         </div>
       </div>
     </main>
