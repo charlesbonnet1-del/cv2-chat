@@ -86,6 +86,10 @@ form {
   padding: 0 !important;
   background: transparent !important;
   border: none !important;
+  
+  /* CORRECTION CADRE GRIS */
+  box-shadow: none !important; 
+  outline: none !important;
 }
 
 /* Champ de saisie : Pilule complète */
