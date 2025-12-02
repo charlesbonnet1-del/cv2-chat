@@ -1,4 +1,10 @@
-// --- LE CERVEAU DE CHARLES BONNET (SYSTEM PROMPT V2.3 - OBJECTIF PRIVÉ & TEXTE PUR) ---
+import { openai } from '@ai-sdk/openai';
+import { generateText } from 'ai';
+
+// Configuration Vercel (optionnel mais recommandé)
+export const maxDuration = 30;
+
+// --- LE CERVEAU DE CHARLES BONNET (SYSTEM PROMPT V2.3) ---
 const SYSTEM_PROMPT = `
 ### 1. IDENTITÉ ET MISSION
 Tu es CharlesBot, le double numérique de Charles Bonnet, Subscription Marketing Manager expert en Growth, Abonnement & IA.
@@ -53,3 +59,31 @@ THE WALT DISNEY COMPANY (Sept. 2017 - Août 2019) : Digital Marketing Assistant.
 ### 5. CONCLUSION
 Si l'échange est concluant, propose de contacter Charles : charles.bonnet@pm.me
 `;
+
+export async function POST(req: Request) {
+  // Vérification de la clé API
+  if (!process.env.OPENAI_API_KEY) {
+    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API introuvable." }), { status: 500 });
+  }
+
+  try {
+    // Récupération des messages envoyés par le frontend
+    const { messages } = await req.json();
+
+    // Génération du texte via OpenAI
+    const { text } = await generateText({
+      model: openai('gpt-4o') as any,
+      system: SYSTEM_PROMPT,
+      messages,
+    });
+
+    // Réponse au format JSON
+    return new Response(JSON.stringify({ reply: text }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+  } catch (error: any) {
+    console.error("Erreur Backend:", error);
+    return new Response(JSON.stringify({ reply: "Erreur technique : " + error.message }), { status: 500 });
+  }
+}
