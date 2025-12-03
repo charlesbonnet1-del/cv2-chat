@@ -96,10 +96,11 @@ export default function Home() {
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
           <div className="mt-auto flex flex-col space-y-6 pb-4">
             
-            {/* Message de bienvenue si vide */}
+            {/* Message de bienvenue BILINGUE */}
             {messages.length === 0 && !loading && (
               <div className="text-center opacity-40 text-sm italic py-20 px-4">
-                Je suis le clone numérique de Charles.<br/>Posez-moi vos questions sur son parcours.
+                I am Charles' digital clone. Ask me anything.<br/>
+                Je suis le clone numérique de Charles. Posez vos questions.
               </div>
             )}
             
@@ -124,7 +125,7 @@ export default function Home() {
                     max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm
                     ${m.role === "user" 
                       ? "bg-blue-600 text-white rounded-br-none" // Style User
-                      : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none whitespace-pre-wrap" // Style Bot + SAUTS DE LIGNE
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none whitespace-pre-wrap" // Style Bot
                     }
                   `}
                 >
@@ -152,26 +153,28 @@ export default function Home() {
           </div>
         </div>
 
-        {/* BARRE DE SAISIE */}
-       <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
-  <input
-    className="w-full outline-none pr-14"
-    value={input}
-    onChange={(e) => setInput(e.target.value)}
-    placeholder="Écrivez votre message..."
-    disabled={loading}
-  />
-  <button
-    type="submit"
-    disabled={loading || !input.trim()}
-    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-50 transition-colors hover:bg-black/5 rounded-full"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'translateX(-1px) translateY(1px)' }}>
-      <line x1="22" y1="2" x2="11" y2="13"></line>
-      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-    </svg>
-  </button>
-</form>
+        {/* BARRE DE SAISIE AVEC STYLE TERMINAL */}
+        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
+          <input
+            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-50"
+            style={{ caretColor: 'var(--accent)' }} // CLIGNOTEMENT ORANGE
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="> Type your question... / Posez votre question..." 
+            disabled={loading}
+            autoFocus
+          />
+          <button
+            type="submit"
+            disabled={loading || !input.trim()}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-50 transition-colors hover:bg-black/5 rounded-full"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'translateX(-1px) translateY(1px)' }}>
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
 
       </div>
     </main>
