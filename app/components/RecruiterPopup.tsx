@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-// 1. LE DICTIONNAIRE DE CONTENU (Facile à éditer)
+// 1. LE DICTIONNAIRE DE CONTENU
 const content = {
   fr: {
     title: "Envisagez-vous une collaboration ?",
@@ -21,7 +21,6 @@ const content = {
     failText: "Nos modes de fonctionnement diffèrent trop. Je vous fais gagner du temps : je ne serais pas le bon fit pour vous.",
     successTitle: "Match Confirmé",
     successText: "Vous valorisez l'autonomie et la Data. C'est le terrain de jeu que je cherche.",
-    btnCalendar: "Réserver un entretien",
     btnMail: "Me contacter par email"
   },
   en: {
@@ -41,7 +40,6 @@ const content = {
     failText: "Our working styles are too different. I'll save you time: I wouldn't be the right fit for you.",
     successTitle: "Match Confirmed",
     successText: "You value autonomy and Data. That's exactly the playground I'm looking for.",
-    btnCalendar: "Book a meeting",
     btnMail: "Contact me via email"
   }
 }
@@ -49,20 +47,20 @@ const content = {
 export default function RecruiterPopup() {
   const [isVisible, setIsVisible] = useState(false)
   const [step, setStep] = useState('intro') 
-  const [lang, setLang] = useState<'fr' | 'en'>('fr') // Langue par défaut
+  const [lang, setLang] = useState<'fr' | 'en'>('fr') 
   
-  // Le texte actif basé sur la langue
   const t = content[lang]
 
   useEffect(() => {
-    // 1. Détection automatique de la langue du navigateur
-    const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en'
-    setLang(browserLang)
+    // Detection langue + Timer
+    if (typeof window !== 'undefined') {
+        const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en'
+        setLang(browserLang)
+    }
 
-    // 2. Timer d'apparition (10 secondes)
     const timer = setTimeout(() => {
       setIsVisible(true)
-    }, 10000)
+    }, 10000) // 10 secondes avant apparition
     
     return () => clearTimeout(timer)
   }, [])
@@ -73,21 +71,21 @@ export default function RecruiterPopup() {
   // STYLES
   const styles = {
     overlay: {
-      position: 'fixed' as 'fixed', bottom: '30px', right: '30px', width: '380px', zIndex: 9999,
+      position: 'fixed' as const, bottom: '30px', right: '30px', width: '380px', zIndex: 9999,
       opacity: isVisible ? 1 : 0,
       transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
       transition: 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
-      pointerEvents: isVisible ? 'auto' as 'auto' : 'none' as 'none',
+      pointerEvents: (isVisible ? 'auto' : 'none') as 'auto' | 'none',
     },
     card: {
       background: '#FDFBF7', 
       borderRadius: '20px', padding: '30px',
       boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
       border: '1px solid rgba(0,0,0,0.03)',
-      textAlign: 'center' as 'center',
+      textAlign: 'center' as const,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       color: '#666',
-      position: 'relative' as 'relative'
+      position: 'relative' as const
     },
     title: {
       fontFamily: '"Times New Roman", Times, serif', fontStyle: 'italic', fontSize: '1.2rem',
@@ -100,11 +98,11 @@ export default function RecruiterPopup() {
       color: '#666', cursor: 'pointer', fontSize: '0.9rem', transition: '0.3s'
     },
     btnPrimary: { background: '#333', color: '#FFF', border: 'none' },
-    topControls: { position: 'absolute' as 'absolute', top: '15px', right: '20px', display: 'flex', gap: '10px', alignItems: 'center' },
+    topControls: { position: 'absolute' as const, top: '15px', right: '20px', display: 'flex', gap: '10px', alignItems: 'center' },
     close: { cursor: 'pointer', fontSize: '20px', color: '#BBB' },
     langSwitch: { 
-      cursor: 'pointer', fontSize: '0.75rem', fontWeight: 'bold' as 'bold', color: '#BBB', 
-      border: '1px solid #EEE', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' as 'uppercase'
+      cursor: 'pointer', fontSize: '0.75rem', fontWeight: 'bold', color: '#BBB', 
+      border: '1px solid #EEE', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase'
     }
   }
 
@@ -114,7 +112,7 @@ export default function RecruiterPopup() {
     <div style={styles.overlay}>
       <div style={styles.card}>
         
-        {/* CONTROLS (Lang + Close) */}
+        {/* CONTROLS */}
         <div style={styles.topControls}>
           <span style={styles.langSwitch} onClick={toggleLang}>{lang}</span>
           <span style={styles.close} onClick={closePopup}>×</span>
@@ -169,8 +167,14 @@ export default function RecruiterPopup() {
           <div>
             <h2 style={{...styles.title, color: '#4F8A5E', fontStyle: 'normal'}}>{t.successTitle}</h2>
             <p style={styles.text}>{t.successText}</p>
-            <button style={{...styles.btn, ...styles.btnPrimary}} onClick={() => window.open('https://calendly.com/TON-LIEN', '_blank')}>{t.btnCalendar}</button>
-            <button style={styles.btn} onClick={() => window.location.href='mailto:tonemail@exemple.com'}>{t.btnMail}</button>
+            
+            {/* BOUTON MAIL UNIQUEMENT */}
+            <button 
+                style={{...styles.btn, ...styles.btnPrimary}} 
+                onClick={() => window.location.href='mailto:charles.bonnet@pm.me'}
+            >
+                {t.btnMail}
+            </button>
           </div>
         )}
       </div>
