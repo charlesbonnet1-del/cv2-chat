@@ -2,141 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- 1. DÉFINITION DES VARIABLES --- */
+/* --- 1. PALETTE CHARTE (Orange / Marron / Beige) --- */
 :root {
-  /* LIGHT MODE (Crème Moderne) */
-  --background: #F9F7F1;
-  --foreground: #2D2D2D;
-  --accent: #EA580C;
+  /* LIGHT MODE */
+  --background: #F9F7F1; /* Beige Crème */
+  --foreground: #2D2D2D; /* Gris Chaud */
+  --accent: #EA580C;     /* ORANGE BRÛLÉ (Ton identité) */
   
-  --ai-text: #111827;
-  --user-bg: #E5E0D8;
-  --user-text: #44403C;
+  --bot-bubble-bg: #E5E0D8; /* Beige Pierre */
+  --bot-bubble-text: #44403C; /* Marron Foncé */
   
-  --input-bg: #FFFFFF;
-  --input-border: #D6D3D1;
-  --button-bg: #1C1917;
-  --button-text: #F9F7F1;
+  --user-bubble-bg: #EA580C; /* Orange Accent */
+  --user-bubble-text: #FFFFFF; /* Blanc */
   
---font-main: "Consolas", "Monaco", "Lucida Console", "Courier New", monospace;
+  --input-placeholder: #A8A29E;
 }
 
-/* DARK MODE (Café Serré) */
+/* DARK MODE (Marron Foncé / Pierre) */
 :root.dark {
-  --background: #1C1917;
-  --foreground: #E7E5E4;
-  --accent: #F97316;
+  --background: #0C0A09; /* Noir chaud */
+  --foreground: #E7E5E4; /* Pierre claire */
+  --accent: #F97316;     /* Orange un peu plus vif */
   
-  --ai-text: #F5F5F4;
-  --user-bg: #292524;
-  --user-text: #A8A29E;
+  --bot-bubble-bg: #1C1917; /* Marron très sombre (Pas de bleu !) */
+  --bot-bubble-text: #E7E5E4; 
   
-  --input-bg: #0C0A09;
-  --input-border: #44403C;
-  --button-bg: #E7E5E4;
-  --button-text: #1C1917;
+  --user-bubble-bg: #EA580C; 
+  --user-bubble-text: #FFFFFF;
 }
 
 /* --- 2. CONFIGURATION GLOBALE --- */
 html, body {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
-  font-family: var(--font-main), sans-serif;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  background-color: var(--background);
+  color: var(--foreground);
+  /* Force la police Console/Dev demandée */
+  font-family: "Consolas", "Monaco", "Lucida Console", "Courier New", monospace; 
+  caret-color: var(--accent); /* Curseur Orange PARTOUT */
 }
 
 /* Scrollbar discrète */
-.custom-scrollbar::-webkit-scrollbar { width: 6px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--input-border); border-radius: 20px; }
-
-/* --- 3. DESIGN CHATBOT --- */
-
-[data-role="assistant"] {
-  font-family: var(--font-main), sans-serif !important;
-  font-size: 1rem !important;
-  line-height: 1.6 !important;
-  color: var(--ai-text) !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-left: 2px solid var(--accent) !important;
-  padding-left: 20px;
-  margin-bottom: 32px;
-}
-
-[data-role="user"] {
-  font-family: var(--font-main), sans-serif !important;
-  font-size: 0.95rem !important;
-  background: var(--user-bg) !important;
-  color: var(--user-text) !important;
-  border-radius: 18px 18px 2px 18px !important;
-  padding: 12px 18px !important;
-  font-weight: 500;
-  box-shadow: none !important;
-  border: none !important;
-  margin-bottom: 32px;
-  display: inline-block;
-}
-
-/* --- 4. INPUT BAR (PILL SHAPE) --- */
-
-form {
-  padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important; 
-  outline: none !important;
-}
-
-/* Champ de saisie : Pilule complète */
-input, textarea {
-  background-color: var(--input-bg) !important;
-  border: 1px solid var(--input-border) !important;
-  color: var(--foreground) !important;
-  
-  border-radius: 9999px !important;
-  
-  padding: 16px 56px 16px 24px !important;
-  
-  font-size: 1rem !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-  transition: all 0.2s ease;
-}
-
-input:focus, textarea:focus {
-  border-color: var(--accent) !important;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15) !important;
-  outline: none !important;
-}
-
-/* Bouton Envoyer : Cercle parfait */
-button[type="submit"] {
-  background-color: var(--button-bg) !important;
-  color: var(--button-text) !important;
-  
-  border-radius: 9999px !important;
-  width: 42px !important;
-  height: 42px !important;
-  padding: 0 !important;
-  
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-button[type="submit"]:hover:not(:disabled) {
-      background-color: var(--accent) !important;
-    color: white !important;
-}
-
-button[type="submit"]:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--bot-bubble-bg); border-radius: 20px; }
