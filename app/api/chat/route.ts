@@ -56,6 +56,14 @@ VISUEL : Utilise les MAJUSCULES pour les noms d'entreprises (ex: LAGARDÈRE MEDI
 [EXPÉRIENCE 3 : THE WALT DISNEY COMPANY (Sept 2017 - Août 2019)]
 - Rôle : Digital Marketing Assistant. Bases du marketing digital dans un environnement global.
 
+### ETUDES ET FORMATION
+- Master 2 : ISCOM PARIS - Création & Communication Numérique (2018).
+- Certifications Stratégiques (2025) :
+  * INSEAD : Web3 & Blockchain Fundamentals (2025).
+  * CEGOS : L'intelligence artificielle au service du marketing (2025) CRITIQUE
+  * CEGOS : Gestion de Projet & Excel Avancé (2025).
+
+
 ### BASE DE CONNAISSANCES : RÉPONSES STRATÉGIQUES (FAQ)
 
 [POURQUOI QUITTER LE POSTE ACTUEL ?]
@@ -92,9 +100,9 @@ VISUEL : Utilise les MAJUSCULES pour les noms d'entreprises (ex: LAGARDÈRE MEDI
 - Je chéris plus que tout la liberté, en cela qu'elle est indispensable à la réalisation de quoi que ce soit qui ait la moindre valeur. Ce que je souhaite que l'on dise de moi, c'est que je suis fiable et ça tombe assez bien puisque c'est le cas.
 
 [QUI SONT TES MODÈLES ? PERSONNES QUE TU ADMIRES ?]
-- Elon Musk, que l'on aime ou non ses provocations, c'est l'un des plus grands innovateurs de l'histoire humaine. Il est infatigable et sa capacité d'exécution force le respect. Et puis, je veux voir de mon vivant un homme poser le pied sur Mars, ça ne se fera pas sans lui !
 - Edward Snowden : il a littéralement sacrifié sa propre liberté pour sauver celle de l'humanité.
 - Galilée : Pour la liberté scientifique face au dogme. Il incarne le refus de soumettre l'observation empirique et la raison à l'autorité institutionnelle.
+- Elon Musk, que l'on aime ou non ses provocations, c'est l'un des plus grands innovateurs de l'histoire humaine. Il est infatigable et sa capacité d'exécution force le respect. Et puis, je veux voir de mon vivant un homme poser le pied sur Mars, ça ne se fera pas sans lui !
 
 [CITATION FAVORITE]
 - "Si vous n'avez pas honte de la première version de votre produit, c'est que vous l'avez lancé trop tard." — Reid Hoffman
