@@ -13,11 +13,20 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); // Référence pour forcer le focus
 
   // Scroll automatique vers le bas
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // FORCE LE FOCUS ET LE CLIGNOTEMENT ORANGE AU DÉMARRAGE
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100); // Petit délai pour être sûr que le rendu est fini
+    return () => clearTimeout(timer);
+  }, []);
 
   async function handleSend() {
     if (!input.trim()) return;
@@ -49,11 +58,13 @@ export default function Home() {
       setMessages([...newMessages, { role: "assistant", content: "Erreur de connexion. Veuillez réessayer." }]);
     } finally {
       setLoading(false);
+      // On redonne le focus à l'input après l'envoi
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }
 
   return (
-    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono">
+    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono transition-colors duration-300">
       
       {/* --- EN-TÊTE --- */}
       <header className="w-full max-w-2xl flex items-center justify-between mb-4 pt-2 shrink-0 z-10">
@@ -61,13 +72,13 @@ export default function Home() {
         {/* Espaceur gauche */}
         <div className="w-16"></div>
 
-        {/* Liens Centraux (Icônes Neutres) */}
+        {/* Liens Centraux (Icônes Neutres avec Hover Orange) */}
         <div className="flex gap-4">
           <a 
             href="https://www.linkedin.com/in/charlesbonn3t/" 
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300 hover:text-[var(--accent)]"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all text-[var(--foreground)]"
             title="LinkedIn"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
@@ -75,7 +86,7 @@ export default function Home() {
           
           <a 
             href="mailto:charles.bonnet@pm.me" 
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300 hover:text-[var(--accent)]"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all text-[var(--foreground)]"
             title="Email"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -110,24 +121,28 @@ export default function Home() {
                 className={`flex gap-4 ${m.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 
-                {/* AVATAR BOT */}
+                {/* AVATAR BOT (Seulement pour l'assistant) */}
                 {m.role === "assistant" && (
                   <img 
                     src="/avatar.png" 
                     alt="IA" 
-                    className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0"
+                    className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0 grayscale opacity-80"
                   />
                 )}
 
-                {/* BULLE DE MESSAGE (RETOUR AU NEUTRE / BEIGE) */}
+                {/* BULLE DE MESSAGE (COULEURS CUSTOM ORANGE/BEIGE) */}
                 <div 
                   className={`
                     max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm font-mono
                     ${m.role === "user" 
-                      ? "bg-[#E5E0D8] text-[#44403C] rounded-br-none" // RETOUR AU BEIGE (Charte)
-                      : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none whitespace-pre-wrap" // Style Bot
+                      ? "rounded-br-none" 
+                      : "rounded-bl-none whitespace-pre-wrap"
                     }
                   `}
+                  style={{
+                    backgroundColor: m.role === "user" ? "var(--user-bubble-bg)" : "var(--bot-bubble-bg)",
+                    color: m.role === "user" ? "var(--user-bubble-text)" : "var(--bot-bubble-text)"
+                  }}
                 >
                   {m.content}
                 </div>
@@ -142,7 +157,10 @@ export default function Home() {
                     alt="IA" 
                     className="w-8 h-8 rounded-full object-cover mt-1 opacity-50 shrink-0 grayscale"
                   />
-                <div className="flex items-center gap-1 h-10 px-4 bg-gray-50 dark:bg-gray-900 rounded-full rounded-bl-none">
+                <div 
+                  className="flex items-center gap-1 h-10 px-4 rounded-full rounded-bl-none"
+                  style={{ backgroundColor: "var(--bot-bubble-bg)" }}
+                >
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
@@ -153,21 +171,22 @@ export default function Home() {
           </div>
         </div>
 
-        {/* BARRE DE SAISIE AVEC STYLE TERMINAL (PLUS DE >) */}
+        {/* BARRE DE SAISIE (FOCUS AUTO + CURSEUR ORANGE) */}
         <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
           <input
-            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-50 font-mono"
-            style={{ caretColor: 'var(--accent)' }} // CLIGNOTEMENT ORANGE
+            ref={inputRef} // On lie la référence pour le focus auto
+            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-40 font-mono"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question... / Posez votre question..." 
             disabled={loading}
-            autoFocus // FOCUS AUTOMATIQUE
+            autoFocus
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-50 transition-colors hover:bg-black/5 rounded-full"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-30 transition-all rounded-full hover:bg-[var(--bot-bubble-bg)]"
+            style={{ color: "var(--accent)" }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'translateX(-1px) translateY(1px)' }}>
               <line x1="22" y1="2" x2="11" y2="13"></line>
