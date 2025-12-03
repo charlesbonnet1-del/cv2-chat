@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   return (
-    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)]">
+    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono">
       
       {/* --- EN-TÊTE --- */}
       <header className="w-full max-w-2xl flex items-center justify-between mb-4 pt-2 shrink-0 z-10">
@@ -61,13 +61,13 @@ export default function Home() {
         {/* Espaceur gauche */}
         <div className="w-16"></div>
 
-        {/* Liens Centraux */}
+        {/* Liens Centraux (Icônes Neutres) */}
         <div className="flex gap-4">
           <a 
             href="https://www.linkedin.com/in/charlesbonn3t/" 
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300 hover:text-[var(--accent)]"
             title="LinkedIn"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
@@ -75,7 +75,7 @@ export default function Home() {
           
           <a 
             href="mailto:charles.bonnet@pm.me" 
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-gray-600 dark:text-gray-300 hover:text-[var(--accent)]"
             title="Email"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
@@ -96,9 +96,9 @@ export default function Home() {
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
           <div className="mt-auto flex flex-col space-y-6 pb-4">
             
-            {/* Message de bienvenue BILINGUE */}
+            {/* Message de bienvenue BILINGUE (Typo Console) */}
             {messages.length === 0 && !loading && (
-              <div className="text-center opacity-40 text-sm italic py-20 px-4">
+              <div className="text-center opacity-40 text-sm italic py-20 px-4 font-mono">
                 I am Charles' digital clone. Ask me anything.<br/>
                 Je suis le clone numérique de Charles. Posez vos questions.
               </div>
@@ -119,12 +119,12 @@ export default function Home() {
                   />
                 )}
 
-                {/* BULLE DE MESSAGE */}
+                {/* BULLE DE MESSAGE (RETOUR AU NEUTRE / BEIGE) */}
                 <div 
                   className={`
-                    max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm
+                    max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm font-mono
                     ${m.role === "user" 
-                      ? "bg-blue-600 text-white rounded-br-none" // Style User
+                      ? "bg-[#E5E0D8] text-[#44403C] rounded-br-none" // RETOUR AU BEIGE (Charte)
                       : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none whitespace-pre-wrap" // Style Bot
                     }
                   `}
@@ -153,16 +153,16 @@ export default function Home() {
           </div>
         </div>
 
-        {/* BARRE DE SAISIE AVEC STYLE TERMINAL */}
+        {/* BARRE DE SAISIE AVEC STYLE TERMINAL (PLUS DE >) */}
         <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
           <input
-            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-50"
+            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-50 font-mono"
             style={{ caretColor: 'var(--accent)' }} // CLIGNOTEMENT ORANGE
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="> Type your question... / Posez votre question..." 
+            placeholder="Type your question... / Posez votre question..." 
             disabled={loading}
-            autoFocus
+            autoFocus // FOCUS AUTOMATIQUE
           />
           <button
             type="submit"
