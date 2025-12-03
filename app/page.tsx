@@ -144,20 +144,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* --- SUGGESTION CHIPS (Disparaissent si on a commencé à parler) --- */}
+        {/* --- SUGGESTION CHIPS (SANS DRAPEAUX) --- */}
         {messages.length === 0 && !loading && (
           <div className="flex gap-2 justify-center pb-2 flex-wrap">
             <button 
               onClick={() => handleSend("Peux-tu me résumer ton parcours ?")}
               className="px-4 py-2 bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white text-xs rounded-full transition-all border border-black/5 dark:border-white/5"
             >
-              🇫🇷 Peux-tu me résumer ton parcours ?
+              Peux-tu me résumer ton parcours ?
             </button>
             <button 
               onClick={() => handleSend("Tell me about your key achievements.")}
               className="px-4 py-2 bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white text-xs rounded-full transition-all border border-black/5 dark:border-white/5"
             >
-              🇬🇧 Tell me about your key achievements.
+              Tell me about your key achievements.
             </button>
           </div>
         )}
