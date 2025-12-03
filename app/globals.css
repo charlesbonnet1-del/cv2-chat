@@ -5,9 +5,9 @@
 /* --- 1. PALETTE CHARTE (Orange / Marron / Beige) --- */
 :root {
   /* LIGHT MODE */
-  --background: #F9F7F1; /* Beige Crème */
-  --foreground: #2D2D2D; /* Gris Chaud */
-  --accent: #EA580C;     /* ORANGE BRÛLÉ (Ton identité) */
+  --background: #F9F7F1;    /* Beige Crème */
+  --foreground: #2D2D2D;    /* Gris Chaud */
+  --accent: #EA580C;        /* ORANGE BRÛLÉ */
   
   --bot-bubble-bg: #E5E0D8; /* Beige Pierre */
   --bot-bubble-text: #44403C; /* Marron Foncé */
@@ -20,11 +20,11 @@
 
 /* DARK MODE (Marron Foncé / Pierre) */
 :root.dark {
-  --background: #0C0A09; /* Noir chaud */
-  --foreground: #E7E5E4; /* Pierre claire */
-  --accent: #F97316;     /* Orange un peu plus vif */
+  --background: #0C0A09;    /* Noir chaud */
+  --foreground: #E7E5E4;    /* Pierre claire */
+  --accent: #F97316;        /* Orange un peu plus vif */
   
-  --bot-bubble-bg: #1C1917; /* Marron très sombre (Pas de bleu !) */
+  --bot-bubble-bg: #1C1917; /* Marron très sombre (Plus de bleu !) */
   --bot-bubble-text: #E7E5E4; 
   
   --user-bubble-bg: #EA580C; 
