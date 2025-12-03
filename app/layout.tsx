@@ -1,5 +1,4 @@
-import RecruiterPopup from '@/components/RecruiterPopup'
-
+import RecruiterPopup from '@/components/RecruiterPopup';
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
@@ -28,12 +27,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         {children}
-
         <RecruiterPopup />
-      </body>
-    </html>
-  )
-}
       </body>
     </html>
   );
