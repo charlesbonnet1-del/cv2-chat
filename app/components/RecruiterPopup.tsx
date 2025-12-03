@@ -47,20 +47,31 @@ const content = {
 export default function RecruiterPopup() {
   const [isVisible, setIsVisible] = useState(false)
   const [step, setStep] = useState('intro') 
-  const [lang, setLang] = useState<'fr' | 'en'>('fr') 
+  const [lang, setLang] = useState<'fr' | 'en'>('fr')
+  const [isMobile, setIsMobile] = useState(false) // Pour gérer le design mobile
   
   const t = content[lang]
 
   useEffect(() => {
-    // Detection langue + Timer
+    // 1. Detection Mobile & Langue
     if (typeof window !== 'undefined') {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        
         const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en'
         setLang(browserLang)
-    }
 
+        // Nettoyage event listener
+        return () => window.removeEventListener('resize', checkMobile)
+    }
+  }, [])
+
+  useEffect(() => {
+    // 2. Timer d'apparition
     const timer = setTimeout(() => {
       setIsVisible(true)
-    }, 10000) // 10 secondes avant apparition
+    }, 10000) // 10 secondes
     
     return () => clearTimeout(timer)
   }, [])
@@ -68,12 +79,23 @@ export default function RecruiterPopup() {
   const closePopup = () => setIsVisible(false)
   const toggleLang = () => setLang(prev => prev === 'fr' ? 'en' : 'fr')
 
-  // STYLES
+  // STYLES DYNAMIQUES
   const styles = {
     overlay: {
-      position: 'fixed' as const, bottom: '30px', right: '30px', width: '380px', zIndex: 9999,
+      position: 'fixed' as const, 
+      zIndex: 9999,
+      // LOGIQUE MOBILE : Centré si mobile, sinon en bas à droite
+      bottom: isMobile ? '20px' : '30px', 
+      right: isMobile ? 'auto' : '30px', 
+      left: isMobile ? '50%' : 'auto',
+      width: isMobile ? '90%' : '380px', // Plus large sur mobile
+      
       opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+      // TRANSFORMATION : On ajoute le translateX(-50%) sur mobile pour centrer parfaitement
+      transform: isVisible 
+        ? (isMobile ? 'translateX(-50%) translateY(0)' : 'translateY(0)') 
+        : (isMobile ? 'translateX(-50%) translateY(20px)' : 'translateY(20px)'),
+      
       transition: 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
       pointerEvents: (isVisible ? 'auto' : 'none') as 'auto' | 'none',
     },
@@ -89,7 +111,9 @@ export default function RecruiterPopup() {
     },
     title: {
       fontFamily: '"Times New Roman", Times, serif', fontStyle: 'italic', fontSize: '1.2rem',
-      color: '#333', marginBottom: '15px', marginTop: 0
+      color: '#333', 
+      marginBottom: '15px', 
+      marginTop: '30px' // AJOUT D'ESPACE ICI pour ne pas toucher les boutons
     },
     text: { marginBottom: '25px', fontSize: '0.95rem', lineHeight: 1.5 },
     btn: {
@@ -114,7 +138,8 @@ export default function RecruiterPopup() {
         
         {/* CONTROLS */}
         <div style={styles.topControls}>
-          <span style={styles.langSwitch} onClick={toggleLang}>{lang}</span>
+          {/* Inversion du texte du bouton : affiche la langue CIBLE */}
+          <span style={styles.langSwitch} onClick={toggleLang}>{lang === 'fr' ? 'EN' : 'FR'}</span>
           <span style={styles.close} onClick={closePopup}>×</span>
         </div>
 
@@ -167,8 +192,6 @@ export default function RecruiterPopup() {
           <div>
             <h2 style={{...styles.title, color: '#4F8A5E', fontStyle: 'normal'}}>{t.successTitle}</h2>
             <p style={styles.text}>{t.successText}</p>
-            
-            {/* BOUTON MAIL UNIQUEMENT */}
             <button 
                 style={{...styles.btn, ...styles.btnPrimary}} 
                 onClick={() => window.location.href='mailto:charles.bonnet@pm.me'}
