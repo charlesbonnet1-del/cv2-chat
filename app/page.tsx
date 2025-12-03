@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       inputRef.current?.focus();
-    }, 100); // Petit délai pour être sûr que le rendu est fini
+    }, 100); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -64,7 +64,8 @@ export default function Home() {
   }
 
   return (
-    <main className="h-[100dvh] w-full flex flex-col items-center p-4 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono transition-colors duration-300">
+    // AJOUT DE pb-6 ICI pour décoller la barre du bas
+    <main className="h-[100dvh] w-full flex flex-col items-center p-4 pb-6 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono transition-colors duration-300">
       
       {/* --- EN-TÊTE --- */}
       <header className="w-full max-w-2xl flex items-center justify-between mb-4 pt-2 shrink-0 z-10">
