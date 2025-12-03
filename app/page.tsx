@@ -13,14 +13,14 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null); // Référence pour forcer le focus
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Scroll automatique vers le bas
+  // Scroll automatique
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // FORCE LE FOCUS ET LE CLIGNOTEMENT ORANGE AU DÉMARRAGE
+  // Focus au démarrage
   useEffect(() => {
     const timer = setTimeout(() => {
       inputRef.current?.focus();
@@ -28,16 +28,20 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  async function handleSend() {
-    if (!input.trim()) return;
+  // Fonction d'envoi (modifiée pour accepter un texte direct via les boutons)
+  async function handleSend(textOverride?: string) {
+    // Si on a un override (clic bouton), on l'utilise, sinon on prend l'input
+    const textToSend = textOverride || input;
 
-    // 1. Ajout immédiat du message utilisateur
+    if (!textToSend.trim()) return;
+
+    // 1. Ajout message utilisateur
     const newMessages: ChatMessage[] = [
       ...messages,
-      { role: "user", content: input },
+      { role: "user", content: textToSend },
     ];
     setMessages(newMessages);
-    setInput("");
+    setInput(""); // Reset de l'input visuel
     setLoading(true);
 
     try {
@@ -51,29 +55,23 @@ export default function Home() {
       const data = await res.json();
       const reply = data.reply || "Je ne peux pas répondre pour l'instant.";
 
-      // 3. Ajout de la réponse du bot
+      // 3. Réponse bot
       setMessages([...newMessages, { role: "assistant", content: reply }]);
     } catch (error) {
       console.error(error);
       setMessages([...newMessages, { role: "assistant", content: "Erreur de connexion. Veuillez réessayer." }]);
     } finally {
       setLoading(false);
-      // On redonne le focus à l'input après l'envoi
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }
 
   return (
-    // AJOUT DE pb-6 ICI pour décoller la barre du bas
     <main className="h-[100dvh] w-full flex flex-col items-center p-4 pb-6 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono transition-colors duration-300">
       
       {/* --- EN-TÊTE --- */}
       <header className="w-full max-w-2xl flex items-center justify-between mb-4 pt-2 shrink-0 z-10">
-        
-        {/* Espaceur gauche */}
         <div className="w-16"></div>
-
-        {/* Liens Centraux (Icônes Neutres avec Hover Orange) */}
         <div className="flex gap-4">
           <a 
             href="https://www.linkedin.com/in/charlesbonn3t/" 
@@ -84,7 +82,6 @@ export default function Home() {
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
           </a>
-          
           <a 
             href="mailto:charles.bonnet@pm.me" 
             className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-all text-[var(--foreground)]"
@@ -93,22 +90,19 @@ export default function Home() {
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
           </a>
         </div>
-
-        {/* Switch Dark Mode */}
         <div className="w-16 flex justify-end">
           <ThemeToggle />
         </div>
       </header>
 
-
       {/* --- ZONE DE CHAT --- */}
       <div className="w-full max-w-2xl flex flex-col gap-4 flex-1 min-h-0">
 
-        {/* Historique des messages */}
+        {/* Historique */}
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
           <div className="mt-auto flex flex-col space-y-6 pb-4">
             
-            {/* Message de bienvenue BILINGUE (Typo Console) */}
+            {/* Intro (disparaît dès qu'il y a un message) */}
             {messages.length === 0 && !loading && (
               <div className="text-center opacity-40 text-sm italic py-20 px-4 font-mono">
                 I am Charles' digital clone. Ask me anything.<br/>
@@ -117,29 +111,12 @@ export default function Home() {
             )}
             
             {messages.map((m, i) => (
-              <div 
-                key={i} 
-                className={`flex gap-4 ${m.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                
-                {/* AVATAR BOT (Seulement pour l'assistant) */}
+              <div key={i} className={`flex gap-4 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 {m.role === "assistant" && (
-                  <img 
-                    src="/avatar.png" 
-                    alt="IA" 
-                    className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0 grayscale opacity-80"
-                  />
+                  <img src="/avatar.png" alt="IA" className="w-8 h-8 rounded-full object-cover mt-1 border border-black/10 dark:border-white/10 shrink-0 grayscale opacity-80" />
                 )}
-
-                {/* BULLE DE MESSAGE (COULEURS CUSTOM ORANGE/BEIGE) */}
                 <div 
-                  className={`
-                    max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm font-mono
-                    ${m.role === "user" 
-                      ? "rounded-br-none" 
-                      : "rounded-bl-none whitespace-pre-wrap"
-                    }
-                  `}
+                  className={`max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm font-mono ${m.role === "user" ? "rounded-br-none" : "rounded-bl-none whitespace-pre-wrap"}`}
                   style={{
                     backgroundColor: m.role === "user" ? "var(--user-bubble-bg)" : "var(--bot-bubble-bg)",
                     color: m.role === "user" ? "var(--user-bubble-text)" : "var(--bot-bubble-text)"
@@ -150,14 +127,9 @@ export default function Home() {
               </div>
             ))}
             
-            {/* Indicateur de chargement */}
             {loading && (
               <div className="flex gap-4 justify-start animate-in fade-in duration-300">
-                 <img 
-                    src="/avatar.png" 
-                    alt="IA" 
-                    className="w-8 h-8 rounded-full object-cover mt-1 opacity-50 shrink-0 grayscale"
-                  />
+                 <img src="/avatar.png" alt="IA" className="w-8 h-8 rounded-full object-cover mt-1 opacity-50 shrink-0 grayscale" />
                 <div 
                   className="flex items-center gap-1 h-10 px-4 rounded-full rounded-bl-none"
                   style={{ backgroundColor: "var(--bot-bubble-bg)" }}
@@ -172,16 +144,34 @@ export default function Home() {
           </div>
         </div>
 
-        {/* BARRE DE SAISIE (FOCUS AUTO + CURSEUR ORANGE) */}
+        {/* --- SUGGESTION CHIPS (Disparaissent si on a commencé à parler) --- */}
+        {messages.length === 0 && !loading && (
+          <div className="flex gap-2 justify-center pb-2 flex-wrap">
+            <button 
+              onClick={() => handleSend("Peux-tu me résumer ton parcours ?")}
+              className="px-4 py-2 bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white text-xs rounded-full transition-all border border-black/5 dark:border-white/5"
+            >
+              🇫🇷 Peux-tu me résumer ton parcours ?
+            </button>
+            <button 
+              onClick={() => handleSend("Tell me about your key achievements.")}
+              className="px-4 py-2 bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white text-xs rounded-full transition-all border border-black/5 dark:border-white/5"
+            >
+              🇬🇧 Tell me about your key achievements.
+            </button>
+          </div>
+        )}
+
+        {/* BARRE DE SAISIE */}
         <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
           <input
-            ref={inputRef} // On lie la référence pour le focus auto
+            ref={inputRef}
             className="w-full outline-none pr-14 bg-transparent placeholder:opacity-40 font-mono"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question... / Posez votre question..." 
             disabled={loading}
-            autoFocus
+            autoFocus 
           />
           <button
             type="submit"
