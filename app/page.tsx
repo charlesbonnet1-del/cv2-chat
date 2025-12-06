@@ -65,7 +65,6 @@ export default function Home() {
     }
   }
 
-  // --- RENDU JSX ---
   return (
     <main className="h-[100dvh] w-full flex flex-col items-center p-4 pb-6 overflow-hidden overscroll-none bg-[var(--background)] text-[var(--foreground)] font-mono transition-colors duration-300">
       
@@ -74,7 +73,7 @@ export default function Home() {
         <div className="w-16"></div> {/* Spacer Gauche */}
         
         {/* Container Central : Boutons alignés + Lien en dessous */}
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-4"> {/* MODIFIÉ: gap-4 pour espacer */}
             
             {/* Ligne des boutons (Horizontal) */}
             <div className="flex gap-4">
@@ -96,9 +95,11 @@ export default function Home() {
                 </a>
             </div>
 
-            {/* Lien Play my CV en dessous */}
+            {/* Lien Play my CV en dessous (Lien corrigé) */}
             <a 
-                href="/cv" 
+                href="https://charlesbonnet.xyz/cv/" 
+                target="_blank" // Ajouté pour ouvrir dans un nouvel onglet (recommandé pour un lien externe)
+                rel="noopener noreferrer"
                 className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
             >
                 Play my CV
@@ -117,7 +118,7 @@ export default function Home() {
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col">
           <div className="mt-auto flex flex-col space-y-6 pb-4">
             
-            {/* Intro simplifiée (Anglais uniquement) */}
+            {/* Intro simplifiée */}
             {messages.length === 0 && !loading && (
               <div className="text-center opacity-40 text-sm italic py-20 px-4 font-mono">
                 I am Charles' digital clone. Ask me anything.
