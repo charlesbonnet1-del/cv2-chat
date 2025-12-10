@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import ThemeToggle from "./components/ThemeToggle";
+import AppsShowcase from "./components/AppsShowcase";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -95,15 +96,8 @@ export default function Home() {
                 </a>
             </div>
 
-            {/* Lien Play my CV en dessous (Lien corrigé) */}
-            <a 
-                href="https://charlesbonnet.xyz/cv/" 
-                target="_blank" // Ajouté pour ouvrir dans un nouvel onglet (recommandé pour un lien externe)
-                rel="noopener noreferrer"
-                className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
-            >
-                Play my CV
-            </a>
+            {/* Lien Apps I Built */}
+            <AppsShowcase />
         </div>
 
         <div className="w-16 flex justify-end">
