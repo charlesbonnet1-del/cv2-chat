@@ -382,7 +382,7 @@ function SolarSystem3Level({ theme, mindmapData }: { theme: typeof THEME_LIGHT; 
         />
       ))}
       {layout.nodes.map((node) => {
-        const isVisible = node.level === 0 || (node.parent && openNodes.includes(node.parent));
+        const isVisible = node.level === 0 || Boolean(node.parent && openNodes.includes(node.parent));
         const isOpen = openNodes.includes(node.id);
         return (
           <PlanetNode
