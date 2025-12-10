@@ -1,40 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import SentimentHeatmap from "./apps/SentimentHeatmap";
+import MailFinder from "./apps/MailFinder";
+
+type AppId = "sentiment" | "mailfinder" | null;
 
 type App = {
-  id: string;
+  id: AppId;
   name: string;
   description: string;
-  url: string;
   icon: JSX.Element;
 };
 
 const apps: App[] = [
   {
-    id: "mindmap",
-    name: "3D Mindmap",
-    description: "Interactive brain architecture",
-    url: "https://final-mindmap.vercel.app",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <circle cx="12" cy="4" r="2"/>
-        <circle cx="20" cy="12" r="2"/>
-        <circle cx="12" cy="20" r="2"/>
-        <circle cx="4" cy="12" r="2"/>
-        <line x1="12" y1="7" x2="12" y2="9"/>
-        <line x1="15" y1="12" x2="18" y2="12"/>
-        <line x1="12" y1="15" x2="12" y2="18"/>
-        <line x1="6" y1="12" x2="9" y2="12"/>
-      </svg>
-    ),
-  },
-  {
     id: "sentiment",
     name: "Sentiment Heatmap",
-    description: "Real-time emotion analysis",
-    url: "https://sentiment-heatmap.vercel.app",
+    description: "AI-powered copy analysis",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -48,14 +31,13 @@ const apps: App[] = [
   {
     id: "mailfinder",
     name: "Mail Finder",
-    description: "Smart email discovery tool",
-    url: "https://mail-finder.onrender.com",
+    description: "Smart email discovery",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        <path d="M8 8l6 6"/>
         <path d="M8 11h6"/>
+        <path d="M11 8v6"/>
       </svg>
     ),
   },
@@ -63,6 +45,7 @@ const apps: App[] = [
 
 export default function AppsShowcase() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeApp, setActiveApp] = useState<AppId>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -70,7 +53,7 @@ export default function AppsShowcase() {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || activeApp) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -78,9 +61,60 @@ export default function AppsShowcase() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [isOpen, activeApp]);
+
+  const handleAppClick = (appId: AppId) => {
+    setIsOpen(false);
+    setActiveApp(appId);
+  };
+
+  const handleBack = () => {
+    setActiveApp(null);
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setActiveApp(null);
+    setIsOpen(false);
+  };
 
   if (!mounted) return null;
+
+  // Render active app fullscreen
+  if (activeApp) {
+    return (
+      <div className="fixed inset-0 z-50 bg-[var(--background)]">
+        {/* Header with back button */}
+        <div className="absolute top-4 left-4 z-10 flex gap-2">
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm font-mono"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Apps
+          </button>
+          <button
+            onClick={handleClose}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all"
+            aria-label="Close"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* App content */}
+        <div className="w-full h-full overflow-auto pt-16">
+          {activeApp === "sentiment" && <SentimentHeatmap />}
+          {activeApp === "mailfinder" && <MailFinder />}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -113,7 +147,7 @@ export default function AppsShowcase() {
             {/* Close button */}
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-0 right-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all"
+              className="absolute -top-2 -right-2 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all"
               aria-label="Close"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -130,12 +164,10 @@ export default function AppsShowcase() {
             {/* Apps Grid */}
             <div className="flex flex-wrap justify-center gap-8 max-w-2xl">
               {apps.map((app, index) => (
-                <a
+                <button
                   key={app.id}
-                  href={app.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] transition-all duration-300 w-40"
+                  onClick={() => handleAppClick(app.id)}
+                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] transition-all duration-300 w-44 border-none cursor-pointer"
                   style={{
                     animation: `slideUp 0.4s ease-out ${index * 0.1}s both`,
                   }}
@@ -154,7 +186,7 @@ export default function AppsShowcase() {
                   <span className="text-xs text-center text-[var(--foreground)]/60 group-hover:text-white/80 transition-colors font-mono leading-tight">
                     {app.description}
                   </span>
-                </a>
+                </button>
               ))}
             </div>
 
