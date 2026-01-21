@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.14",
+    "@ai-sdk/groq": "^1.0.0",
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.0",
     "ai": "^3.1.14",

@@ -1,5 +1,9 @@
-import { openai } from '@ai-sdk/openai';
+import { createGroq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
+
+const groq = createGroq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 export const maxDuration = 30;
 
@@ -123,15 +127,15 @@ Si l'échange est concluant : charles.bonnet@pm.me
 `;
 
 export async function POST(req: Request) {
-  if (!process.env.OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API introuvable." }), { status: 500 });
+  if (!process.env.GROQ_API_KEY) {
+    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API Groq introuvable." }), { status: 500 });
   }
 
   try {
     const { messages } = await req.json();
 
     const { text } = await generateText({
-      model: openai('gpt-4o') as any, // "as any" force TypeScript à accepter le modèle
+      model: groq('llama-3.3-70b-versatile'),
       system: SYSTEM_PROMPT,
       messages,
     });
