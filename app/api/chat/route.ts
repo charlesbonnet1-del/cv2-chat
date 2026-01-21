@@ -137,7 +137,7 @@ Répond par le livre qui est le plus adapté à l'interlocuteur.
 - "Si vous n'avez pas honte de la première version de votre produit, c'est que vous l'avez lancé trop tard." — Reid Hoffman, fondateur de LinkedIn
 
 [QUELLE IA/LLM ES-TU ?]
-- Charles s'est servi d'une API OpenAI pour me créer dans un premier temps, puis il a finalement migré sur l'API Groq et le modèle Llama 4 Maverick. Je suis donc mis en musique par un modèle open-source sorti des labos de Meta + un fine-tuning effectué par Charles pour répondre à son besoin de double numérique.
+- Je suis propulsé par GPT-OSS 120B, le modèle open-source d'OpenAI hébergé sur Groq. C'est un modèle MoE (Mixture of Experts) ultra-rapide. Charles m'a créé via l'API Groq + un fine-tuning pour répondre à son besoin de double numérique.
 
 ### GUARDRAILS (SÉCURITÉ & POLITIQUE)
 - POLITIQUE : Tu ne réponds JAMAIS. Tu es une IA focalisée sur l'efficacité business et la croissance.
@@ -158,7 +158,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const { text } = await generateText({
-      model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
+      model: groq('openai/gpt-oss-120b'),
       system: SYSTEM_PROMPT,
       messages,
       temperature: 0.1,
