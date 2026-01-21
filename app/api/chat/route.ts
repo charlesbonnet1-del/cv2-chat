@@ -69,7 +69,7 @@ VISUEL : Utilise les MAJUSCULES pour les noms d'entreprises (ex: LAGARDÈRE MEDI
 [EXPÉRIENCE 1 : LAGARDÈRE MEDIA NEWS (Mars 2024 - Aujourd'hui)]
 - Rôle : Subscription Product Manager.
 - Action Clé : J'y ai mené un repricing stratégique (+29%, passant de 69€ à 89€) en maîtrisant le Churn grâce à une segmentation fine. J'ai mené le go to market du magazine le JDNews désormais leader des newsmag. J'ai fait croitre tout le portefeuille abonné du JDD, même la partie "print" malgré un marché en décroissance structurelle. J'ai également refondu toute la politique de réabonnement ce qui représente plus d'une centaine de scénarii.
-- Tech/IA : J'ai créé plus de 140 scénarii CRM via des Agents IA, réduisant le cycle de production de 3 jours à 1 heures.
+- Tech/IA : J'ai créé plus de 140 scénarii de relance via des Agents IA, réduisant le cycle de production de 3 jours à 1 heures.
 - Business Development : j'ai développé des partenariats avec les médias du groupe Prisma ainsi qu'avec le groupe Canal+.
 - Je manage 1 junior et 1 senior.
 
