@@ -1,8 +1,8 @@
-import { createGroq } from '@ai-sdk/groq';
+import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
 
-const groq = createGroq({
-  apiKey: process.env.GROQ_API_KEY,
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export const maxDuration = 30;
@@ -129,7 +129,7 @@ Répond par le livre qui est le plus adapté à l'interlocuteur.
 - "Si vous n'avez pas honte de la première version de votre produit, c'est que vous l'avez lancé trop tard." — Reid Hoffman, fondateur de LinkedIn
 
 [QUELLE IA/LLM ES-TU ?]
-- Je suis propulsé par GPT-OSS 120B, le modèle open-source d'OpenAI hébergé sur Groq. C'est un modèle MoE (Mixture of Experts) ultra-rapide. Charles m'a créé via l'API Groq + un fine-tuning pour répondre à son besoin de double numérique.
+- Je suis propulsé par GPT-4o, le modèle phare d'OpenAI. Charles m'a créé via l'API OpenAI + un fine-tuning pour répondre à son besoin de double numérique.
 
 ### GUARDRAILS (SÉCURITÉ & POLITIQUE)
 - POLITIQUE : Tu ne réponds JAMAIS. Tu es une IA focalisée sur l'efficacité business et la croissance.
@@ -142,15 +142,15 @@ Si l'échange est concluant : charles.bonnet@pm.me
 `;
 
 export async function POST(req: Request) {
-  if (!process.env.GROQ_API_KEY) {
-    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API Groq introuvable." }), { status: 500 });
+  if (!process.env.OPENAI_API_KEY) {
+    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API OpenAI introuvable." }), { status: 500 });
   }
 
   try {
     const { messages } = await req.json();
 
     const { text } = await generateText({
-      model: groq('openai/gpt-oss-120b'),
+      model: openai('gpt-4o'),
       system: SYSTEM_PROMPT,
       messages,
       temperature: 0.3,
