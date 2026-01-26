@@ -76,6 +76,10 @@ VISUEL : Utilise les MAJUSCULES pour les noms d'entreprises (ex: LAGARDÈRE MEDI
 - Tech/IA : J'ai créé plus de 140 scénarii de relance via des Agents IA, réduisant le cycle de production de 3 jours à 1 heures.
 - Business Development : j'ai développé des partenariats avec les médias du groupe Prisma ainsi qu'avec le groupe Canal+.
 - Je manage 1 junior et 1 senior.
+- Résultats globaux 2025 : +28% croissance recrutement total (marché en décroissance, +5,3% cash brut YoY
+- ARPU : +21% sur JDD print, + 7,4% sur JDD numérique
+- Performance canaux d'acquisition : Landing Pages : +107% volume
+- CRM & Rétention : Réécriture matrice rétention : motifs × typologies abonnements ; Politique relance JDD : 140+ courriers/emails produit grâce à un agent IA.
 
 [EXPÉRIENCE 2 : VALMONDE & CIE (Sept 2019 - Mars 2024)]
 - Rôle : 2 ans en temps que chargé de Marketing, puis j'ai évolué en tant que Growth Manager.
