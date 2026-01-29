@@ -39,7 +39,7 @@ function AnimatedCounter({
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
     if (!isInView) return;
@@ -175,7 +175,7 @@ function ComparisonSection() {
     { media: "Churn & rétention", crypto: "Churn & réactivation" },
     { media: "LTV / CAC", crypto: "LTV / CAC" },
     { media: "Nurturing email", crypto: "Nurturing email" },
-    { media: "Upsell (print → digital)", crypto: "Upsell (basic → premium)" },
+    { media: "Stratégies d'upsell", crypto: "Upsell (basic → premium)" },
     { media: "Pédagogie éditoriale", crypto: "Pédagogie crypto" },
     { media: "Vulgarisation de sujets complexes", crypto: "Vulgarisation blockchain/DeFi" },
   ];
@@ -241,7 +241,7 @@ function ComparisonSection() {
 function TypewriterText({ text }: { text: string }) {
   const [displayedText, setDisplayedText] = useState("");
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
     if (!isInView) return;
