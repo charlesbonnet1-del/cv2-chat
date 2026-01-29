@@ -175,7 +175,7 @@ function ComparisonSection() {
     { media: "Churn & rétention", crypto: "Churn & réactivation" },
     { media: "LTV / CAC", crypto: "LTV / CAC" },
     { media: "Nurturing email", crypto: "Nurturing email" },
-    { media: "Upsell (print → digital)", crypto: "Upsell (basic → premium)" },
+    { media: "Stratégies d'upsell", crypto: "Upsell (basic → premium)" },
     { media: "Pédagogie éditoriale", crypto: "Pédagogie crypto" },
     { media: "Vulgarisation de sujets complexes", crypto: "Vulgarisation blockchain/DeFi" },
   ];
