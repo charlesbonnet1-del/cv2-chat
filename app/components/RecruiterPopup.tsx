@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 // 1. LE DICTIONNAIRE DE CONTENU
 const content = {
@@ -46,11 +47,15 @@ const content = {
 
 export default function RecruiterPopup() {
   const [isVisible, setIsVisible] = useState(false)
-  const [step, setStep] = useState('intro') 
+  const [step, setStep] = useState('intro')
   const [lang, setLang] = useState<'fr' | 'en'>('fr')
   const [isMobile, setIsMobile] = useState(false) // Pour gérer le design mobile
-  
+  const pathname = usePathname()
+
   const t = content[lang]
+
+  // Désactiver sur /coinhouse
+  const isDisabledRoute = pathname === '/coinhouse'
 
   useEffect(() => {
     // 1. Detection Mobile & Langue
@@ -58,7 +63,7 @@ export default function RecruiterPopup() {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
         checkMobile()
         window.addEventListener('resize', checkMobile)
-        
+
         const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en'
         setLang(browserLang)
 
@@ -68,13 +73,15 @@ export default function RecruiterPopup() {
   }, [])
 
   useEffect(() => {
-    // 2. Timer d'apparition
+    // 2. Timer d'apparition - seulement si pas sur route désactivée
+    if (isDisabledRoute) return
+
     const timer = setTimeout(() => {
       setIsVisible(true)
     }, 10000) // 10 secondes
-    
+
     return () => clearTimeout(timer)
-  }, [])
+  }, [isDisabledRoute])
 
   const closePopup = () => setIsVisible(false)
   const toggleLang = () => setLang(prev => prev === 'fr' ? 'en' : 'fr')
@@ -130,7 +137,7 @@ export default function RecruiterPopup() {
     }
   }
 
-  if (!isVisible) return null
+  if (!isVisible || isDisabledRoute) return null
 
   return (
     <div style={styles.overlay}>
