@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, useAnimation, AnimatePresence } from "framer-motion";
+import ThemeToggle from "../components/ThemeToggle";
 
 // ============================================
 // ANIMATED COUNTER COMPONENT
@@ -88,40 +89,20 @@ function RevealOnScroll({
 }
 
 // ============================================
-// ANIMATED PARTICLES BACKGROUND
+// ANIMATED GRID BACKGROUND
 // ============================================
-function ParticlesBackground() {
+function GridBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(50)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-[#f7931a] rounded-full opacity-20"
-          initial={{
-            x: Math.random() * 100 + "%",
-            y: Math.random() * 100 + "%",
-          }}
-          animate={{
-            y: [null, "-100%"],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 10,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "linear",
-          }}
-        />
-      ))}
-      {/* Grid overlay */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(247, 147, 26, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(247, 147, 26, 0.1) 1px, transparent 1px)
+            linear-gradient(var(--accent) 1px, transparent 1px),
+            linear-gradient(90deg, var(--accent) 1px, transparent 1px)
           `,
-          backgroundSize: "50px 50px",
+          backgroundSize: "60px 60px",
+          opacity: 0.15,
         }}
       />
     </div>
@@ -147,18 +128,17 @@ function KPICard({
   return (
     <RevealOnScroll delay={delay}>
       <motion.div
-        className="relative bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl p-6 overflow-hidden group"
-        whileHover={{ scale: 1.02, borderColor: "#f7931a" }}
+        className="relative bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-2xl p-6 overflow-hidden group"
+        whileHover={{ scale: 1.02, borderColor: "var(--accent)" }}
         transition={{ duration: 0.2 }}
       >
-        {/* Glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f7931a]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-[var(--accent)] opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
 
         <div className="relative z-10">
-          <div className="text-4xl md:text-5xl font-bold text-[#f7931a] mb-2">
+          <div className="text-4xl md:text-5xl font-bold text-[var(--accent)] mb-2">
             <AnimatedCounter value={value} suffix={suffix} prefix={prefix} />
           </div>
-          <p className="text-[#a0a0a0] text-sm md:text-base">{label}</p>
+          <p className="text-[var(--foreground)] opacity-60 text-sm md:text-base">{label}</p>
         </div>
       </motion.div>
     </RevealOnScroll>
@@ -185,26 +165,26 @@ function ComparisonSection() {
     <div className="max-w-3xl mx-auto">
       {/* Toggle */}
       <div className="flex justify-center mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-full p-1 flex">
+        <div className="bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-full p-1 flex">
           <button
             onClick={() => setActiveTab("presse")}
             className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
               activeTab === "presse"
-                ? "bg-[#f7931a] text-white"
-                : "text-[#a0a0a0] hover:text-white"
+                ? "bg-[var(--accent)] text-white"
+                : "text-[var(--foreground)] opacity-60 hover:opacity-100"
             }`}
           >
-            📰 Ce que j&apos;ai fait (Presse)
+            Ce que j&apos;ai fait (Presse)
           </button>
           <button
             onClick={() => setActiveTab("crypto")}
             className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
               activeTab === "crypto"
-                ? "bg-[#f7931a] text-white"
-                : "text-[#a0a0a0] hover:text-white"
+                ? "bg-[var(--accent)] text-white"
+                : "text-[var(--foreground)] opacity-60 hover:opacity-100"
             }`}
           >
-            ₿ Ce que je ferai (Crypto)
+            Ce que je ferai (Crypto)
           </button>
         </div>
       </div>
@@ -219,7 +199,7 @@ function ComparisonSection() {
               x: activeTab === "crypto" ? 10 : 0,
             }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 hover:border-[#f7931a]/50 transition-colors"
+            className="bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-lg p-4 hover:border-[var(--accent)]/50 transition-colors"
           >
             <AnimatePresence mode="wait">
               <motion.p
@@ -228,7 +208,7 @@ function ComparisonSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="text-white text-center"
+                className="text-[var(--foreground)] text-center"
               >
                 {activeTab === "presse" ? item.presse : item.crypto}
               </motion.p>
@@ -262,24 +242,24 @@ function IdeaCard({
     <RevealOnScroll delay={delay}>
       <motion.div
         layout
-        className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl overflow-hidden cursor-pointer group"
+        className="bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-2xl overflow-hidden cursor-pointer group"
         onClick={() => setIsExpanded(!isExpanded)}
-        whileHover={{ borderColor: "#f7931a" }}
+        whileHover={{ borderColor: "var(--accent)" }}
       >
         <motion.div layout className="p-6">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#f7931a] to-[#ffd700] rounded-full flex items-center justify-center text-white font-bold shrink-0">
+            <div className="w-10 h-10 bg-[var(--accent)] rounded-full flex items-center justify-center text-white font-bold shrink-0">
               {number}
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold text-white group-hover:text-[#f7931a] transition-colors">
+                <h3 className="text-xl font-semibold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
                   {title}
                 </h3>
                 <motion.span
                   animate={{ rotate: isExpanded ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="text-[#a0a0a0]"
+                  className="text-[var(--foreground)] opacity-50"
                 >
                   ↓
                 </motion.span>
@@ -298,14 +278,14 @@ function IdeaCard({
               >
                 <ul className="space-y-2 mb-4">
                   {details.map((detail, index) => (
-                    <li key={index} className="text-[#a0a0a0] flex items-start gap-2">
-                      <span className="text-[#f7931a]">→</span>
+                    <li key={index} className="text-[var(--foreground)] opacity-70 flex items-start gap-2">
+                      <span className="text-[var(--accent)]">→</span>
                       {detail}
                     </li>
                   ))}
                 </ul>
-                <div className="bg-[#f7931a]/10 border border-[#f7931a]/30 rounded-lg p-3">
-                  <p className="text-[#f7931a] text-sm">
+                <div className="bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-lg p-3">
+                  <p className="text-[var(--accent)] text-sm">
                     <span className="font-semibold">Ce que j&apos;ai fait :</span> {result}
                   </p>
                 </div>
@@ -348,7 +328,7 @@ function TypewriterText({ text }: { text: string }) {
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity }}
-        className="text-[#f7931a]"
+        className="text-[var(--accent)]"
       >
         |
       </motion.span>
@@ -360,7 +340,7 @@ function TypewriterText({ text }: { text: string }) {
 // FLOATING ASSISTANT COMPONENT
 // ============================================
 function FloatingAssistant() {
-  const [message, setMessage] = useState("👋 Bienvenue !");
+  const [message, setMessage] = useState("Bienvenue !");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -373,17 +353,17 @@ function FloatingAssistant() {
       setIsVisible(true);
 
       if (scrollPercent < 0.15) {
-        setMessage("👋 Bienvenue !");
+        setMessage("Bienvenue !");
       } else if (scrollPercent < 0.35) {
-        setMessage("📊 Ces chiffres sont réels, vérifiables.");
+        setMessage("Ces chiffres sont réels, vérifiables.");
       } else if (scrollPercent < 0.55) {
-        setMessage("🔄 Mêmes mécaniques, nouveau terrain de jeu.");
+        setMessage("Mêmes mécaniques, nouveau terrain.");
       } else if (scrollPercent < 0.75) {
-        setMessage("💡 J'ai d'autres idées, on en parle ?");
+        setMessage("J'ai d'autres idées, on en parle ?");
       } else if (scrollPercent < 0.9) {
-        setMessage("₿ Stack sats, not fiat.");
+        setMessage("Stack sats, not fiat.");
       } else {
-        setMessage("🚀 Go, envoie ce mail !");
+        setMessage("Go, envoie ce mail !");
       }
     };
 
@@ -405,9 +385,9 @@ function FloatingAssistant() {
             key={message}
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-[#1a1a1a] border border-[#f7931a] rounded-2xl px-4 py-3 shadow-lg shadow-[#f7931a]/20"
+            className="bg-[var(--bot-bubble-bg)] border border-[var(--accent)] rounded-2xl px-4 py-3 shadow-lg"
           >
-            <p className="text-sm text-white whitespace-nowrap">{message}</p>
+            <p className="text-sm text-[var(--foreground)] whitespace-nowrap font-mono">{message}</p>
           </motion.div>
         </motion.div>
       )}
@@ -429,9 +409,9 @@ function ScrollIndicator() {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.5, repeat: Infinity }}
-        className="flex flex-col items-center gap-2 text-[#a0a0a0]"
+        className="flex flex-col items-center gap-2 text-[var(--foreground)] opacity-40"
       >
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
+        <span className="text-xs uppercase tracking-widest font-mono">Scroll</span>
         <svg
           width="24"
           height="24"
@@ -454,14 +434,28 @@ export default function CoinHousePage() {
   const [hoveredCTA, setHoveredCTA] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden font-mono transition-colors duration-300">
       <FloatingAssistant />
+
+      {/* Theme Toggle */}
+      <div className="fixed top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
+      {/* Back to home */}
+      <motion.a
+        href="/"
+        className="fixed top-6 left-6 z-50 text-[var(--foreground)] opacity-50 hover:opacity-100 transition-opacity font-mono text-sm"
+        whileHover={{ x: -3 }}
+      >
+        ← Retour
+      </motion.a>
 
       {/* ============================================ */}
       {/* HERO SECTION */}
       {/* ============================================ */}
       <section className="relative min-h-screen flex items-center justify-center px-6">
-        <ParticlesBackground />
+        <GridBackground />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <motion.div
@@ -470,33 +464,23 @@ export default function CoinHousePage() {
             transition={{ duration: 0.8 }}
           >
             <div className="inline-block mb-6">
-              <motion.div
-                className="bg-gradient-to-r from-[#f7931a] to-[#ffd700] text-transparent bg-clip-text"
-                animate={{
-                  backgroundPosition: ["0%", "100%", "0%"],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <span className="text-sm md:text-base font-medium tracking-widest uppercase">
-                  Marketing Manager — Lead Generation & Growth
-                </span>
-              </motion.div>
+              <span className="text-sm md:text-base font-medium tracking-widest uppercase text-[var(--accent)]">
+                Marketing Manager — Lead Generation & Growth
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
               Pourquoi{" "}
-              <span className="text-[#f7931a]">moi</span>
+              <span className="text-[var(--accent)]">moi</span>
               <br />
               pour{" "}
-              <span className="bg-gradient-to-r from-[#f7931a] to-[#ffd700] text-transparent bg-clip-text">
-                Coinhouse
-              </span>
+              <span className="text-[var(--accent)]">Coinhouse</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-[#a0a0a0] max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl opacity-60 max-w-2xl mx-auto">
               5 ans à transformer des lecteurs en abonnés.
               <br />
-              <span className="text-white">Prêt à transformer des curieux en investisseurs.</span>
+              <span className="opacity-100 text-[var(--foreground)]">Prêt à transformer des curieux en investisseurs.</span>
             </p>
           </motion.div>
         </div>
@@ -511,9 +495,9 @@ export default function CoinHousePage() {
         <div className="max-w-6xl mx-auto">
           <RevealOnScroll>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-              Mes <span className="text-[#f7931a]">résultats</span>
+              Mes <span className="text-[var(--accent)]">résultats</span>
             </h2>
-            <p className="text-[#a0a0a0] text-center mb-12 max-w-2xl mx-auto">
+            <p className="text-[var(--foreground)] opacity-50 text-center mb-12 max-w-2xl mx-auto">
               Des chiffres concrets, mesurés, documentés. Pas du blabla marketing.
             </p>
           </RevealOnScroll>
@@ -554,13 +538,13 @@ export default function CoinHousePage() {
             />
             <RevealOnScroll delay={0.5}>
               <motion.div
-                className="relative bg-gradient-to-br from-[#f7931a]/20 to-[#ffd700]/10 border border-[#f7931a]/50 rounded-2xl p-6 flex items-center justify-center h-full"
+                className="relative bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-2xl p-6 flex items-center justify-center h-full"
                 whileHover={{ scale: 1.02 }}
               >
                 <p className="text-center text-lg">
-                  <span className="text-[#f7931a] font-bold">Et maintenant ?</span>
+                  <span className="text-[var(--accent)] font-bold">Et maintenant ?</span>
                   <br />
-                  <span className="text-[#a0a0a0]">Direction Coinhouse.</span>
+                  <span className="opacity-60">Direction Coinhouse.</span>
                 </p>
               </motion.div>
             </RevealOnScroll>
@@ -571,14 +555,14 @@ export default function CoinHousePage() {
       {/* ============================================ */}
       {/* COMPARISON SECTION */}
       {/* ============================================ */}
-      <section className="py-24 px-6 bg-[#0f0f0f]">
+      <section className="py-24 px-6 bg-[var(--bot-bubble-bg)]/30">
         <div className="max-w-6xl mx-auto">
           <RevealOnScroll>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
               Presse → Crypto :{" "}
-              <span className="text-[#f7931a]">mêmes mécaniques</span>
+              <span className="text-[var(--accent)]">mêmes mécaniques</span>
             </h2>
-            <p className="text-[#a0a0a0] text-center mb-12 max-w-2xl mx-auto">
+            <p className="text-[var(--foreground)] opacity-50 text-center mb-12 max-w-2xl mx-auto">
               Le produit change, les fondamentaux restent. Acquisition, conversion, rétention.
             </p>
           </RevealOnScroll>
@@ -596,9 +580,9 @@ export default function CoinHousePage() {
         <div className="max-w-4xl mx-auto">
           <RevealOnScroll>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-              3 idées pour <span className="text-[#f7931a]">Coinhouse</span>
+              3 idées pour <span className="text-[var(--accent)]">Coinhouse</span>
             </h2>
-            <p className="text-[#a0a0a0] text-center mb-12 max-w-2xl mx-auto">
+            <p className="text-[var(--foreground)] opacity-50 text-center mb-12 max-w-2xl mx-auto">
               Pas des concepts vagues. Des stratégies éprouvées, adaptées à votre contexte.
             </p>
           </RevealOnScroll>
@@ -644,16 +628,16 @@ export default function CoinHousePage() {
       {/* ============================================ */}
       {/* CONVICTION SECTION */}
       {/* ============================================ */}
-      <section className="py-24 px-6 bg-[#0f0f0f]">
+      <section className="py-24 px-6 bg-[var(--bot-bubble-bg)]/30">
         <div className="max-w-4xl mx-auto text-center">
           <RevealOnScroll>
-            <div className="text-6xl mb-8">₿</div>
-            <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed text-white">
+            <div className="text-6xl mb-8 text-[var(--accent)]">₿</div>
+            <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed">
               <TypewriterText text="Je suis bitcoiner. Pas spéculateur, pas touriste des bull runs. Quelqu'un qui croit à la liberté et à la souveraineté que représente Bitcoin." />
             </blockquote>
-            <p className="mt-8 text-xl text-[#a0a0a0]">
+            <p className="mt-8 text-xl opacity-60">
               Coinhouse construit l&apos;infrastructure de ce nouveau monde —{" "}
-              <span className="text-[#f7931a]">je veux y contribuer.</span>
+              <span className="text-[var(--accent)]">je veux y contribuer.</span>
             </p>
           </RevealOnScroll>
         </div>
@@ -668,7 +652,7 @@ export default function CoinHousePage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               15 minutes pour en parler ?
             </h2>
-            <p className="text-[#a0a0a0] mb-12 text-lg">
+            <p className="opacity-50 mb-12 text-lg">
               Je suis disponible pour un call rapide. Pas de pitch, juste une discussion.
             </p>
           </RevealOnScroll>
@@ -677,15 +661,15 @@ export default function CoinHousePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.a
                 href="mailto:charles.bonnet@pm.me?subject=Candidature%20Marketing%20Manager%20Coinhouse&body=Bonjour%20Charles,%0A%0AJ'ai%20vu%20votre%20page%20de%20candidature%20et%20j'aimerais%20échanger%20avec%20vous."
-                className="relative inline-flex items-center gap-3 bg-gradient-to-r from-[#f7931a] to-[#ffd700] text-white font-semibold px-8 py-4 rounded-full text-lg overflow-hidden group"
+                className="inline-flex items-center gap-3 bg-[var(--accent)] text-white font-semibold px-8 py-4 rounded-full text-lg overflow-hidden group hover:opacity-90 transition-opacity"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={() => setHoveredCTA(true)}
                 onMouseLeave={() => setHoveredCTA(false)}
               >
-                <span className="relative z-10">M&apos;envoyer un email</span>
+                <span>M&apos;envoyer un email</span>
                 <svg
-                  className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform"
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -697,18 +681,11 @@ export default function CoinHousePage() {
                     d="M14 5l7 7m0 0l-7 7m7-7H3"
                   />
                 </svg>
-                <motion.div
-                  className="absolute inset-0 bg-white"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                  style={{ opacity: 0.2 }}
-                />
               </motion.a>
 
               <motion.a
                 href="/"
-                className="inline-flex items-center gap-2 text-[#a0a0a0] hover:text-white font-medium px-6 py-4 rounded-full border border-[#2a2a2a] hover:border-[#f7931a] transition-colors"
+                className="inline-flex items-center gap-2 opacity-60 hover:opacity-100 font-medium px-6 py-4 rounded-full border border-[var(--foreground)]/20 hover:border-[var(--accent)] transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -736,9 +713,9 @@ export default function CoinHousePage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="mt-4 text-sm text-[#f7931a]"
+                  className="mt-4 text-sm text-[var(--accent)]"
                 >
-                  Je suis disponible immédiatement 👀
+                  Je suis disponible immédiatement
                 </motion.p>
               )}
             </AnimatePresence>
@@ -749,17 +726,17 @@ export default function CoinHousePage() {
       {/* ============================================ */}
       {/* FOOTER */}
       {/* ============================================ */}
-      <footer className="py-8 px-6 border-t border-[#2a2a2a]">
+      <footer className="py-8 px-6 border-t border-[var(--foreground)]/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#a0a0a0] text-sm">
+          <p className="opacity-50 text-sm">
             Charles Bonnet — {new Date().getFullYear()}
           </p>
-          <p className="text-[#a0a0a0] text-sm">
+          <p className="opacity-50 text-sm">
             Made with{" "}
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
-              className="inline-block text-[#f7931a]"
+              className="inline-block text-[var(--accent)]"
             >
               ₿
             </motion.span>
