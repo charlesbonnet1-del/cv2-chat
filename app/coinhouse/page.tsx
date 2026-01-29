@@ -177,6 +177,7 @@ function ComparisonSection() {
     { presse: "Nurturing email", crypto: "Nurturing email" },
     { presse: "Upsell (print → digital)", crypto: "Upsell (basic → premium)" },
     { presse: "Pédagogie éditoriale", crypto: "Pédagogie crypto" },
+    { presse: "Vulgarisation de sujets complexes", crypto: "Vulgarisation blockchain/DeFi" },
   ];
 
   return (
@@ -407,7 +408,7 @@ export default function CoinHousePage() {
             </h1>
 
             <p className="text-xl md:text-2xl opacity-60 max-w-2xl mx-auto">
-              5 ans à transformer des lecteurs en abonnés.
+              Depuis 2019, je transforme des lecteurs en abonnés.
               <br />
               <span className="opacity-100 text-[var(--foreground)]">Prêt à transformer des curieux en investisseurs.</span>
             </p>
@@ -436,7 +437,7 @@ export default function CoinHousePage() {
             <KPICard value={28} prefix="+" suffix="%" label="Croissance recrutement 2025" delay={0.1} />
             <KPICard value={107} prefix="+" suffix="%" label="Performance landing pages" delay={0.2} />
             <KPICard value={21} prefix="+" suffix="%" label="ARPU (revenu par utilisateur)" delay={0.3} />
-            <KPICard value={140} suffix="+" label="Scénarios d'automation IA en production" delay={0.4} />
+            <KPICard value={29} prefix="+" suffix="%" label="Repricing sans churn" delay={0.4} />
             <RevealOnScroll delay={0.5}>
               <motion.div
                 className="relative bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-2xl p-6 flex items-center justify-center h-full"
@@ -462,8 +463,11 @@ export default function CoinHousePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
               Presse → Crypto : <span className="text-[var(--accent)]">mêmes mécaniques</span>
             </h2>
-            <p className="text-[var(--foreground)] opacity-50 text-center mb-12 max-w-2xl mx-auto">
+            <p className="text-[var(--foreground)] opacity-50 text-center mb-4 max-w-2xl mx-auto">
               Le produit change, les fondamentaux restent. Acquisition, conversion, rétention.
+            </p>
+            <p className="text-[var(--foreground)] opacity-70 text-center mb-12 max-w-2xl mx-auto text-sm">
+              <strong>L&apos;adoption crypto est un défi éditorial :</strong> vulgariser un sujet complexe, séquencer l&apos;information, accompagner la montée en compétence. C&apos;est exactement ce que je fais depuis 6 ans dans la presse.
             </p>
           </RevealOnScroll>
 
@@ -489,10 +493,9 @@ export default function CoinHousePage() {
           </RevealOnScroll>
 
           {/* Stats Teaser */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
             <AnimatedStat value={33} suffix="%" label="des Français veulent acheter crypto" highlight />
             <AnimatedStat value="17M" suffix="" label="de prospects à convertir" />
-            <AnimatedStat value="1er" suffix="" label="PSAN français (2020)" />
           </div>
 
           {/* ============================================ */}
@@ -510,21 +513,46 @@ export default function CoinHousePage() {
                 <AnimatedStat value={92} suffix="%" label="Connaissent les crypto-actifs" />
                 <AnimatedStat value={21} suffix="%" label="Frein n°1 : C'est compliqué" />
               </div>
+              <p className="text-xs opacity-40 mb-4">Source : ADAN / KPMG — Baromètre des cryptos en France 2024</p>
               <Callout type="insight">
                 Le problème n&apos;est pas la notoriété. C&apos;est le passage à l&apos;acte.
-                <strong> La pédagogie est la clé.</strong>
+                La crypto est un sujet complexe : <strong>la pédagogie est la clé.</strong>
               </Callout>
             </AccordionItem>
 
             <AccordionItem title="🌍 Benchmark international">
-              <BarChart
-                data={[
-                  { country: "Pays-Bas", value: 17 },
-                  { country: "UK", value: 16 },
-                  { country: "Allemagne", value: 12 },
-                  { country: "France", value: 10, highlight: true },
-                ]}
-              />
+              <p className="text-sm opacity-60 mb-4">Taux de détention de crypto-actifs par pays :</p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-24 text-sm">Pays-Bas</span>
+                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "85%" }} />
+                  </div>
+                  <span className="text-sm font-semibold">17%</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-24 text-sm">UK</span>
+                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "80%" }} />
+                  </div>
+                  <span className="text-sm font-semibold">16%</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-24 text-sm">Allemagne</span>
+                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "60%" }} />
+                  </div>
+                  <span className="text-sm font-semibold">12%</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-24 text-sm text-[var(--accent)]">France</span>
+                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[var(--accent)] rounded-full" style={{ width: "50%" }} />
+                  </div>
+                  <span className="text-sm font-semibold text-[var(--accent)]">10%</span>
+                </div>
+              </div>
+              <p className="text-xs opacity-40 mt-4">Source : Statista / Eurostat 2024</p>
               <p className="mt-4">La France a du retard = <strong className="text-[var(--accent)]">opportunité de croissance</strong></p>
             </AccordionItem>
 
@@ -536,7 +564,7 @@ export default function CoinHousePage() {
               </div>
               <Callout type="action">
                 Mon job chez Lagardère : convertir des &quot;curieux&quot; en clients engagés.
-                <strong> Exactement ce dont Coinhouse a besoin.</strong>
+                <strong> La pédagogie crypto est fondamentalement un défi éditorial</strong> — vulgariser, séquencer l&apos;information, créer des parcours d&apos;apprentissage. C&apos;est exactement ce que je fais depuis 6 ans.
               </Callout>
             </AccordionItem>
           </Accordion>
@@ -676,7 +704,7 @@ export default function CoinHousePage() {
           <Callout type="insight">
             <strong>Ma lecture :</strong> Coinhouse ne doit pas concurrencer Binance sur les frais.
             Le positionnement &quot;banque privée crypto&quot; est le bon.
-            Trade Republic est la vraie menace sur le segment débutant — on les bat par la <strong>valeur de l&apos;accompagnement</strong>, pas par le prix.
+            Trade Republic est la vraie menace sur le segment débutant — on les bat par la <strong>valeur de l&apos;accompagnement</strong>, la <strong>spécialisation crypto</strong> (vs généraliste), et la <strong>pédagogie</strong>. Pas par le prix.
           </Callout>
         </div>
       </section>
@@ -698,26 +726,48 @@ export default function CoinHousePage() {
                   <ul className="space-y-2 text-sm opacity-70">
                     <li>• Academy sur le site → l&apos;user doit déjà être là</li>
                     <li>• Livres blancs PDF → personne ne lit</li>
-                    <li>• Newsletter → 20% ouverture, 2% clic</li>
+                    <li>• Newsletter → ~20% ouverture, ~2% clic <span className="opacity-50">(estimés)</span></li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-3 text-[var(--accent)]">✅ Ma proposition : &quot;Coinhouse Everywhere&quot;</h4>
-                  <p className="text-sm mb-4">Publier <strong>50+ contenus/semaine</strong> grâce à l&apos;IA et au recyclage systématique.</p>
-                  <PyramidChart
-                    levels={[
-                      { label: "1 Masterclass YouTube (45 min)", width: "40%" },
-                      { label: "→ 10-15 Shorts extraits", width: "70%" },
-                      { label: "→ Recyclage Reels + TikTok + LinkedIn", width: "100%" },
-                    ]}
-                  />
+                  <h4 className="font-bold mb-3 text-[var(--accent)]">✅ Ma proposition : le recyclage systématique</h4>
+                  <p className="text-sm mb-4">Pas de révolution de production. <strong>Un contenu = tous les canaux</strong> grâce au recyclage intelligent.</p>
                 </div>
               </div>
-              <div className="mt-6">
-                <h5 className="font-semibold mb-3">Volume de publication</h5>
-                <ComparisonBar label="YouTube Shorts" before="~0/sem" after="10/sem" />
-                <ComparisonBar label="TikTok" before="faible" after="15/sem" />
-                <ComparisonBar label="LinkedIn vidéo" before="rare" after="5/sem" />
+              <div className="mt-6 bg-[var(--bot-bubble-bg)] rounded-xl p-6">
+                <h5 className="font-semibold mb-4 text-center">Le recyclage en action</h5>
+                <div className="flex flex-col items-center gap-3">
+                  <div className="bg-[var(--accent)]/20 border border-[var(--accent)]/40 rounded-lg px-6 py-3 text-center">
+                    <span className="text-[var(--accent)] font-bold">1 Masterclass YouTube (45 min)</span>
+                  </div>
+                  <div className="text-[var(--accent)]">↓</div>
+                  <div className="grid grid-cols-3 gap-3 w-full">
+                    <div className="bg-[var(--foreground)]/5 rounded-lg p-3 text-center text-sm">
+                      <strong>10-15 Shorts</strong>
+                      <p className="text-xs opacity-50">extraits clés</p>
+                    </div>
+                    <div className="bg-[var(--foreground)]/5 rounded-lg p-3 text-center text-sm">
+                      <strong>5 posts LinkedIn</strong>
+                      <p className="text-xs opacity-50">citations + insights</p>
+                    </div>
+                    <div className="bg-[var(--foreground)]/5 rounded-lg p-3 text-center text-sm">
+                      <strong>1 article blog</strong>
+                      <p className="text-xs opacity-50">transcription enrichie</p>
+                    </div>
+                  </div>
+                  <div className="text-[var(--accent)]">↓</div>
+                  <div className="grid grid-cols-2 gap-3 w-full">
+                    <div className="bg-[var(--foreground)]/5 rounded-lg p-3 text-center text-sm">
+                      <strong>Reels Instagram</strong>
+                      <p className="text-xs opacity-50">reformatage vertical</p>
+                    </div>
+                    <div className="bg-[var(--foreground)]/5 rounded-lg p-3 text-center text-sm">
+                      <strong>TikTok</strong>
+                      <p className="text-xs opacity-50">ton adapté</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-center text-sm opacity-60 mt-4">= <strong className="text-[var(--accent)]">30+ contenus</strong> à partir d&apos;une seule production</p>
               </div>
               <Callout type="proof">
                 <strong>Coût 2025 :</strong> Script IA + voix clonée + montage auto =
@@ -725,34 +775,34 @@ export default function CoinHousePage() {
               </Callout>
             </Tab>
 
-            <Tab icon="👥" title="Double ambassadeur" tagline="Le Sage + Le Guide quotidien">
+            <Tab icon="👥" title="Double ambassadeur" tagline="Capitaliser sur les talents existants">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-6 border border-[var(--foreground)]/10">
-                  <div className="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-4 text-xl">ÉL</div>
-                  <h4 className="font-bold text-lg">Éric Larchevêque</h4>
-                  <span className="text-sm text-[var(--accent)]">&quot;Le Sage&quot;</span>
+                  <div className="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-4 text-xl">NV</div>
+                  <h4 className="font-bold text-lg">Nicolas Valente</h4>
+                  <span className="text-sm text-[var(--accent)]">CEO — Vision & stratégie</span>
                   <ul className="mt-4 space-y-2 text-sm opacity-70">
-                    <li>• Interventions mensuelles de fond</li>
-                    <li>• Keynotes, podcasts longs</li>
-                    <li>• Campagnes institutionnelles</li>
-                    <li>• Cible : patrimoniaux, médias</li>
+                    <li>• Prises de position marché</li>
+                    <li>• Interviews médias</li>
+                    <li>• Keynotes, conférences</li>
+                    <li>• Cible : institutionnels, B2B, presse</li>
                   </ul>
                 </div>
                 <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-6 border border-[var(--accent)]/30">
-                  <div className="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-4 text-xl">👤</div>
-                  <h4 className="font-bold text-lg">Le &quot;Guide Coinhouse&quot;</h4>
-                  <span className="text-sm text-[var(--accent)]">Présence quotidienne</span>
+                  <div className="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-4 text-xl">TD</div>
+                  <h4 className="font-bold text-lg">Thibaut Desachy</h4>
+                  <span className="text-sm text-[var(--accent)]">Head of Research — Pédagogie</span>
                   <ul className="mt-4 space-y-2 text-sm opacity-70">
-                    <li>• Actu crypto du jour (60 sec)</li>
-                    <li>• Question de la semaine</li>
-                    <li>• Live Q&A hebdo</li>
-                    <li>• Cible : 18-34 ans, nouveaux entrants</li>
+                    <li>• Actu crypto quotidienne</li>
+                    <li>• Analyses de marché</li>
+                    <li>• Live Q&A, AMAs</li>
+                    <li>• Cible : particuliers, communauté</li>
                   </ul>
                 </div>
               </div>
               <Callout type="insight">
-                <strong>Note :</strong> Valente et Desachy ont déjà une présence sociale.
-                Un <strong>Community Manager</strong> peut gérer la production, les laissant se concentrer sur le fond.
+                <strong>Note :</strong> Valente et Desachy ont déjà une présence sociale solide.
+                Un <strong>Community Manager</strong> peut gérer la production et la publication, les laissant se concentrer sur le fond.
               </Callout>
             </Tab>
 
@@ -785,33 +835,270 @@ export default function CoinHousePage() {
             </Tab>
 
             <Tab icon="🏢" title="Accélération B2B" tagline="Stablecoins & paiements internationaux">
-              <div className="mb-6">
-                <h4 className="font-bold mb-3">Aujourd&apos;hui : B2B = 30% du CA</h4>
-                <p className="opacity-60">Segment sous-exploité avec un potentiel énorme.</p>
-              </div>
-              <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 mb-6">
-                <h5 className="font-semibold mb-3">Le problème des entreprises</h5>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+              {/* Market Size Banner */}
+              <div className="bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent)]/5 rounded-2xl p-6 mb-8 border border-[var(--accent)]/30">
+                <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
-                    <span className="opacity-60">Virement SWIFT</span>
-                    <p>3-5 jours, 25-50€ de frais</p>
+                    <p className="text-sm opacity-60 mb-1">Marché mondial des stablecoins</p>
+                    <p className="text-4xl font-bold text-[var(--accent)]">$170 Mds</p>
+                    <p className="text-sm opacity-60">+45% en 2024</p>
                   </div>
-                  <div>
-                    <span className="text-[var(--accent)]">Stablecoin</span>
-                    <p className="text-[var(--accent)] font-bold">10 minutes, 0.5-2€ de frais</p>
+                  <div className="flex gap-6">
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-[#2775CA]/20 flex items-center justify-center mb-2 mx-auto">
+                        <span className="text-2xl font-bold text-[#2775CA]">$</span>
+                      </div>
+                      <p className="text-xs font-semibold">USDC</p>
+                      <p className="text-xs opacity-60">$35 Mds</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-[#26A17B]/20 flex items-center justify-center mb-2 mx-auto">
+                        <span className="text-2xl font-bold text-[#26A17B]">₮</span>
+                      </div>
+                      <p className="text-xs font-semibold">USDT</p>
+                      <p className="text-xs opacity-60">$120 Mds</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-2 mx-auto">
+                        <span className="text-2xl font-bold text-[var(--accent)]">€</span>
+                      </div>
+                      <p className="text-xs font-semibold">EURC</p>
+                      <p className="text-xs opacity-60">$90 M</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <h5 className="font-semibold mb-3">Cibles prioritaires</h5>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-3 text-sm">🛒 E-commerçants internationaux</div>
-                <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-3 text-sm">💻 Agences/ESN offshore</div>
-                <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-3 text-sm">📦 Importateurs/Exportateurs</div>
-                <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-3 text-sm">🌍 Startups remote</div>
+
+              {/* Current State */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="bg-[var(--accent)] text-black text-xs font-bold px-3 py-1 rounded-full">OPPORTUNITÉ</span>
+                  <h4 className="font-bold text-lg">B2B = 30% du CA Coinhouse</h4>
+                </div>
+                <p className="opacity-70 mb-4">Un segment sous-exploité alors que MiCA positionne l&apos;Europe comme le hub mondial des stablecoins régulés.</p>
               </div>
+
+              {/* SWIFT vs Stablecoin Interactive Comparison */}
+              <div className="bg-[var(--bot-bubble-bg)] rounded-2xl p-6 mb-8">
+                <h5 className="font-semibold mb-6 text-center">SWIFT vs Stablecoins : le match</h5>
+                <div className="space-y-6">
+                  {/* Speed */}
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="opacity-60">Délai de transfert</span>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <div className="flex-1">
+                        <div className="h-10 bg-red-500/20 rounded-lg flex items-center px-4 relative overflow-hidden">
+                          <div className="absolute inset-0 bg-red-500/30" style={{ width: '100%' }}></div>
+                          <span className="relative z-10 text-sm font-medium">SWIFT : 3-5 jours</span>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="h-10 bg-green-500/20 rounded-lg flex items-center px-4 relative overflow-hidden">
+                          <div className="absolute inset-0 bg-green-500/40" style={{ width: '5%' }}></div>
+                          <span className="relative z-10 text-sm font-medium text-green-400">Stablecoin : 10 min</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Cost */}
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="opacity-60">Frais pour 10 000€</span>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <div className="flex-1">
+                        <div className="h-10 bg-red-500/20 rounded-lg flex items-center px-4 relative overflow-hidden">
+                          <div className="absolute inset-0 bg-red-500/30" style={{ width: '100%' }}></div>
+                          <span className="relative z-10 text-sm font-medium">SWIFT : 25-50€</span>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="h-10 bg-green-500/20 rounded-lg flex items-center px-4 relative overflow-hidden">
+                          <div className="absolute inset-0 bg-green-500/40" style={{ width: '4%' }}></div>
+                          <span className="relative z-10 text-sm font-medium text-green-400">Stablecoin : 0.50-2€</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Availability */}
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="opacity-60">Disponibilité</span>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <div className="flex-1">
+                        <div className="h-10 bg-red-500/20 rounded-lg flex items-center px-4">
+                          <span className="text-sm font-medium">SWIFT : Lun-Ven, heures ouvrées</span>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="h-10 bg-green-500/20 rounded-lg flex items-center px-4">
+                          <span className="text-sm font-medium text-green-400">Stablecoin : 24/7/365</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Use Cases with Real Numbers */}
+              <h5 className="font-semibold mb-4">Cas d&apos;usage concrets</h5>
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-[var(--accent)]">
+                  <div className="text-3xl mb-3">🏭</div>
+                  <h6 className="font-semibold mb-2">Importateur textile</h6>
+                  <p className="text-sm opacity-70 mb-3">Paie ses fournisseurs en Turquie et au Bangladesh</p>
+                  <div className="bg-[var(--background)] rounded-lg p-3 text-sm">
+                    <div className="flex justify-between mb-1">
+                      <span className="opacity-60">Avant (SWIFT)</span>
+                      <span>4 200€/an de frais</span>
+                    </div>
+                    <div className="flex justify-between text-green-400 font-semibold">
+                      <span>Après (USDT)</span>
+                      <span>180€/an</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-[#2775CA]">
+                  <div className="text-3xl mb-3">💻</div>
+                  <h6 className="font-semibold mb-2">Agence web</h6>
+                  <p className="text-sm opacity-70 mb-3">Paie des développeurs en Ukraine et aux Philippines</p>
+                  <div className="bg-[var(--background)] rounded-lg p-3 text-sm">
+                    <div className="flex justify-between mb-1">
+                      <span className="opacity-60">Avant (SWIFT)</span>
+                      <span>5 jours de délai</span>
+                    </div>
+                    <div className="flex justify-between text-green-400 font-semibold">
+                      <span>Après (USDC)</span>
+                      <span>15 minutes</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-[#26A17B]">
+                  <div className="text-3xl mb-3">🛒</div>
+                  <h6 className="font-semibold mb-2">E-commerçant</h6>
+                  <p className="text-sm opacity-70 mb-3">Reçoit des paiements de clients B2B internationaux</p>
+                  <div className="bg-[var(--background)] rounded-lg p-3 text-sm">
+                    <div className="flex justify-between mb-1">
+                      <span className="opacity-60">Avant (CB int.)</span>
+                      <span>2.9% + FX fees</span>
+                    </div>
+                    <div className="flex justify-between text-green-400 font-semibold">
+                      <span>Après (EURC)</span>
+                      <span>0.1% flat</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stablecoin Selection Guide */}
+              <div className="bg-gradient-to-br from-[var(--bot-bubble-bg)] to-[var(--background)] rounded-2xl p-6 mb-8 border border-[var(--foreground)]/10">
+                <h5 className="font-semibold mb-4">Guide : Quel stablecoin pour quelle situation ?</h5>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[var(--foreground)]/10">
+                        <th className="text-left py-3 px-2"></th>
+                        <th className="text-center py-3 px-2">
+                          <span className="text-[#26A17B] font-bold">USDT</span>
+                        </th>
+                        <th className="text-center py-3 px-2">
+                          <span className="text-[#2775CA] font-bold">USDC</span>
+                        </th>
+                        <th className="text-center py-3 px-2">
+                          <span className="text-[var(--accent)] font-bold">EURC</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="opacity-80">
+                      <tr className="border-b border-[var(--foreground)]/5">
+                        <td className="py-3 px-2 font-medium">Liquidité</td>
+                        <td className="text-center py-3 px-2">⭐⭐⭐</td>
+                        <td className="text-center py-3 px-2">⭐⭐</td>
+                        <td className="text-center py-3 px-2">⭐</td>
+                      </tr>
+                      <tr className="border-b border-[var(--foreground)]/5">
+                        <td className="py-3 px-2 font-medium">Compliance MiCA</td>
+                        <td className="text-center py-3 px-2">❌</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                      </tr>
+                      <tr className="border-b border-[var(--foreground)]/5">
+                        <td className="py-3 px-2 font-medium">Acceptance Asie</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                        <td className="text-center py-3 px-2">❌</td>
+                      </tr>
+                      <tr className="border-b border-[var(--foreground)]/5">
+                        <td className="py-3 px-2 font-medium">Transparence réserves</td>
+                        <td className="text-center py-3 px-2">⚠️</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                        <td className="text-center py-3 px-2">✅</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 px-2 font-medium">Cas d&apos;usage idéal</td>
+                        <td className="text-center py-3 px-2 text-xs">Trading, marchés émergents</td>
+                        <td className="text-center py-3 px-2 text-xs">Entreprises, institutionnels</td>
+                        <td className="text-center py-3 px-2 text-xs">Zone euro, comptabilité simplifiée</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Target Segments */}
+              <h5 className="font-semibold mb-4">Segments cibles prioritaires</h5>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                  <div className="text-3xl mb-2">🛒</div>
+                  <p className="text-sm font-medium">E-commerçants internationaux</p>
+                  <p className="text-xs opacity-50 mt-1">50K+ entreprises en France</p>
+                </div>
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                  <div className="text-3xl mb-2">💻</div>
+                  <p className="text-sm font-medium">Agences & ESN offshore</p>
+                  <p className="text-xs opacity-50 mt-1">Freelances internationaux</p>
+                </div>
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                  <div className="text-3xl mb-2">📦</div>
+                  <p className="text-sm font-medium">Import/Export</p>
+                  <p className="text-xs opacity-50 mt-1">Corridors Asie, Turquie, Afrique</p>
+                </div>
+                <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                  <div className="text-3xl mb-2">🌍</div>
+                  <p className="text-sm font-medium">Startups remote-first</p>
+                  <p className="text-xs opacity-50 mt-1">Équipes distribuées</p>
+                </div>
+              </div>
+
+              {/* Content Strategy for B2B */}
+              <div className="bg-[var(--accent)]/10 rounded-xl p-5 mb-6">
+                <h5 className="font-semibold mb-3">Stratégie de contenu B2B</h5>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-medium mb-2">Top of Funnel</p>
+                    <ul className="text-sm space-y-1 opacity-70">
+                      <li>• &quot;Stablecoins pour les nuls (version DAF)&quot;</li>
+                      <li>• Calculateur d&apos;économies SWIFT → Stablecoin</li>
+                      <li>• Infographie : anatomie d&apos;un paiement international</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium mb-2">Bottom of Funnel</p>
+                    <ul className="text-sm space-y-1 opacity-70">
+                      <li>• Guide comptable : enregistrer des stablecoins</li>
+                      <li>• Template de politique crypto interne</li>
+                      <li>• Webinar &quot;Trésorerie crypto pour PME&quot;</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
               <Callout type="action">
-                Les DAF détestent les frais SWIFT.
-                <strong> Personne ne leur a encore expliqué clairement que les stablecoins résolvent ce problème.</strong>
+                <strong>L&apos;angle marketing :</strong> Les DAF passent 10h/mois à gérer les paiements internationaux.
+                Les stablecoins réduisent ça à 10 minutes. <strong>Coinhouse doit être celui qui leur apprend.</strong>
               </Callout>
             </Tab>
 
@@ -978,7 +1265,7 @@ export default function CoinHousePage() {
           <RevealOnScroll>
             <div className="text-6xl mb-8 text-[var(--accent)]">₿</div>
             <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed">
-              <TypewriterText text="Je suis bitcoiner. Pas spéculateur, pas touriste des bull runs. Quelqu'un qui croit à la liberté et à la souveraineté que représente Bitcoin." />
+              <TypewriterText text="Je suis bitcoiner. Fasciné par cette technologie qui redéfinit la confiance et la valeur. Bitcoin, c'est une promesse de liberté financière — et Coinhouse la rend accessible à tous." />
             </blockquote>
             <p className="mt-8 text-xl opacity-60">
               Coinhouse construit l&apos;infrastructure de ce nouveau monde —{" "}
