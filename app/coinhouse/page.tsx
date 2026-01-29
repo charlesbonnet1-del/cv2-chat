@@ -525,28 +525,28 @@ export default function CoinHousePage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-24 text-sm">Pays-Bas</span>
-                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "85%" }} />
+                  <div className="flex-1 h-6 bg-gray-700/30 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 rounded-full" style={{ width: "85%" }} />
                   </div>
                   <span className="text-sm font-semibold">17%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-24 text-sm">UK</span>
-                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "80%" }} />
+                  <div className="flex-1 h-6 bg-gray-700/30 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 rounded-full" style={{ width: "80%" }} />
                   </div>
                   <span className="text-sm font-semibold">16%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-24 text-sm">Allemagne</span>
-                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[var(--foreground)]/30 rounded-full" style={{ width: "60%" }} />
+                  <div className="flex-1 h-6 bg-gray-700/30 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 rounded-full" style={{ width: "60%" }} />
                   </div>
                   <span className="text-sm font-semibold">12%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-24 text-sm text-[var(--accent)]">France</span>
-                  <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
+                  <div className="flex-1 h-6 bg-gray-700/30 rounded-full overflow-hidden">
                     <div className="h-full bg-[var(--accent)] rounded-full" style={{ width: "50%" }} />
                   </div>
                   <span className="text-sm font-semibold text-[var(--accent)]">10%</span>
@@ -770,9 +770,17 @@ export default function CoinHousePage() {
                 <p className="text-center text-sm opacity-60 mt-4">= <strong className="text-[var(--accent)]">30+ contenus</strong> à partir d&apos;une seule production</p>
               </div>
               <Callout type="proof">
-                <strong>Coût 2025 :</strong> Script IA + voix clonée + montage auto =
-                <strong> 20+ vidéos/mois pour le prix d&apos;une en 2020.</strong> Plus d&apos;excuses.
+                <strong>Coût 2025 :</strong> Avec l&apos;IA pour le script, le chapitrage et le montage,
+                <strong> produire 20+ contenus/mois coûte aujourd&apos;hui le prix d&apos;un seul en 2020.</strong>
               </Callout>
+              <div className="mt-6 bg-[var(--bot-bubble-bg)] rounded-xl p-4">
+                <h5 className="font-semibold mb-2 flex items-center gap-2">🎧 Ne pas oublier le podcast</h5>
+                <p className="text-sm opacity-70">
+                  La cible crypto est ultra-friande de podcasts : des gens pressés qui écoutent dans le métro,
+                  sur le tapis de course, en voiture. <strong>Chaque vidéo longue doit être déclinée en épisode audio</strong>
+                  sur Spotify, Apple Podcasts, Deezer. Coût marginal quasi nul, reach multiplié.
+                </p>
+              </div>
             </Tab>
 
             <Tab icon="👥" title="Double ambassadeur" tagline="Capitaliser sur les talents existants">
