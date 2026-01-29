@@ -167,17 +167,17 @@ function KPICard({
 // COMPARISON TOGGLE COMPONENT
 // ============================================
 function ComparisonSection() {
-  const [activeTab, setActiveTab] = useState<"presse" | "crypto">("presse");
+  const [activeTab, setActiveTab] = useState<"media" | "crypto">("media");
 
   const comparisons = [
-    { presse: "Funnel abonnement", crypto: "Funnel onboarding client" },
-    { presse: "Scoring leads (chaud/froid)", crypto: "Scoring prospects (retail/premium)" },
-    { presse: "Churn & rétention", crypto: "Churn & réactivation" },
-    { presse: "LTV / CAC", crypto: "LTV / CAC" },
-    { presse: "Nurturing email", crypto: "Nurturing email" },
-    { presse: "Upsell (print → digital)", crypto: "Upsell (basic → premium)" },
-    { presse: "Pédagogie éditoriale", crypto: "Pédagogie crypto" },
-    { presse: "Vulgarisation de sujets complexes", crypto: "Vulgarisation blockchain/DeFi" },
+    { media: "Funnel abonnement", crypto: "Funnel onboarding client" },
+    { media: "Scoring leads (chaud/froid)", crypto: "Scoring prospects (retail/premium)" },
+    { media: "Churn & rétention", crypto: "Churn & réactivation" },
+    { media: "LTV / CAC", crypto: "LTV / CAC" },
+    { media: "Nurturing email", crypto: "Nurturing email" },
+    { media: "Upsell (print → digital)", crypto: "Upsell (basic → premium)" },
+    { media: "Pédagogie éditoriale", crypto: "Pédagogie crypto" },
+    { media: "Vulgarisation de sujets complexes", crypto: "Vulgarisation blockchain/DeFi" },
   ];
 
   return (
@@ -185,14 +185,14 @@ function ComparisonSection() {
       <div className="flex justify-center mb-8">
         <div className="bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-full p-1 flex">
           <button
-            onClick={() => setActiveTab("presse")}
+            onClick={() => setActiveTab("media")}
             className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === "presse"
+              activeTab === "media"
                 ? "bg-[var(--accent)] text-white"
                 : "text-[var(--foreground)] opacity-60 hover:opacity-100"
             }`}
           >
-            Ce que j&apos;ai fait (Presse)
+            Ce que j&apos;ai fait (Média)
           </button>
           <button
             onClick={() => setActiveTab("crypto")}
@@ -225,7 +225,7 @@ function ComparisonSection() {
                 transition={{ duration: 0.2 }}
                 className="text-[var(--foreground)] text-center"
               >
-                {activeTab === "presse" ? item.presse : item.crypto}
+                {activeTab === "media" ? item.media : item.crypto}
               </motion.p>
             </AnimatePresence>
           </motion.div>
@@ -461,13 +461,13 @@ export default function CoinHousePage() {
         <div className="max-w-6xl mx-auto">
           <RevealOnScroll>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-              Presse → Crypto : <span className="text-[var(--accent)]">mêmes mécaniques</span>
+              Média → Crypto : <span className="text-[var(--accent)]">mêmes mécaniques</span>
             </h2>
             <p className="text-[var(--foreground)] opacity-50 text-center mb-4 max-w-2xl mx-auto">
               Le produit change, les fondamentaux restent. Acquisition, conversion, rétention.
             </p>
             <p className="text-[var(--foreground)] opacity-70 text-center mb-12 max-w-2xl mx-auto text-sm">
-              <strong>L&apos;adoption crypto est un défi éditorial :</strong> vulgariser un sujet complexe, séquencer l&apos;information, accompagner la montée en compétence. C&apos;est exactement ce que je fais depuis 6 ans dans la presse.
+              <strong>L&apos;adoption crypto est un défi éditorial :</strong> vulgariser un sujet complexe, séquencer l&apos;information, accompagner la montée en compétence. C&apos;est exactement ce que je fais depuis 6 ans dans les médias.
             </p>
           </RevealOnScroll>
 
@@ -732,6 +732,9 @@ export default function CoinHousePage() {
                 <div>
                   <h4 className="font-bold mb-3 text-[var(--accent)]">✅ Ma proposition : le recyclage systématique</h4>
                   <p className="text-sm mb-4">Pas de révolution de production. <strong>Un contenu = tous les canaux</strong> grâce au recyclage intelligent.</p>
+                  <div className="bg-[var(--accent)]/10 rounded-lg p-3 text-sm">
+                    <strong>Mon expérience :</strong> J&apos;ai travaillé sur le lancement de <strong>VA Plus</strong>, aujourd&apos;hui à près de <span className="text-[var(--accent)]">500K abonnés</span>.
+                  </div>
                 </div>
               </div>
               <div className="mt-6 bg-[var(--bot-bubble-bg)] rounded-xl p-6">
@@ -783,17 +786,25 @@ export default function CoinHousePage() {
               </div>
             </Tab>
 
-            <Tab icon="👥" title="Double ambassadeur" tagline="Capitaliser sur les talents existants">
-              <div className="grid md:grid-cols-2 gap-6">
+            <Tab icon="👥" title="Double ambassadeur" tagline="Effet de réseau & personnification">
+              <div className="bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-xl p-5 mb-6">
+                <h4 className="font-bold mb-2">L&apos;enjeu : personnifier la marque</h4>
+                <p className="text-sm opacity-80">
+                  Les gens ne suivent pas des entreprises, ils suivent des <strong>personnes</strong>.
+                  Pour créer un vrai effet de réseau, il faut que les visages de Coinhouse publient
+                  régulièrement sur <strong>leurs comptes personnels</strong>, pas seulement sur le compte corporate.
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-6 border border-[var(--foreground)]/10">
                   <div className="w-12 h-12 rounded-full bg-[var(--accent)]/20 flex items-center justify-center mb-4 text-xl">NV</div>
                   <h4 className="font-bold text-lg">Nicolas Valente</h4>
                   <span className="text-sm text-[var(--accent)]">CEO — Vision & stratégie</span>
                   <ul className="mt-4 space-y-2 text-sm opacity-70">
+                    <li>• Posts LinkedIn perso 2-3x/semaine</li>
                     <li>• Prises de position marché</li>
-                    <li>• Interviews médias</li>
-                    <li>• Keynotes, conférences</li>
-                    <li>• Cible : institutionnels, B2B, presse</li>
+                    <li>• Interviews médias, keynotes</li>
+                    <li>• Cible : institutionnels, B2B, médias</li>
                   </ul>
                 </div>
                 <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-6 border border-[var(--accent)]/30">
@@ -801,16 +812,36 @@ export default function CoinHousePage() {
                   <h4 className="font-bold text-lg">Thibaut Desachy</h4>
                   <span className="text-sm text-[var(--accent)]">Head of Research — Pédagogie</span>
                   <ul className="mt-4 space-y-2 text-sm opacity-70">
-                    <li>• Actu crypto quotidienne</li>
-                    <li>• Analyses de marché</li>
-                    <li>• Live Q&A, AMAs</li>
-                    <li>• Cible : particuliers, communauté</li>
+                    <li>• Posts Twitter/X perso quotidiens</li>
+                    <li>• Threads analyses, réactions marché</li>
+                    <li>• Interactions communauté crypto</li>
+                    <li>• Cible : particuliers, crypto-natifs</li>
                   </ul>
                 </div>
               </div>
-              <Callout type="insight">
-                <strong>Note :</strong> Valente et Desachy ont déjà une présence sociale solide.
-                Un <strong>Community Manager</strong> peut gérer la production et la publication, les laissant se concentrer sur le fond.
+              <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5">
+                <h5 className="font-semibold mb-3">Pourquoi les réseaux perso ?</h5>
+                <div className="grid md:grid-cols-3 gap-4 text-sm">
+                  <div className="text-center p-3">
+                    <div className="text-2xl mb-2">📈</div>
+                    <strong>Reach 5-10x supérieur</strong>
+                    <p className="opacity-60 text-xs mt-1">Les algorithmes favorisent les profils personnels</p>
+                  </div>
+                  <div className="text-center p-3">
+                    <div className="text-2xl mb-2">🤝</div>
+                    <strong>Confiance renforcée</strong>
+                    <p className="opacity-60 text-xs mt-1">On fait confiance à des humains, pas à des logos</p>
+                  </div>
+                  <div className="text-center p-3">
+                    <div className="text-2xl mb-2">🔄</div>
+                    <strong>Effet boule de neige</strong>
+                    <p className="opacity-60 text-xs mt-1">Chaque follower élargit le réseau de Coinhouse</p>
+                  </div>
+                </div>
+              </div>
+              <Callout type="action">
+                <strong>Action clé :</strong> Définir un calendrier éditorial où Valente et Desachy postent
+                régulièrement sur leurs comptes perso. Un CM peut préparer les contenus, eux valident et publient.
               </Callout>
             </Tab>
 
@@ -1273,7 +1304,7 @@ export default function CoinHousePage() {
           <RevealOnScroll>
             <div className="text-6xl mb-8 text-[var(--accent)]">₿</div>
             <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed">
-              <TypewriterText text="Je suis bitcoiner. Fasciné par cette technologie qui redéfinit la confiance et la valeur. Bitcoin, c'est une promesse de liberté financière — et Coinhouse la rend accessible à tous." />
+              <TypewriterText text="Je suis bitcoiner. Fasciné par cette technologie qui redéfinit la confiance et la valeur. Bitcoin, c'est une promesse de liberté financière." />
             </blockquote>
             <p className="mt-8 text-xl opacity-60">
               Coinhouse construit l&apos;infrastructure de ce nouveau monde —{" "}
