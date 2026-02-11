@@ -578,7 +578,7 @@ export function BarChart({
           <div className="flex-1 h-6 bg-[var(--foreground)]/10 rounded-full overflow-hidden">
             <motion.div
               className={`h-full rounded-full ${
-                item.highlight ? "bg-[var(--accent)]" : "bg-[var(--foreground)]/30"
+                item.highlight ? "bg-[var(--accent)]" : "bg-[var(--foreground)]/60"
               }`}
               initial={{ width: 0 }}
               whileInView={{ width: `${(item.value / maxValue) * 100}%` }}
