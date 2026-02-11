@@ -433,7 +433,7 @@ export default function BGAPage() {
               Mes <span className="text-[var(--accent)]">résultats</span>
             </h2>
             <p className="text-[var(--foreground)] opacity-50 text-center mb-12 max-w-2xl mx-auto">
-              Des chiffres concrets issus de 6 ans en subscription economics. Pas du blabla.
+              Des chiffres concrets issus de plus de 6 ans en subscription economics. Pas du blabla.
             </p>
           </RevealOnScroll>
 
@@ -472,7 +472,7 @@ export default function BGAPage() {
               Le produit change, les fondamentaux restent. Acquisition, conversion, rétention.
             </p>
             <p className="text-[var(--foreground)] opacity-70 text-center mb-12 max-w-2xl mx-auto text-sm">
-              <strong>Le freemium gaming est un défi éditorial :</strong> onboarder des joueurs novices, les accompagner vers la maîtrise, les convertir en abonnés fidèles. C&apos;est exactement ce que je fais depuis 6 ans dans les médias.
+              <strong>Le freemium gaming est un défi éditorial :</strong> onboarder des joueurs novices, les accompagner vers la maîtrise, les convertir en abonnés fidèles. C&apos;est exactement ce que je fais depuis plus de 6 ans dans les médias.
             </p>
           </RevealOnScroll>
 
@@ -517,7 +517,7 @@ export default function BGAPage() {
                 <AnimatedStat value={36} suffix=" ans" label="Âge moyen des joueurs" />
                 <AnimatedStat value={40} suffix="%" label="18-34 ans (segment clé)" highlight />
                 <AnimatedStat value={43} suffix="%" label="Joueuses (en hausse)" />
-                <AnimatedStat value={68} suffix="%" label="CA gaming = mobile" highlight />
+                <AnimatedStat value={68} suffix="%" label="CA du jeu en ligne = mobile (Mordor Intelligence 2024)" highlight />
               </div>
               <Callout type="insight">
                 Le joueur BGA a un pouvoir d&apos;achat élevé, recherche du jeu profond, et utilise le jeu comme décompression (38,8% des +25 ans).
@@ -530,10 +530,10 @@ export default function BGAPage() {
                 data={[
                   { country: "États-Unis", value: 29.75, highlight: true },
                   { country: "France", value: 8.84, highlight: true },
-                  { country: "Canada", value: 5.56 },
-                  { country: "Allemagne", value: 4.2 },
-                  { country: "Brésil", value: 3.1 },
-                  { country: "Japon", value: 1.2 },
+                  { country: "Canada", value: 5.56, highlight: false },
+                  { country: "Allemagne", value: 4.2, highlight: false },
+                  { country: "Brésil", value: 3.1, highlight: false },
+                  { country: "Japon", value: 1.2, highlight: false },
                 ]}
               />
               <Callout type="action">
@@ -764,7 +764,7 @@ export default function BGAPage() {
                   <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5">
                     <h6 className="font-semibold mb-3">Exécution concrète</h6>
                     <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2"><span className="text-[var(--accent)]">→</span> Template SEO par jeu avec schema.org (HowToPlay, Game, Review)</li>
+                      <li className="flex items-start gap-2"><span className="text-[var(--accent)]">→</span> Template SEO par jeu : règles, stratégies, vidéos + CTA direct vers la table de jeu</li>
                       <li className="flex items-start gap-2"><span className="text-[var(--accent)]">→</span> Cibler la longue traîne : &quot;comment jouer à Ark Nova en ligne&quot;, &quot;7 Wonders stratégie débutant&quot;</li>
                       <li className="flex items-start gap-2"><span className="text-[var(--accent)]">→</span> Blog éditorialisé : tops, guides saisonniers, analyses de méta</li>
                     </ul>
@@ -1022,7 +1022,7 @@ export default function BGAPage() {
                 </div>
 
                 <Callout type="proof">
-                  <strong>Mon expérience :</strong> 140+ scénarios d&apos;automation en production. Welcome series, win-back, churn prevention — c&apos;est mon quotidien depuis 6 ans.
+                  <strong>Mon expérience :</strong> 140+ scénarios d&apos;automation en production. Welcome series, win-back, churn prevention — c&apos;est mon quotidien depuis plus de 6 ans.
                 </Callout>
               </div>
             </Tab>
@@ -1030,11 +1030,11 @@ export default function BGAPage() {
             {/* ============================================ */}
             {/* PILIER 4 — MOBILE */}
             {/* ============================================ */}
-            <Tab icon="📱" title="Mobile" tagline="Résoudre le talon d'Achille (68% du CA gaming = mobile)">
+            <Tab icon="📱" title="Mobile" tagline="Résoudre le talon d'Achille (68% du CA du jeu en ligne = mobile)">
               <div className="space-y-8">
                 <div className="bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-xl p-6 mb-4">
                   <blockquote className="text-lg text-center">
-                    68% du CA gaming mondial est mobile, et l&apos;app BGA est un wrapper web sous-performant.
+                    68% du CA du marché du jeu en ligne est généré sur mobile (Mordor Intelligence, 2024), et l&apos;app BGA est un wrapper web sous-performant.
                     <strong className="text-[var(--accent)]"> C&apos;est le frein n°1 à la croissance.</strong>
                   </blockquote>
                 </div>
@@ -1312,7 +1312,6 @@ export default function BGAPage() {
             <TimelineMonth month={1} title="Diagnostic & Quick Wins" label="Jours 1-30">
               <TimelineItem status="ready">Audit complet GA4/Mixpanel : comprendre les vrais funnels, identifier les drop-offs</TimelineItem>
               <TimelineItem status="quick-win" highlight>Lancer les flows email prioritaires (welcome + win-back)</TimelineItem>
-              <TimelineItem status="quick-win" highlight>Corriger les 3 bugs mobiles les plus critiques</TimelineItem>
               <TimelineItem status="ready">Mettre en place le tracking d&apos;attribution phygital</TimelineItem>
             </TimelineMonth>
 
