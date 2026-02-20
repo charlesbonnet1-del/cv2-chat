@@ -55,7 +55,7 @@ export default function RecruiterPopup() {
   const t = content[lang]
 
   // Désactiver sur /coinhouse
-  const isDisabledRoute = pathname === '/coinhouse'
+  const isDisabledRoute = pathname === '/coinhouse' || pathname === '/cuure'
 
   useEffect(() => {
     // 1. Detection Mobile & Langue
