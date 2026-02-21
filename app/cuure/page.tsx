@@ -85,7 +85,7 @@ export default function CuurePage() {
               <div className="flex flex-wrap justify-center gap-3 mt-12">
                 {[
                   "Subscription Economics",
-                  "Klaviyo / Segment",
+                  "Content Strategy",
                   "A/B Testing",
                   "Product-Led Growth",
                   "Data-Driven",
@@ -207,7 +207,7 @@ export default function CuurePage() {
           <ComparisonRow before="Scoring leads (chaud/froid)" after="Scoring prospects (curieux/engagés)" delay={0.05} />
           <ComparisonRow before="Churn & rétention abonnés" after="Churn & rétention M2/M3" delay={0.1} />
           <ComparisonRow before="LTV / CAC" after="LTV / CAC" delay={0.15} />
-          <ComparisonRow before="Nurturing email séquentiel" after="Automatisation Klaviyo" delay={0.2} />
+          <ComparisonRow before="Nurturing email séquentiel" after="Marketing automation CRM" delay={0.2} />
           <ComparisonRow before="Upsell (basic→premium)" after="Upsell Cuure → Cuure Precision" delay={0.25} />
           <ComparisonRow before="Pédagogie éditoriale complexe" after="Pédagogie santé & nutrition" delay={0.3} />
           <ComparisonRow before="Vulgarisation sujets techniques" after="Vulgarisation microbiote & biomarqueurs" delay={0.35} />
@@ -284,12 +284,26 @@ export default function CuurePage() {
                     <td className="py-3 px-2 opacity-40">Haute</td>
                     <td className="py-3 px-2 opacity-40">Très forte</td>
                   </tr>
-                  <tr>
+                  <tr className="border-b border-[var(--foreground)]/5">
                     <td className="py-3 px-2 font-medium opacity-60">Vitl</td>
+                    <td className="py-3 px-2 opacity-40">~40€</td>
+                    <td className="py-3 px-2 opacity-40">ADN opt.</td>
+                    <td className="py-3 px-2 opacity-40">Moyenne</td>
+                    <td className="py-3 px-2 opacity-40">Moyenne</td>
+                  </tr>
+                  <tr className="border-b border-[var(--foreground)]/5">
+                    <td className="py-3 px-2 font-medium opacity-60">iHerb</td>
                     <td className="py-3 px-2 opacity-40">Variable</td>
-                    <td className="py-3 px-2 opacity-40">Mixte</td>
-                    <td className="py-3 px-2 opacity-40">Moyenne</td>
-                    <td className="py-3 px-2 opacity-40">Moyenne</td>
+                    <td className="py-3 px-2 opacity-40">Non</td>
+                    <td className="py-3 px-2 opacity-40">Nulle</td>
+                    <td className="py-3 px-2 opacity-40">Nulle</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-2 font-medium opacity-60">Blueprint</td>
+                    <td className="py-3 px-2 opacity-40">~330€</td>
+                    <td className="py-3 px-2 opacity-40">Protocole (n=1)</td>
+                    <td className="py-3 px-2 opacity-40">Haute</td>
+                    <td className="py-3 px-2 opacity-40">Faible</td>
                   </tr>
                 </tbody>
               </table>
@@ -524,7 +538,7 @@ export default function CuurePage() {
             {[
               { num: "01", title: "Double récompense", desc: "Parrain : 1 mois offert. Filleul : -30% première commande. CAC estimé : 8-12€ vs 25-35€ en paid." },
               { num: "02", title: "Gamification par paliers", desc: "3 filleuls → « Ambassadeur » + accès anticipé. 5 → consultation nutritionniste. 10 → abonnement annuel offert." },
-              { num: "03", title: "Déclenchement au pic", desc: "Après le 3ème mois (efficacité ressentie maximale). Automatisé via Klaviyo." },
+              { num: "03", title: "Déclenchement au pic", desc: "Après le 3ème mois (efficacité ressentie maximale). Automatisé via marketing automation." },
               { num: "04", title: "Social proof natif", desc: "Widget « X personnes de votre ville prennent Cuure » + QR code referral sur chaque sachet." },
             ].map((item, i) => (
               <FadeIn key={item.num} delay={i * 0.1} direction="right">
@@ -668,12 +682,103 @@ export default function CuurePage() {
       </section>
 
       {/* ============================================ */}
-      {/* CHAPTER 6 — KPIs */}
+      {/* CHAPTER 6 — Stratégie YouTube */}
+      {/* ============================================ */}
+      <ScrollSection>
+        <div className="max-w-5xl mx-auto w-full">
+          <ChapterMarker
+            number="06"
+            title="Stratégie YouTube"
+            subtitle="Canal d'acquisition #1 — Le modèle Finary appliqué à la nutrition personnalisée"
+          />
+        </div>
+      </ScrollSection>
+
+      <section className="py-12 md:py-24 px-6 md:px-12">
+        <div className="max-w-3xl mx-auto">
+          <FadeIn>
+            <ScrollRevealText
+              text="La chaîne YouTube de Cuure est centrée produit : vidéos publicitaires, pas de visage identifiable, pas de stratégie value-first. Résultat : faible croissance organique, pas d'effet compound. Il faut pivoter vers le modèle Finary."
+              className="text-lg md:text-2xl leading-relaxed mb-16"
+            />
+          </FadeIn>
+
+          {/* Le modèle Finary */}
+          <FadeIn>
+            <h4 className="text-sm font-mono tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 mb-8">
+              Le modèle Finary : pourquoi ça marche
+            </h4>
+          </FadeIn>
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <FadeIn delay={0}>
+              <div>
+                <p className="font-semibold text-sm">Contenu éducatif pur</p>
+                <p className="text-xs opacity-40 mt-1">Analyses, interviews &mdash; jamais de pub produit directe</p>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.1}>
+              <div>
+                <p className="font-semibold text-sm">Visage = le CEO</p>
+                <p className="text-xs opacity-40 mt-1">Mounir Laggoune est la chaîne. Confiance, récurrence, identification</p>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <div>
+                <p className="font-semibold text-sm">Formats récurrents</p>
+                <p className="text-xs opacity-40 mt-1">Finary Talks, analyses patrimoine, Shorts &mdash; 600K abonnés, 75M+ vues</p>
+              </div>
+            </FadeIn>
+          </div>
+
+          {/* Plan d'action */}
+          <FadeIn>
+            <h4 className="text-sm font-mono tracking-[0.2em] uppercase opacity-30 mb-8">
+              Plan d&apos;action YouTube 2026
+            </h4>
+          </FadeIn>
+          <div className="space-y-8 mb-16">
+            {[
+              { num: "01", title: "Recruter une égérie-expert(e)", desc: "Un(e) nutritionniste charismatique, crédible scientifiquement et à l'aise en caméra. Le « Mounir de la nutrition ». Budget : 3-5K€/mois." },
+              { num: "02", title: "Pivoter vers du contenu value-first", desc: "80% éducatif / 20% produit. Exemples : « 5 carences que 90% des Français ignorent », « J'ai analysé mon microbiote : voici les résultats »." },
+              { num: "03", title: "Formats récurrents calqués sur Finary", desc: "Hebdo : « Le Bilan Nutrition » (analyse du régime d'un abonné). Bi-mensuel : « Cuure Talks » (interview experts). Shorts : extraits pour TikTok et Reels." },
+              { num: "04", title: "SEO YouTube + GEO", desc: "Cibler les requêtes à forte intention : « meilleur complément magnésium », « vitamine D dosage ». Optimiser pour les citations dans les IA génératives." },
+            ].map((item, i) => (
+              <FadeIn key={item.num} delay={i * 0.1} direction="right">
+                <div className="flex items-start gap-6">
+                  <span className="text-[var(--accent)] font-mono text-sm opacity-40 mt-1 shrink-0 w-6">
+                    {item.num}
+                  </span>
+                  <div>
+                    <h4 className="font-semibold mb-1">{item.title}</h4>
+                    <p className="text-sm opacity-50 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          {/* Projection */}
+          <div className="grid grid-cols-3 gap-8 md:gap-12 mb-12">
+            <MinimalStat value="10K" label="Abonnés à M+6" />
+            <MinimalStat value="100K+" label="Abonnés à M+18" />
+            <MinimalStat value="< 5€" label="CAC YouTube" />
+          </div>
+
+          <FadeIn delay={0.3}>
+            <p className="text-sm text-[var(--accent)] opacity-80 text-center max-w-md mx-auto">
+              Mon expérience : lancement de VA Plus chez Valmonde, chaîne passée de 0 à ~500K abonnés. Content-to-acquisition, SEO vidéo, conversion viewer &rarr; subscriber.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* CHAPTER 7 — KPIs */}
       {/* ============================================ */}
       <ScrollSection>
         <div className="max-w-4xl mx-auto w-full">
           <ChapterMarker
-            number="06"
+            number="07"
             title="KPIs de pilotage"
           />
         </div>
@@ -695,11 +800,11 @@ export default function CuurePage() {
       </section>
 
       {/* ============================================ */}
-      {/* CHAPTER 7 — Ce que j'apporte */}
+      {/* CHAPTER 8 — Ce que j'apporte */}
       {/* ============================================ */}
       <ScrollSection>
         <div className="max-w-4xl mx-auto w-full">
-          <ChapterMarker number="07" title="Ce que j'apporte" />
+          <ChapterMarker number="08" title="Ce que j'apporte" />
         </div>
       </ScrollSection>
 
@@ -708,7 +813,7 @@ export default function CuurePage() {
           {[
             { title: "8+ ans en Growth & Subscription", desc: "Médias numériques, gestion solo de portfolio, croissance mesurable et documentée." },
             { title: "Track record prouvé", desc: "+28% recrutement, +5.3% cash growth, x17 parc abonnés. Pas des projections — des résultats." },
-            { title: "Maîtrise du stack D2C", desc: "Klaviyo, Segment, analytics, A/B testing, CRM. La stack de Cuure, c'est mon terrain de jeu quotidien." },
+            { title: "Maîtrise du stack D2C", desc: "Analytics, A/B testing, CRM. La stack de Cuure, c'est mon terrain de jeu quotidien." },
             { title: "Double culture data + créativité", desc: "Ex-joueur de poker professionnel. Pensée probabiliste, gestion du risque, prise de décision sous incertitude." },
             { title: "Vision product-led growth", desc: "Alignée avec l'ADN tech de Cuure (Bubble, no-code, IA). Le produit comme premier canal d'acquisition." },
           ].map((item, i) => (
