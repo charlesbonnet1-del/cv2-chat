@@ -17,7 +17,19 @@ import {
   TimelineStep,
   KPIRow,
   SkillPill,
+  SideNav,
 } from "./components";
+
+const NAV_ITEMS = [
+  { id: "resultats", label: "Résultats" },
+  { id: "transfert", label: "Transfert" },
+  { id: "marche", label: "Marché" },
+  { id: "swot", label: "Forces" },
+  { id: "plan", label: "Le Plan" },
+  { id: "youtube", label: "YouTube" },
+  { id: "kpis", label: "KPIs" },
+  { id: "apport", label: "Ce que j'apporte" },
+];
 
 // ============================================
 // MAIN PAGE — Scroll-driven narrative
@@ -35,6 +47,7 @@ export default function CuurePage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden transition-colors duration-300">
       <ProgressLine />
+      <SideNav items={NAV_ITEMS} />
 
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-6 md:px-12 py-6">
@@ -86,7 +99,6 @@ export default function CuurePage() {
                 {[
                   "Subscription Economics",
                   "Content Strategy",
-                  "A/B Testing",
                   "Product-Led Growth",
                   "Data-Driven",
                 ].map((skill) => (
@@ -129,7 +141,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 1 — Résultats */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="resultats">
         <div className="max-w-5xl mx-auto w-full">
           <ChapterMarker
             number="01"
@@ -176,7 +188,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 2 — Transfert de compétences */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="transfert">
         <div className="max-w-4xl mx-auto w-full">
           <ChapterMarker
             number="02"
@@ -208,16 +220,15 @@ export default function CuurePage() {
           <ComparisonRow before="Churn & rétention abonnés" after="Churn & rétention M2/M3" delay={0.1} />
           <ComparisonRow before="LTV / CAC" after="LTV / CAC" delay={0.15} />
           <ComparisonRow before="Nurturing email séquentiel" after="Marketing automation CRM" delay={0.2} />
-          <ComparisonRow before="Upsell (basic→premium)" after="Upsell Cuure → Cuure Precision" delay={0.25} />
-          <ComparisonRow before="Pédagogie éditoriale complexe" after="Pédagogie santé & nutrition" delay={0.3} />
-          <ComparisonRow before="Vulgarisation sujets techniques" after="Vulgarisation microbiote & biomarqueurs" delay={0.35} />
+          <ComparisonRow before="Pédagogie éditoriale complexe" after="Pédagogie santé & nutrition" delay={0.25} />
+          <ComparisonRow before="Vulgarisation sujets techniques" after="Vulgarisation microbiote & biomarqueurs" delay={0.3} />
         </div>
       </section>
 
       {/* ============================================ */}
       {/* CHAPTER 3 — Diagnostic marché */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="marche">
         <div className="max-w-5xl mx-auto w-full">
           <ChapterMarker
             number="03"
@@ -238,7 +249,7 @@ export default function CuurePage() {
               <MinimalStat value="30.9 Mds$" label="Nutrition personnalisée mondiale 2030" />
             </ParallaxLayer>
             <ParallaxLayer speed={0.15}>
-              <MinimalStat value="14.4%" label="CAGR projeté du marché" />
+              <MinimalStat value="14.4%" label="CAGR projeté 2025-2030" />
             </ParallaxLayer>
           </div>
 
@@ -349,7 +360,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 4 — SWOT (Minimal) */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="swot">
         <div className="max-w-5xl mx-auto w-full">
           <ChapterMarker number="04" title="Forces & Opportunités" />
         </div>
@@ -452,7 +463,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 5 — Le Plan */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="plan">
         <div className="max-w-5xl mx-auto w-full">
           <ChapterMarker
             number="05"
@@ -536,10 +547,10 @@ export default function CuurePage() {
 
           <div className="space-y-8 mb-16">
             {[
-              { num: "01", title: "Double récompense", desc: "Parrain : 1 mois offert. Filleul : -30% première commande. CAC estimé : 8-12€ vs 25-35€ en paid." },
-              { num: "02", title: "Gamification par paliers", desc: "3 filleuls → « Ambassadeur » + accès anticipé. 5 → consultation nutritionniste. 10 → abonnement annuel offert." },
-              { num: "03", title: "Déclenchement au pic", desc: "Après le 3ème mois (efficacité ressentie maximale). Automatisé via marketing automation." },
-              { num: "04", title: "Social proof natif", desc: "Widget « X personnes de votre ville prennent Cuure » + QR code referral sur chaque sachet." },
+              { num: "01", title: "Exemple : Double récompense", desc: "Parrain : 1 mois offert. Filleul : -30% première commande. CAC estimé : 8-12€ vs 25-35€ en paid." },
+              { num: "02", title: "Exemple : Gamification par paliers", desc: "3 filleuls → « Ambassadeur » + accès anticipé. 5 → consultation nutritionniste. 10 → abonnement annuel offert." },
+              { num: "03", title: "Exemple : Déclenchement au pic", desc: "Après le 3ème mois (efficacité ressentie maximale). Automatisé via marketing automation." },
+              { num: "04", title: "Exemple : Social proof natif", desc: "Widget « X personnes de votre ville prennent Cuure » + QR code referral sur chaque sachet." },
             ].map((item, i) => (
               <FadeIn key={item.num} delay={i * 0.1} direction="right">
                 <div className="flex items-start gap-6">
@@ -618,7 +629,7 @@ export default function CuurePage() {
               Stratégie long terme
             </span>
             <h3 className="text-2xl md:text-4xl font-bold mb-2">Expansion Biologique</h3>
-            <p className="opacity-40 mb-12">x2.5 sur le panier moyen &mdash; Cuure Precision</p>
+            <p className="opacity-40 mb-12">Vers une plateforme de santé personnalisée data-driven</p>
           </FadeIn>
 
           <FadeIn>
@@ -639,7 +650,7 @@ export default function CuurePage() {
             "Partenariat avec un labo d'analyses (type Cerascreen)",
             "Kit bilan micronutritionnel : 15 biomarqueurs clés",
             "Intégration API → CRM Bubble",
-            "Prix cible du test : 49€ (subventionné dans l'abonnement annuel)",
+            "Test subventionné dans l'abonnement annuel",
           ]}
         />
         <TimelineStep
@@ -657,10 +668,10 @@ export default function CuurePage() {
           title="Monétisation Premium"
           highlight
           items={[
-            "Lancement « Cuure Precision » : 89-119€/mois",
+            "Lancement « Cuure Precision » : offre premium biomarqueurs",
             "Inclus : 1 bilan/an + formule adaptée + suivi nutritionniste",
-            "Upsell 15-20% de la base active",
-            "ARPU : 35€ → 55€/mois en moyenne pondérée",
+            "Upsell d'une partie de la base active",
+            "Augmentation significative de l'ARPU moyen",
           ]}
         />
       </HorizontalScroll>
@@ -672,10 +683,10 @@ export default function CuurePage() {
             <MinimalStat numericValue={15} suffix="M€" value="15M€" label="CA actuel (est. 2025)" />
             <MinimalStat numericValue={19} suffix="M€" value="19M€" label="Avec Quick Wins seuls" />
             <ParallaxLayer speed={0.1}>
-              <MinimalStat numericValue={25} suffix="M€" value="25M€" label="Avec Cuure Precision" />
+              <MinimalStat value="25M€+" label="Potentiel avec Cuure Precision" />
             </ParallaxLayer>
             <ParallaxLayer speed={0.15}>
-              <MinimalStat value="2.5x" label="Panier moyen premium" />
+              <MinimalStat value="Premium" label="Panier moyen augmenté" />
             </ParallaxLayer>
           </div>
         </div>
@@ -684,7 +695,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 6 — Stratégie YouTube */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="youtube">
         <div className="max-w-5xl mx-auto w-full">
           <ChapterMarker
             number="06"
@@ -738,8 +749,8 @@ export default function CuurePage() {
           </FadeIn>
           <div className="space-y-8 mb-16">
             {[
-              { num: "01", title: "Recruter une égérie-expert(e)", desc: "Un(e) nutritionniste charismatique, crédible scientifiquement et à l'aise en caméra. Le « Mounir de la nutrition ». Budget : 3-5K€/mois." },
-              { num: "02", title: "Pivoter vers du contenu value-first", desc: "80% éducatif / 20% produit. Exemples : « 5 carences que 90% des Français ignorent », « J'ai analysé mon microbiote : voici les résultats »." },
+              { num: "01", title: "Identifier une égérie : CEO ou expert santé ?", desc: "Un visage crédible et récurrent pour incarner la chaîne. Le « Mounir de la nutrition » — CEO engagé ou nutritionniste partenaire, à tester." },
+              { num: "02", title: "Contenu value-first en test & learn", desc: "Tester différents formats : éducatif, témoignages, vulgarisation scientifique. Mesurer, itérer, doubler sur ce qui fonctionne. Approche data-driven, pas de plan figé." },
               { num: "03", title: "Formats récurrents calqués sur Finary", desc: "Hebdo : « Le Bilan Nutrition » (analyse du régime d'un abonné). Bi-mensuel : « Cuure Talks » (interview experts). Shorts : extraits pour TikTok et Reels." },
               { num: "04", title: "SEO YouTube + GEO", desc: "Cibler les requêtes à forte intention : « meilleur complément magnésium », « vitamine D dosage ». Optimiser pour les citations dans les IA génératives." },
             ].map((item, i) => (
@@ -775,7 +786,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 7 — KPIs */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="kpis">
         <div className="max-w-4xl mx-auto w-full">
           <ChapterMarker
             number="07"
@@ -802,7 +813,7 @@ export default function CuurePage() {
       {/* ============================================ */}
       {/* CHAPTER 8 — Ce que j'apporte */}
       {/* ============================================ */}
-      <ScrollSection>
+      <ScrollSection id="apport">
         <div className="max-w-4xl mx-auto w-full">
           <ChapterMarker number="08" title="Ce que j'apporte" />
         </div>

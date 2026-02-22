@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, ReactNode, useEffect, useState } from "react";
+import { useRef, ReactNode, useEffect, useState, useCallback } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
   useInView,
+  useMotionValueEvent,
   MotionValue,
 } from "framer-motion";
 
@@ -400,5 +401,67 @@ export function SkillPill({ label }: { label: string }) {
     <span className="px-4 py-2 rounded-full border border-[var(--foreground)]/10 text-xs md:text-sm opacity-50 whitespace-nowrap">
       {label}
     </span>
+  );
+}
+
+// ============================================
+// SIDE NAV — Discreet left navigation
+// ============================================
+export function SideNav({
+  items,
+}: {
+  items: { id: string; label: string }[];
+}) {
+  const [activeId, setActiveId] = useState<string>("");
+  const [visible, setVisible] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setVisible(v > 0.05);
+  });
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    items.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveId(id);
+        },
+        { rootMargin: "-40% 0px -40% 0px" }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, [items]);
+
+  const handleClick = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  return (
+    <motion.nav
+      className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: visible ? 1 : 0, x: visible ? 0 : -20 }}
+      transition={{ duration: 0.4 }}
+    >
+      {items.map(({ id, label }) => (
+        <button
+          key={id}
+          onClick={() => handleClick(id)}
+          className={`text-left text-[10px] font-mono tracking-wider uppercase transition-all duration-300 leading-tight max-w-[100px] ${
+            activeId === id
+              ? "text-[var(--accent)] opacity-80 translate-x-1"
+              : "opacity-20 hover:opacity-50"
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </motion.nav>
   );
 }
