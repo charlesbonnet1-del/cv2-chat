@@ -15,7 +15,6 @@ import {
   ComparisonRow,
   ChapterMarker,
   TimelineStep,
-  KPIRow,
   SkillPill,
   SideNav,
 } from "./components";
@@ -27,7 +26,6 @@ const NAV_ITEMS = [
   { id: "swot", label: "Forces" },
   { id: "plan", label: "Le Plan" },
   { id: "youtube", label: "YouTube" },
-  { id: "kpis", label: "KPIs" },
   { id: "apport", label: "Ce que j'apporte" },
 ];
 
@@ -512,12 +510,12 @@ export default function CuurePage() {
             ))}
           </div>
 
-          {/* Impact metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <MinimalStat value="Conversion" label="Hausse attendue du taux checkout" />
-            <MinimalStat value="Churn M2" label="Baisse attendue via transparence" />
-            <MinimalStat value="6 sem." label="Délai d'implémentation" />
-          </div>
+          {/* Implementation timeline */}
+          <FadeIn delay={0.4}>
+            <p className="text-sm text-[var(--accent)] opacity-80 text-center mt-4 max-w-md mx-auto">
+              Implémentable en 6 semaines sur Bubble.io.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
@@ -675,22 +673,6 @@ export default function CuurePage() {
         />
       </HorizontalScroll>
 
-      {/* Financial projection */}
-      <section className="py-12 md:py-24 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <MinimalStat numericValue={15} suffix="M€" value="15M€" label="CA actuel (est. 2025)" />
-            <MinimalStat numericValue={19} suffix="M€" value="19M€" label="Avec Quick Wins seuls" />
-            <ParallaxLayer speed={0.1}>
-              <MinimalStat value="25M€+" label="Potentiel avec Cuure Precision" />
-            </ParallaxLayer>
-            <ParallaxLayer speed={0.15}>
-              <MinimalStat value="Premium" label="Panier moyen augmenté" />
-            </ParallaxLayer>
-          </div>
-        </div>
-      </section>
-
       {/* ============================================ */}
       {/* CHAPTER 6 — Stratégie YouTube */}
       {/* ============================================ */}
@@ -783,38 +765,11 @@ export default function CuurePage() {
       </section>
 
       {/* ============================================ */}
-      {/* CHAPTER 7 — KPIs */}
-      {/* ============================================ */}
-      <ScrollSection id="kpis">
-        <div className="max-w-4xl mx-auto w-full">
-          <ChapterMarker
-            number="07"
-            title="KPIs de pilotage"
-          />
-        </div>
-      </ScrollSection>
-
-      <section className="py-12 md:py-24 px-6 md:px-12">
-        <div className="max-w-2xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <span className="text-xs font-mono tracking-wider uppercase opacity-30">Métrique</span>
-            <span className="text-xs font-mono tracking-wider uppercase opacity-30 text-center">Actuel</span>
-            <span className="text-xs font-mono tracking-wider uppercase text-[var(--accent)] opacity-60 text-right">Cible</span>
-          </div>
-          <KPIRow label="Conversion Checkout" current="~3-4%" target="5-6%" delay={0} />
-          <KPIRow label="MRR" current="~1.25M€/mois" target="2M€/mois" delay={0.05} />
-          <KPIRow label="Referral Rate" current="<2%" target="8-10%" delay={0.1} />
-          <KPIRow label="Churn M2" current="~20%" target="12%" delay={0.15} />
-          <KPIRow label="ARPU" current="~35€/mois" target="55€/mois" delay={0.2} />
-        </div>
-      </section>
-
-      {/* ============================================ */}
-      {/* CHAPTER 8 — Ce que j'apporte */}
+      {/* CHAPTER 7 — Ce que j'apporte */}
       {/* ============================================ */}
       <ScrollSection id="apport">
         <div className="max-w-4xl mx-auto w-full">
-          <ChapterMarker number="08" title="Ce que j'apporte" />
+          <ChapterMarker number="07" title="Ce que j'apporte" />
         </div>
       </ScrollSection>
 
