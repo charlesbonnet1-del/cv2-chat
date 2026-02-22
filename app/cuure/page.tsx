@@ -481,19 +481,19 @@ export default function CuurePage() {
               Quick Win #1
             </span>
             <h3 className="text-2xl md:text-4xl font-bold mb-2">Conversion Checkout</h3>
-            <p className="opacity-40 mb-12">+18-25% de conversion, implémentable en 6 semaines</p>
+            <p className="opacity-40 mb-12">Gain de conversion significatif, implémentable en 6 semaines</p>
           </FadeIn>
 
           <FadeIn>
             <ScrollRevealText
-              text="La friction checkout coûte à Cuure entre 18% et 25% de ses conversions. Confusion abonnement, bug Apple Pay, absence de confirmation d'engagement."
+              text="La friction checkout coûte cher à Cuure en conversions perdues. Confusion abonnement, bug Apple Pay, absence de confirmation d'engagement — autant de leviers actionnables."
               className="text-lg md:text-xl leading-relaxed mb-16 opacity-80"
             />
           </FadeIn>
 
           <div className="space-y-8 mb-16">
             {[
-              { num: "01", title: "Confirmation explicite", desc: "Écran interstitiel « Vous souscrivez un abonnement de XX€/mois ». Les marques D2C qui l'ajoutent voient -60 à -80% d'avis négatifs." },
+              { num: "01", title: "Confirmation explicite", desc: "Écran interstitiel « Vous souscrivez un abonnement de XX€/mois ». Les marques D2C qui l'ajoutent constatent une baisse significative des avis négatifs liés à l'abonnement." },
               { num: "02", title: "Fix Apple Pay", desc: "Vérification forcée de l'adresse de livraison post-auth. Sur Bubble.io : workflow conditionnel, 2-3 jours de dev." },
               { num: "03", title: "Transparence proactive", desc: "Calendrier des prélèvements + rappel email 48h avant. Transformer le « piège perçu » en « service attentionné »." },
               { num: "04", title: "A/B test engagement", desc: "Tester « 3 mois puis flexible » vs « sans engagement » pour mesurer l'impact LTV sans augmenter la friction." },
@@ -513,10 +513,9 @@ export default function CuurePage() {
           </div>
 
           {/* Impact metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <MinimalStat value="+18-25%" label="Taux de conversion" />
-            <MinimalStat value="-60%" label="Avis négatifs checkout" />
-            <MinimalStat value="-15-20%" label="Churn mois 2" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <MinimalStat value="Conversion" label="Hausse attendue du taux checkout" />
+            <MinimalStat value="Churn M2" label="Baisse attendue via transparence" />
             <MinimalStat value="6 sem." label="Délai d'implémentation" />
           </div>
         </div>
