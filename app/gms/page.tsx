@@ -96,7 +96,6 @@ export default function GMSPage() {
                   "Subscription Economics",
                   "Membership as a Service",
                   "IA & AEO",
-                  "Unit Economics",
                 ].map((skill) => (
                   <SkillPill key={skill} label={skill} />
                 ))}

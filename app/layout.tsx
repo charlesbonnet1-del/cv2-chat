@@ -1,6 +1,3 @@
-// CORRECTION ICI : On utilise './' pour chercher dans le dossier app/components voisin
-import RecruiterPopup from './components/RecruiterPopup'; 
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -25,7 +22,6 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         {children}
-        <RecruiterPopup />
       </body>
     </html>
   );
