@@ -449,11 +449,6 @@ export default function GMSPage() {
           <ComparisonRow before="Pas de SSO inter-plateformes" after="Upselling naturel sur 12K e-learners" delay={0.15} />
           <ComparisonRow before="Cross-sell quasi inexistant" after="Barrière à la sortie ×3" delay={0.2} />
 
-          <div className="grid grid-cols-3 gap-8 md:gap-12 mt-16 mb-4">
-            <MinimalStat value="+40%" label="ARPU estimé (230€ → 349€)" />
-            <MinimalStat value="×3" label="Barrière à la sortie" />
-            <MinimalStat value="<8%" label="Churn cible" />
-          </div>
         </div>
       </section>
 
@@ -644,7 +639,6 @@ export default function GMSPage() {
             "Scaling contrats groupe (200 MSP)",
             "Abonnement pluriannuel avec incentive",
             "Programme ambassadeurs médecins",
-            "Exploration marchés EU francophones",
           ]}
         />
       </HorizontalScroll>
@@ -657,7 +651,7 @@ export default function GMSPage() {
           <ChapterMarker
             number="06"
             title="Pourquoi moi"
-            subtitle="8+ ans en marketing abonnement B2C — les résultats parlent."
+            subtitle="7+ ans en marketing abonnement B2C — les résultats parlent."
           />
         </div>
       </ScrollSection>
@@ -717,7 +711,7 @@ export default function GMSPage() {
           <div className="max-w-2xl mx-auto space-y-12">
             {[
               {
-                title: "8+ ans en Growth & Subscription",
+                title: "7+ ans en Growth & Subscription",
                 desc: "Médias numériques, gestion solo de portfolio multi-titres, croissance mesurable et documentée.",
               },
               {
