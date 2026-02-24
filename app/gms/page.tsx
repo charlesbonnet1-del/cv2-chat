@@ -525,11 +525,6 @@ export default function GMSPage() {
             </FadeIn>
           </div>
 
-          <FadeIn delay={0.3}>
-            <p className="text-sm text-[var(--accent)] opacity-80 text-center max-w-md mx-auto">
-              Objectif : réduire le CPL de 377 $ à 300 $ grâce au trafic AEO.
-            </p>
-          </FadeIn>
         </div>
       </section>
 
@@ -556,31 +551,103 @@ export default function GMSPage() {
             />
           </FadeIn>
 
-          {/* Revenue model */}
+          {/* MSP Network Effect — Visual */}
           <FadeIn>
             <h4 className="text-sm font-mono tracking-[0.2em] uppercase opacity-30 mb-8 text-center">
-              Modèle de revenus estimé
+              L&apos;effet réseau du contrat groupe
             </h4>
           </FadeIn>
-          <div className="space-y-0 max-w-2xl mx-auto mb-12">
-            {[
-              { label: "Abo individuel Concours pluripro", price: "~120 €/an", vol: "500 nouveaux", rev: "60 K€" },
-              { label: "Contrat groupe MSP (5-10 accès)", price: "~600 €/an", vol: "200 structures", rev: "120 K€" },
-              { label: "Bundle Compétence Totale + Concours", price: "~449 €/an", vol: "150 upgrades", rev: "67 K€" },
-            ].map((item, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
-                <div className="grid grid-cols-4 gap-4 py-4 border-b border-[var(--foreground)]/5 items-center">
-                  <span className="col-span-2 text-sm opacity-60">{item.label}</span>
-                  <span className="text-sm opacity-40 text-center">{item.price} &middot; {item.vol}</span>
-                  <span className="text-sm font-bold text-[var(--accent)] text-right">{item.rev}</span>
-                </div>
-              </FadeIn>
-            ))}
-            <FadeIn delay={0.3}>
-              <div className="grid grid-cols-4 gap-4 py-4 items-center">
-                <span className="col-span-2 text-sm font-bold">Total</span>
-                <span />
-                <span className="text-lg font-bold text-[var(--accent)] text-right">~247 K€</span>
+          <div className="max-w-2xl mx-auto mb-12">
+            {/* Big stat */}
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <motion.span
+                className="text-7xl md:text-9xl font-bold text-[var(--accent)] tabular-nums"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                3 200
+              </motion.span>
+              <p className="text-sm opacity-30 mt-3 font-mono tracking-wider uppercase">
+                MSP en France — marché quasi vierge
+              </p>
+            </motion.div>
+
+            {/* Multiplier chain */}
+            <div className="space-y-0 mb-12">
+              {[
+                {
+                  step: "01",
+                  title: "1 contrat groupe signé",
+                  sub: "1 structure, 1 décision d'achat collective",
+                  value: "1×",
+                },
+                {
+                  step: "02",
+                  title: "~8 professionnels actifs",
+                  sub: "Abonnés inclus — médecins, infirmiers, kiné, pharmaciens",
+                  value: "8×",
+                },
+                {
+                  step: "03",
+                  title: "Rétention structurelle",
+                  sub: "L'outil devient infrastructure du cabinet — barrière à la sortie maximale",
+                  value: "∞",
+                },
+              ].map((item, i) => (
+                <FadeIn key={i} delay={i * 0.12} direction="left">
+                  <div className="flex items-center gap-6 py-5 border-b border-[var(--foreground)]/5 last:border-0">
+                    <span className="text-xs font-mono opacity-20 w-6 shrink-0">{item.step}</span>
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm">{item.title}</p>
+                      <p className="text-xs opacity-40 mt-0.5">{item.sub}</p>
+                    </div>
+                    <motion.span
+                      className="text-2xl font-bold text-[var(--accent)] tabular-nums shrink-0"
+                      initial={{ opacity: 0, x: 10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.12 }}
+                    >
+                      {item.value}
+                    </motion.span>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+
+            {/* Reach comparison bars */}
+            <FadeIn delay={0.5}>
+              <p className="text-xs font-mono tracking-[0.2em] uppercase opacity-20 text-center mb-6">
+                Portée par type de contrat
+              </p>
+              <div className="space-y-5">
+                {[
+                  { label: "Abonnement individuel", pct: 12 },
+                  { label: "Contrat groupe (5 structures)", pct: 52 },
+                  { label: "Réseau 50 MSP pilotes", pct: 100 },
+                ].map((bar, i) => (
+                  <div key={i} className="space-y-1.5">
+                    <span className="text-xs opacity-50">{bar.label}</span>
+                    <div className="h-1 bg-[var(--foreground)]/5 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full bg-[var(--accent)]"
+                        style={{ opacity: 0.35 + i * 0.3 }}
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${bar.pct}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.4, delay: 0.15 * i, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </FadeIn>
           </div>
@@ -691,7 +758,7 @@ export default function GMSPage() {
             />
             <ComparisonRow
               before="Repricing & unit economics"
-              after="Optimisation ARPU de 230€ à 349€"
+              after="Optimisation ARPU"
               delay={0.05}
             />
             <ComparisonRow
@@ -715,7 +782,7 @@ export default function GMSPage() {
               },
               {
                 title: "Track record en repricing",
-                desc: "+5,3% de croissance cash sans churn. Exactement le défi GMS pour passer de 230€ à 349€ d'ARPU.",
+                desc: "+5,3% de croissance cash sans churn. Exactement le défi GMS sur l'ARPU.",
               },
               {
                 title: "Expérience lancement from scratch",
