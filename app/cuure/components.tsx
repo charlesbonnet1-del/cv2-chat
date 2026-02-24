@@ -214,9 +214,26 @@ export function HorizontalScroll({
   children: ReactNode;
   className?: string;
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.666%"]);
+
+  if (isMobile) {
+    return (
+      <div className={`px-6 py-12 space-y-16 ${className}`}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">
@@ -345,7 +362,7 @@ export function TimelineStep({
 }) {
   return (
     <FadeIn
-      className={`min-w-[80vw] md:min-w-[40vw] lg:min-w-[30vw] shrink-0 ${
+      className={`w-full md:min-w-[40vw] lg:min-w-[30vw] shrink-0 ${
         highlight ? "text-[var(--accent)]" : ""
       }`}
     >
