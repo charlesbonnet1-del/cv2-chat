@@ -43,11 +43,16 @@ export default function ProcessAgent() {
         <div className="flex flex-col h-full bg-[#0a0a0a] text-[#ededed] font-mono selection:bg-[#0070f3]/30">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0d0d0d]">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-[#0070f3] shadow-[0_0_10px_rgba(0,112,243,0.5)]" />
-                    <h1 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">
-                        SOP-Extract // The Process Agent
-                    </h1>
+                <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-[#0070f3] shadow-[0_0_10px_rgba(0,112,243,0.5)]" />
+                        <h1 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40">
+                            SOP-Extract // The Process Agent
+                        </h1>
+                    </div>
+                    <p className="text-[10px] text-white/20 ml-5 font-mono">
+                        Entrez vos notes en vrac pour les structurer en procédures actionnables.
+                    </p>
                 </div>
             </div>
 
