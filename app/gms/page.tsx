@@ -16,7 +16,7 @@ import {
   TimelineStep,
   SkillPill,
   SideNav,
-} from "../cuure/components";
+} from "../components/patterns";
 
 const NAV_ITEMS = [
   { id: "marche", label: "Marché" },
