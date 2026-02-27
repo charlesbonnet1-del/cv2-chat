@@ -165,162 +165,84 @@ export default function SentimentHeatmap() {
             {/* Tabs */}
             <div className="bg-[var(--bot-bubble-bg)] rounded-2xl overflow-hidden">
               <div className="flex border-b border-[var(--foreground)]/10">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 px-4 py-3 text-xs font-semibold transition-colors ${activeTab === tab.id
-                      ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
-                      : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
-                      }`}
-                  >
-                    {tab.label}
-                  </button>
+                Analyzing Corpus...
+              </div>
+            ) : "[ EXECUTE ] >> Map Sentiment"}
+            </button>
+          </div>
+      </div>
+
+      {/* Right: Visualization Panel */}
+      <div className="flex-1 flex flex-col bg-[var(--app-bg-primary)]">
+        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-white/20">Emotional Heatmap</span>
+          {results.length > 0 && (
+            <div className="flex items-center gap-4 text-[9px] uppercase tracking-widest">
+              <span className="text-white/40">Density: {results.length} blocks</span>
+              <span className={averageScore > 0 ? 'text-[var(--app-accent)]' : 'text-red-400'}>
+                Avg: {averageScore.toFixed(2)}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-auto p-6 space-y-8">
+          {results.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-white/5 space-y-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
+              </svg>
+              <span className="text-xs uppercase tracking-[0.3em]">No Vector data</span>
+            </div>
+          ) : (
+            <>
+              {/* Heatmap Grid */}
+              <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
+                {results.map((result, idx) => (
+                  <div
+                    key={idx}
+                    className={`aspect-square rounded-sm ${getColor(result.score)} transition-all hover:scale-110 hover:shadow-[0_0_15px_var(--app-accent-glow)] cursor-help`}
+                    title={`${result.label}: ${result.score}`}
+                  />
                 ))}
               </div>
 
-              <div className="p-6">
-                {/* Heatmap Tab */}
-                {activeTab === 'heatmap' && (
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2 p-4 bg-[var(--background)] rounded-xl">
-                      {analysis.wordAnalysis.map((word: any, idx: number) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 rounded text-sm font-medium"
-                          style={{
-                            backgroundColor: `${getSentimentColor(word.sentiment)}20`,
-                            color: getSentimentColor(word.sentiment),
-                            border: `1px solid ${getSentimentColor(word.sentiment)}40`
-                          }}
-                          title={word.reasoning}
-                        >
-                          {word.word}
-                        </span>
+              {/* Insights Tab */}
+              {activeTab === 'insights' && (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
+                      Common Patterns in High-Converting Copy
+                    </h3>
+                    <ul className="space-y-2">
+                      {analysis.competitorInsights.commonPatterns.map((pattern: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
+                          <span className="text-[var(--accent)] font-bold">•</span>
+                          {pattern}
+                        </li>
                       ))}
-                    </div>
-                    <div className="bg-[var(--accent)]/10 rounded-xl p-4">
-                      <h4 className="font-semibold mb-2 text-sm text-[var(--accent)]">AI Insights</h4>
-                      <ul className="space-y-1 text-sm text-[var(--foreground)]/80">
-                        <li>• Tone: {analysis.overallMetrics.emotionalTone}</li>
-                        <li>• Urgency: {analysis.overallMetrics.urgencyLevel}</li>
-                        <li>• Confidence: {analysis.overallMetrics.confidenceLevel}</li>
-                      </ul>
-                    </div>
+                    </ul>
                   </div>
-                )}
-
-                {/* Recommendations Tab */}
-                {activeTab === 'recommendations' && (
-                  <div className="space-y-4">
-                    {analysis.recommendations.map((rec: any, idx: number) => (
-                      <div
-                        key={idx}
-                        className={`border-l-4 p-4 rounded-r-xl ${rec.type === 'critical' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
-                          rec.type === 'high' ? 'border-[var(--accent)] bg-orange-50 dark:bg-orange-900/20' :
-                            'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
-                          }`}
-                      >
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold text-sm text-[var(--foreground)]">{rec.title}</h4>
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-[var(--accent)] text-white">
-                            {rec.impact}
-                          </span>
-                        </div>
-                        <p className="text-sm text-[var(--foreground)]/70 mb-3">{rec.detail}</p>
-                        <div className="grid grid-cols-2 gap-4 p-3 bg-[var(--background)] rounded-lg text-sm">
-                          <div>
-                            <div className="text-xs text-red-500 font-semibold mb-1">BEFORE</div>
-                            <div className="line-through text-[var(--foreground)]/60">{rec.before}</div>
-                          </div>
-                          <div>
-                            <div className="text-xs text-green-500 font-semibold mb-1">AFTER</div>
-                            <div className="font-medium text-[var(--foreground)]">{rec.after}</div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
+                      Differentiation Opportunities
+                    </h3>
+                    <ul className="space-y-2">
+                      {analysis.competitorInsights.differentiationOpportunities.map((opp: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
+                          <span className="text-green-500 font-bold">✓</span>
+                          {opp}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                )}
-
-                {/* Optimized Tab */}
-                {activeTab === 'optimized' && (
-                  <div className="space-y-4">
-                    {analysis.optimizedVersions.map((version: any, idx: number) => (
-                      <div
-                        key={idx}
-                        className="border-2 border-[var(--foreground)]/10 rounded-xl p-5 hover:border-[var(--accent)] transition-colors"
-                      >
-                        <div className="flex justify-between items-start mb-3">
-                          <div>
-                            <h4 className="font-bold text-lg text-[var(--foreground)]">{version.title}</h4>
-                            <div className="flex gap-2 mt-2 flex-wrap">
-                              {version.changes.map((change: string, i: number) => (
-                                <span key={i} className="text-xs px-2 py-1 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 text-[var(--accent)]">
-                                  {change}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-3xl font-bold text-[var(--accent)]">{version.score}</div>
-                            <div className="text-xs text-[var(--foreground)]/50">Score</div>
-                          </div>
-                        </div>
-                        <div className="bg-[var(--background)] rounded-xl p-4 mb-3">
-                          <p className="font-medium text-[var(--foreground)]">{version.text}</p>
-                        </div>
-                        <button
-                          onClick={() => copyToClipboard(version.text)}
-                          className="flex items-center gap-2 text-sm font-semibold text-[var(--accent)] bg-transparent border-none cursor-pointer hover:opacity-70"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                          </svg>
-                          Copy to clipboard
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Insights Tab */}
-                {activeTab === 'insights' && (
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
-                        Common Patterns in High-Converting Copy
-                      </h3>
-                      <ul className="space-y-2">
-                        {analysis.competitorInsights.commonPatterns.map((pattern: string, idx: number) => (
-                          <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
-                            <span className="text-[var(--accent)] font-bold">•</span>
-                            {pattern}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
-                        Differentiation Opportunities
-                      </h3>
-                      <ul className="space-y-2">
-                        {analysis.competitorInsights.differentiationOpportunities.map((opp: string, idx: number) => (
-                          <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
-                            <span className="text-green-500 font-bold">✓</span>
-                            {opp}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </>
+        </div>
+      </>
         )}
-      </div>
     </div>
+    </div >
   );
 }
