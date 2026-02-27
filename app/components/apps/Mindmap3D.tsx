@@ -8,25 +8,25 @@ import * as THREE from "three";
 // Theme configuration (synced with cv2-chat)
 const THEME_LIGHT = {
   bg: "#F9F7F1",
-  dark: "#2D2D2D",
-  accent: "#EA580C",
+  dark: "black",
+  accent: "#913104",
   level0: "#FFFFFF",
-  level1: "#EA580C",
+  level1: "#913104",
   level2: "#F59E0B",
   level3: "#44403C",
 };
 
 const THEME_DARK = {
-  bg: "#0C0A09",
-  dark: "#E7E5E4",
-  accent: "#F97316",
+  bg: "#66625e",
+  dark: "white",
+  accent: "#913104",
   level0: "#1C1917",
-  level1: "#F97316",
+  level1: "#913104",
   level2: "#FBBF24",
-  level3: "#A8A29E",
+  level3: "#E7E5E4",
 };
 
-const FONT_STACK = '"Consolas", "Monaco", "Lucida Console", "Courier New", monospace';
+const FONT_STACK = 'var(--font-dm-serif), serif';
 
 // Mindmap data structure
 const createMindmapData = (theme: typeof THEME_LIGHT) => ({
@@ -191,19 +191,19 @@ type NodeData = {
 };
 
 // Planet Node Component
-function PlanetNode({ 
-  data, 
-  position, 
-  onClick, 
-  isOpen, 
-  isVisible = true, 
-  theme 
-}: { 
-  data: NodeData; 
-  position: THREE.Vector3; 
-  onClick?: (id: string) => void; 
-  isOpen: boolean; 
-  isVisible?: boolean; 
+function PlanetNode({
+  data,
+  position,
+  onClick,
+  isOpen,
+  isVisible = true,
+  theme
+}: {
+  data: NodeData;
+  position: THREE.Vector3;
+  onClick?: (id: string) => void;
+  isOpen: boolean;
+  isVisible?: boolean;
   theme: typeof THEME_LIGHT;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -284,15 +284,15 @@ function PlanetNode({
   );
 }
 
-function Branch({ 
-  start, 
-  end, 
-  isVisible, 
-  theme 
-}: { 
-  start: THREE.Vector3; 
-  end: THREE.Vector3; 
-  isVisible: boolean; 
+function Branch({
+  start,
+  end,
+  isVisible,
+  theme
+}: {
+  start: THREE.Vector3;
+  end: THREE.Vector3;
+  isVisible: boolean;
   theme: typeof THEME_LIGHT;
 }) {
   if (!isVisible) return null;
@@ -408,13 +408,13 @@ export default function Mindmap3D() {
     const checkDarkMode = () => {
       setDarkMode(document.documentElement.classList.contains('dark'));
     };
-    
+
     checkDarkMode();
-    
+
     // Watch for changes
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    
+
     return () => observer.disconnect();
   }, []);
 

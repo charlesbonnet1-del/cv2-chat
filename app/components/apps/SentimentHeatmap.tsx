@@ -11,10 +11,10 @@ export default function SentimentHeatmap() {
 
   const analyzeText = async () => {
     if (!text.trim()) return;
-    
+
     setIsAnalyzing(true);
     setError(null);
-    
+
     try {
       const response = await fetch('/api/analyze', {
         method: "POST",
@@ -33,7 +33,7 @@ export default function SentimentHeatmap() {
       const parsed = await response.json();
       setAnalysis(parsed);
       setActiveTab('heatmap');
-      
+
     } catch (err: any) {
       console.error('Analysis error:', err);
       setError(err.message || 'Analysis failed. Please try again.');
@@ -76,7 +76,7 @@ export default function SentimentHeatmap() {
   ];
 
   return (
-    <div className="min-h-full bg-[var(--background)] font-mono">
+    <div className="min-h-full bg-[var(--background)]">
       <div className="max-w-2xl mx-auto p-4 md:p-8">
         {/* Header */}
         <div className="mb-8">
@@ -100,7 +100,7 @@ export default function SentimentHeatmap() {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full h-32 p-4 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-sm text-[var(--foreground)] font-mono resize-none outline-none focus:border-[var(--accent)] transition-colors"
+            className="w-full h-32 p-4 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-sm text-[var(--foreground)] resize-none outline-none focus:border-[var(--accent)] transition-colors"
             placeholder="Paste your headline, CTA, email subject, or landing page copy..."
           />
           <div className="flex items-center gap-4 mt-4">
@@ -112,16 +112,16 @@ export default function SentimentHeatmap() {
               {isAnalyzing ? (
                 <>
                   <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25"/>
-                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
                   </svg>
                   Analyzing...
                 </>
               ) : (
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"/>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>
                   Analyze Copy
                 </>
@@ -130,9 +130,9 @@ export default function SentimentHeatmap() {
             {error && (
               <div className="text-red-500 text-sm flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="8" x2="12" y2="12"/>
-                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
                 {error}
               </div>
@@ -169,11 +169,10 @@ export default function SentimentHeatmap() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 px-4 py-3 text-xs font-semibold transition-colors ${
-                      activeTab === tab.id
+                    className={`flex-1 px-4 py-3 text-xs font-semibold transition-colors ${activeTab === tab.id
                         ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
                         : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -217,11 +216,10 @@ export default function SentimentHeatmap() {
                     {analysis.recommendations.map((rec: any, idx: number) => (
                       <div
                         key={idx}
-                        className={`border-l-4 p-4 rounded-r-xl ${
-                          rec.type === 'critical' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
-                          rec.type === 'high' ? 'border-[var(--accent)] bg-orange-50 dark:bg-orange-900/20' :
-                          'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
-                        }`}
+                        className={`border-l-4 p-4 rounded-r-xl ${rec.type === 'critical' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
+                            rec.type === 'high' ? 'border-[var(--accent)] bg-orange-50 dark:bg-orange-900/20' :
+                              'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+                          }`}
                       >
                         <div className="flex justify-between items-start mb-2">
                           <h4 className="font-semibold text-sm text-[var(--foreground)]">{rec.title}</h4>
@@ -277,8 +275,8 @@ export default function SentimentHeatmap() {
                           className="flex items-center gap-2 text-sm font-semibold text-[var(--accent)] bg-transparent border-none cursor-pointer hover:opacity-70"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                           </svg>
                           Copy to clipboard
                         </button>

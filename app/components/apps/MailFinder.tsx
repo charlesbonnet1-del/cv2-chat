@@ -41,7 +41,7 @@ function generateEmails(firstName: string, lastName: string, domain: string): st
   const d = domain.toLowerCase().trim()
     .replace(/^(https?:\/\/)?(www\.)?/, '')
     .replace(/\/$/, '');
-  
+
   return [...new Set(patterns.map(p => `${p(f, l)}@${d}`))];
 }
 
@@ -114,7 +114,7 @@ export default function MailFinder() {
     setResults(pendingResults);
 
     let foundValid = false;
-    
+
     for (let i = 0; i < emails.length; i++) {
       if (foundValid) {
         // Mark remaining as skipped
@@ -131,7 +131,7 @@ export default function MailFinder() {
 
       const result = await verifyEmail(emails[i]);
       newResults.push(result);
-      
+
       // Update results in real-time
       setResults([...newResults, ...emails.slice(i + 1).map(email => ({
         email,
@@ -207,7 +207,7 @@ export default function MailFinder() {
   const bestResult = results.find(r => r.status === 'valid') || results.find(r => r.status === 'accept_all');
 
   return (
-    <div className="min-h-full bg-[var(--background)] font-mono">
+    <div className="min-h-full bg-[var(--background)]">
       <div className="max-w-3xl mx-auto p-4 md:p-8">
         {/* Header */}
         <div className="mb-8">
@@ -224,11 +224,10 @@ export default function MailFinder() {
           {providers.map((p) => (
             <span
               key={p.name}
-              className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${
-                !p.configured ? 'bg-[var(--foreground)]/20 text-[var(--foreground)]/50' :
-                p.status.exhausted ? 'bg-red-500 text-white' :
-                'bg-green-500 text-white'
-              }`}
+              className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${!p.configured ? 'bg-[var(--foreground)]/20 text-[var(--foreground)]/50' :
+                  p.status.exhausted ? 'bg-red-500 text-white' :
+                    'bg-green-500 text-white'
+                }`}
             >
               {!p.configured ? '○' : p.status.exhausted ? '✗' : '✓'} {p.name}
             </span>
@@ -247,7 +246,7 @@ export default function MailFinder() {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="John"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] font-mono outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
               />
             </div>
             <div>
@@ -259,7 +258,7 @@ export default function MailFinder() {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Doe"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] font-mono outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
               />
             </div>
             <div>
@@ -271,7 +270,7 @@ export default function MailFinder() {
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Acme Corp"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] font-mono outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
               />
             </div>
             <div>
@@ -283,7 +282,7 @@ export default function MailFinder() {
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 placeholder="acme.com"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] font-mono outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
                 onKeyPress={(e) => e.key === 'Enter' && searchEmails()}
               />
             </div>
@@ -302,14 +301,13 @@ export default function MailFinder() {
         {showResults && (
           <div className="mb-6">
             <h2 className="text-xl font-bold mb-4 text-[var(--foreground)]">&gt; RESULTS.log</h2>
-            
+
             <div className="space-y-3">
               {results.map((result, index) => (
                 <div
                   key={index}
-                  className={`p-4 rounded-xl border-2 transition-all ${getStatusClass(result.status)} ${
-                    bestResult?.email === result.email && result.status === 'valid' ? 'ring-2 ring-green-500 ring-offset-2' : ''
-                  }`}
+                  className={`p-4 rounded-xl border-2 transition-all ${getStatusClass(result.status)} ${bestResult?.email === result.email && result.status === 'valid' ? 'ring-2 ring-green-500 ring-offset-2' : ''
+                    }`}
                 >
                   {bestResult?.email === result.email && result.status === 'valid' && (
                     <div className="text-xs font-bold text-green-600 mb-2">⭐ BEST RESULT</div>
@@ -377,10 +375,10 @@ export default function MailFinder() {
         {/* Info Note */}
         <div className="p-4 bg-[var(--bot-bubble-bg)] rounded-xl border border-[var(--foreground)]/10 text-sm text-[var(--foreground)]/70">
           <p>
-            <strong>[INFO]</strong> This app uses multiple free APIs in cascade.<br/>
-            When one API is exhausted, it automatically switches to the next!<br/><br/>
-            ✅ <strong>Valid</strong> = Address exists<br/>
-            ⚠️ <strong>Catch-all</strong> = Server accepts all<br/>
+            <strong>[INFO]</strong> This app uses multiple free APIs in cascade.<br />
+            When one API is exhausted, it automatically switches to the next!<br /><br />
+            ✅ <strong>Valid</strong> = Address exists<br />
+            ⚠️ <strong>Catch-all</strong> = Server accepts all<br />
             ❌ <strong>Invalid</strong> = Address doesn't exist
           </p>
         </div>
