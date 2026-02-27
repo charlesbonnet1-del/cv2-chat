@@ -1,175 +1,97 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import AppLayout from "./AppLayout";
+
+type SentimentResult = {
+  text: string;
+  score: number;
+  label: string;
+  type: string;
+  details?: {
+    perspective?: number;
+    intensity?: number;
+    words?: string[];
+  };
+};
 
 export default function SentimentHeatmap() {
-  const [text, setText] = useState("Try our product free for 30 days. Maybe you'll like it. We think it's okay.");
-  const [analysis, setAnalysis] = useState<any>(null);
+  const [inputText, setInputText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [activeTab, setActiveTab] = useState('heatmap');
-  const [error, setError] = useState<string | null>(null);
+  const [results, setResults] = useState<SentimentResult[]>([]);
 
-  const analyzeText = async () => {
-    if (!text.trim()) return;
+  const analyzeSentiment = async () => {
+    if (!inputText.trim()) return;
 
     setIsAnalyzing(true);
-    setError(null);
+    setResults([]);
 
     try {
-      const response = await fetch('/api/analyze', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
+      const response = await fetch('/api/analyze-sentiment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: inputText }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        if (response.status === 429) {
-          throw new Error(`Rate limit reached. Try again in ${errorData.remainingTime || '1 hour'}.`);
-        }
-        throw new Error(errorData.error || `Error ${response.status}`);
-      }
-
-      const parsed = await response.json();
-      setAnalysis(parsed);
-      setActiveTab('heatmap');
-
-    } catch (err: any) {
-      console.error('Analysis error:', err);
-      setError(err.message || 'Analysis failed. Please try again.');
+      const data = await response.json();
+      setResults(data);
+    } catch (e) {
+      console.error('Failed to analyze sentiment', e);
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  const getSentimentColor = (sentiment: number) => {
-    if (sentiment > 0.6) return 'var(--accent)';
-    if (sentiment > 0.2) return 'var(--accent)';
-    if (sentiment > -0.2) return 'var(--foreground)';
-    if (sentiment > -0.5) return 'var(--accent)'; // Standardize risky to accent
-    return 'var(--foreground)'; // Fallback to foreground
+  const getColor = (score: number) => {
+    if (score > 0.6) return 'bg-[#0070f3]'; // Positive
+    if (score < -0.2) return 'bg-red-500/80'; // Negative
+    return 'bg-white/10'; // Neutral
   };
 
-  const getSentimentBg = (sentiment: number) => {
-    if (sentiment > 0.6) return 'bg-[var(--accent)]/10 border-[var(--accent)]/30';
-    if (sentiment > 0.2) return 'bg-[var(--accent)]/5 border-[var(--accent)]/20';
-    if (sentiment > -0.2) return 'border-[var(--bot-bubble-bg)]';
-    if (sentiment > -0.5) return 'bg-[var(--accent)]/5 border-[var(--accent)]/20';
-    return 'bg-[var(--foreground)]/5 border-[var(--foreground)]/10';
-  };
-
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-[var(--accent)]';
-    return 'text-red-600 dark:text-red-400';
-  };
-
-  const copyToClipboard = (textToCopy: string) => {
-    navigator.clipboard.writeText(textToCopy);
-  };
-
-  const tabs = [
-    { id: 'heatmap', label: 'Heatmap' },
-    { id: 'recommendations', label: 'Recommendations' },
-    { id: 'optimized', label: 'Optimized' },
-    { id: 'insights', label: 'Insights' }
-  ];
+  const averageScore = useMemo(() => {
+    if (results.length === 0) return 0;
+    return results.reduce((acc, curr) => acc + curr.score, 0) / results.length;
+  }, [results]);
 
   return (
-    <div className="min-h-full bg-[var(--background)]">
-      <div className="max-w-2xl mx-auto p-4 md:p-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[var(--foreground)]">
-            Sentiment Heatmap
-          </h1>
-          <p className="text-sm text-[var(--foreground)]/70">
-            AI-powered copy analysis for maximum conversion
-          </p>
-          <div className="mt-3 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></div>
-            <span className="text-xs text-[var(--foreground)]/50">Powered by Claude</span>
-          </div>
+    <AppLayout
+      title="Sentiment Heatmap // Linguistic Analysis"
+      description="Cartographie vectorielle de la tonalité émotionnelle d'un corpus textuel."
+    >
+      {/* Left: Input Panel */}
+      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5">
+        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-white/20">Input Corpus</span>
         </div>
 
-        {/* Input Card */}
-        <div className="bg-[var(--bot-bubble-bg)] border-2 border-[var(--foreground)]/10 rounded-2xl p-6 mb-6">
-          <label className="block text-sm font-semibold mb-3 text-[var(--foreground)]">
-            Your Marketing Copy
-          </label>
+        <div className="flex-1 flex flex-col p-6 space-y-4">
           <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="w-full h-32 p-4 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-sm text-[var(--foreground)] resize-none outline-none focus:border-[var(--accent)] transition-colors"
-            placeholder="Paste your headline, CTA, email subject, or landing page copy..."
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Paste text for emotional mapping..."
+            className="flex-1 bg-transparent border border-white/5 rounded-md p-4 text-sm resize-none outline-none focus:border-[var(--app-accent)] transition-colors leading-relaxed placeholder:text-white/10"
           />
-          <div className="flex items-center gap-4 mt-4">
-            <button
-              onClick={analyzeText}
-              disabled={isAnalyzing || !text.trim()}
-              className="px-6 py-3 bg-[var(--accent)] text-white border-none rounded-full font-semibold text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity flex items-center gap-2"
-            >
-              {isAnalyzing ? (
-                <>
-                  <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
-                  </svg>
-                  Analyzing...
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13" />
-                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                  </svg>
-                  Analyze Copy
-                </>
-              )}
-            </button>
-            {error && (
-              <div className="text-red-500 text-sm flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
+
+          <button
+            onClick={analyzeSentiment}
+            disabled={isAnalyzing || !inputText.trim()}
+            className={`
+              w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
+              ${!isAnalyzing && inputText.trim()
+                ? "bg-[var(--app-accent)] text-white hover:bg-[#0060df] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
+                : "bg-white/5 text-white/20 cursor-not-allowed"}
+            `}
+          >
+            {isAnalyzing ? (
+              <div className="flex items-center gap-2">
+                <svg className="animate-spin h-3 w-3 text-white" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                {error}
-              </div>
-            )}
-          </div>
-          <div className="mt-4 text-xs text-[var(--foreground)]/40">
-            💡 Limit: 10 analyses per hour • Identical analyses are cached
-          </div>
-        </div>
-
-        {/* Results */}
-        {analysis && (
-          <>
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center">
-                <div className={`text-3xl font-bold ${getScoreColor(analysis.overallMetrics.conversionScore)}`}>
-                  {analysis.overallMetrics.conversionScore}
-                </div>
-                <div className="text-xs text-[var(--foreground)]/60 mt-1">Conversion Score</div>
-              </div>
-              <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 text-center">
-                <div className={`text-3xl font-bold ${getScoreColor(analysis.overallMetrics.clarityScore)}`}>
-                  {analysis.overallMetrics.clarityScore}
-                </div>
-                <div className="text-xs text-[var(--foreground)]/60 mt-1">Clarity Score</div>
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="bg-[var(--bot-bubble-bg)] rounded-2xl overflow-hidden">
-              <div className="flex border-b border-[var(--foreground)]/10">
                 Analyzing Corpus...
               </div>
             ) : "[ EXECUTE ] >> Map Sentiment"}
-            </button>
-          </div>
+          </button>
+        </div>
       </div>
 
       {/* Right: Visualization Panel */}
@@ -207,42 +129,35 @@ export default function SentimentHeatmap() {
                 ))}
               </div>
 
-              {/* Insights Tab */}
-              {activeTab === 'insights' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
-                      Common Patterns in High-Converting Copy
-                    </h3>
-                    <ul className="space-y-2">
-                      {analysis.competitorInsights.commonPatterns.map((pattern: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
-                          <span className="text-[var(--accent)] font-bold">•</span>
-                          {pattern}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 text-[var(--foreground)]">
-                      Differentiation Opportunities
-                    </h3>
-                    <ul className="space-y-2">
-                      {analysis.competitorInsights.differentiationOpportunities.map((opp: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-3 text-sm text-[var(--foreground)]/80">
-                          <span className="text-green-500 font-bold">✓</span>
-                          {opp}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              {/* Detailed Protocol Logs */}
+              <div className="space-y-3">
+                <h4 className="text-[10px] uppercase tracking-widest text-white/20 font-bold border-b border-white/5 pb-2">Analysis Logs</h4>
+                <div className="space-y-2">
+                  {results.slice(0, 8).map((result, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 bg-white/5 rounded border border-white/5 group">
+                      <div className={`w-1 h-8 rounded-full ${getColor(result.score)} shrink-0`} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-[9px] uppercase font-bold tracking-widest text-white/60">{result.type}</span>
+                          <span className="text-[9px] text-white/20">{(result.score * 100).toFixed(0)}% Intensity</span>
+                        </div>
+                        <p className="text-xs text-white/40 italic truncate opacity-60 group-hover:opacity-100 transition-opacity">
+                          "{result.text}"
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {results.length > 8 && (
+                    <div className="text-[9px] text-center text-white/10 uppercase tracking-widest">
+                      + {results.length - 8} additional segments analyzed
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            </>
+          )}
         </div>
-      </>
-        )}
-    </div>
-    </div >
+      </div>
+    </AppLayout>
   );
 }
