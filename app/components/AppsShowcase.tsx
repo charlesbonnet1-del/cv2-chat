@@ -20,11 +20,11 @@ const apps: App[] = [
     description: "AI-powered copy analysis",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <rect x="7" y="7" width="3" height="3" fill="currentColor" opacity="0.3"/>
-        <rect x="14" y="7" width="3" height="3" fill="currentColor" opacity="0.6"/>
-        <rect x="7" y="14" width="3" height="3" fill="currentColor" opacity="0.8"/>
-        <rect x="14" y="14" width="3" height="3" fill="currentColor" opacity="0.4"/>
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <rect x="7" y="7" width="3" height="3" fill="currentColor" opacity="0.3" />
+        <rect x="14" y="7" width="3" height="3" fill="currentColor" opacity="0.6" />
+        <rect x="7" y="14" width="3" height="3" fill="currentColor" opacity="0.8" />
+        <rect x="14" y="14" width="3" height="3" fill="currentColor" opacity="0.4" />
       </svg>
     ),
   },
@@ -34,10 +34,10 @@ const apps: App[] = [
     description: "Smart email discovery",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        <path d="M8 11h6"/>
-        <path d="M11 8v6"/>
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        <path d="M8 11h6" />
+        <path d="M11 8v6" />
       </svg>
     ),
   },
@@ -83,10 +83,10 @@ export default function AppsShowcase() {
         <div className="absolute top-4 left-4 z-10">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm font-mono"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
+              <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Back to Apps
           </button>
@@ -118,7 +118,7 @@ export default function AppsShowcase() {
           onClick={() => setIsOpen(false)}
         >
           {/* Backdrop with blur */}
-          <div 
+          <div
             className="absolute inset-0 bg-[var(--background)]/80 backdrop-blur-md transition-all duration-300"
             style={{ animation: "fadeIn 0.3s ease-out" }}
           />
@@ -136,13 +136,13 @@ export default function AppsShowcase() {
               aria-label="Close"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
 
             {/* Title */}
-            <h2 className="text-2xl font-bold text-[var(--foreground)] font-mono tracking-tight">
+            <h2 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">
               Apps I Built
             </h2>
 
@@ -163,12 +163,12 @@ export default function AppsShowcase() {
                   </div>
 
                   {/* Name */}
-                  <span className="text-sm font-bold text-[var(--foreground)] group-hover:text-white transition-colors font-mono">
+                  <span className="text-sm font-bold text-[var(--foreground)] group-hover:text-white transition-colors">
                     {app.name}
                   </span>
 
                   {/* Description */}
-                  <span className="text-xs text-center text-[var(--foreground)]/60 group-hover:text-white/80 transition-colors font-mono leading-tight">
+                  <span className="text-xs text-center text-[var(--foreground)]/60 group-hover:text-white/80 transition-colors leading-tight">
                     {app.description}
                   </span>
                 </button>
@@ -176,7 +176,7 @@ export default function AppsShowcase() {
             </div>
 
             {/* Hint */}
-            <p className="text-xs text-[var(--foreground)]/40 font-mono">
+            <p className="text-xs text-[var(--foreground)]/40">
               Click anywhere to close
             </p>
           </div>

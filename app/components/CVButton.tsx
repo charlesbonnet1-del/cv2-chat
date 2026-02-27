@@ -43,10 +43,10 @@ export default function CVButton() {
           <div className="absolute top-4 left-4 z-10">
             <button
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm font-mono"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
               Back to Chat
             </button>
@@ -56,7 +56,7 @@ export default function CVButton() {
           <div className="w-full h-full">
             <Suspense fallback={
               <div className="w-full h-full flex items-center justify-center">
-                <div className="text-[var(--foreground)] font-mono">Loading 3D...</div>
+                <div className="text-[var(--foreground)]">Loading 3D...</div>
               </div>
             }>
               <Mindmap3D />
