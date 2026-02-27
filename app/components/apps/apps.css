@@ -1,0 +1,14 @@
+:root {
+    --app-bg-primary: #0a0a0a;
+    --app-bg-secondary: #0d0d0d;
+    --app-border: rgba(255, 255, 255, 0.05);
+    --app-accent: #0070f3;
+    --app-accent-glow: rgba(0, 112, 243, 0.5);
+    --app-text-primary: #ededed;
+    --app-text-dim: rgba(255, 255, 255, 0.4);
+    --app-text-muted: rgba(255, 255, 255, 0.2);
+}
+
+.linear-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}

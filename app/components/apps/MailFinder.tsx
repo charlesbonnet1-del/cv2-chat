@@ -1,6 +1,5 @@
-"use client";
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import AppLayout from "./AppLayout";
 
 type EmailResult = {
   email: string;
@@ -48,12 +47,10 @@ function generateEmails(firstName: string, lastName: string, domain: string): st
 export default function MailFinder() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [company, setCompany] = useState('');
   const [domain, setDomain] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<EmailResult[]>([]);
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     loadProvidersStatus();
@@ -96,13 +93,11 @@ export default function MailFinder() {
     }
 
     setIsSearching(true);
-    setShowResults(true);
     setResults([]);
 
     const emails = generateEmails(firstName, lastName, domain);
     const newResults: EmailResult[] = [];
 
-    // Initialize with pending status
     const pendingResults = emails.map(email => ({
       email,
       valid: false,
@@ -117,7 +112,6 @@ export default function MailFinder() {
 
     for (let i = 0; i < emails.length; i++) {
       if (foundValid) {
-        // Mark remaining as skipped
         newResults.push({
           email: emails[i],
           valid: false,
@@ -132,7 +126,6 @@ export default function MailFinder() {
       const result = await verifyEmail(emails[i]);
       newResults.push(result);
 
-      // Update results in real-time
       setResults([...newResults, ...emails.slice(i + 1).map(email => ({
         email,
         valid: false,
@@ -155,234 +148,159 @@ export default function MailFinder() {
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case 'valid': return 'border-green-500/50 bg-green-500/5 dark:bg-green-500/10';
+      case 'valid': return 'border-green-500/50 text-green-400';
       case 'accept_all':
-      case 'risky': return 'border-[var(--accent)]/50 bg-[var(--accent)]/5 dark:bg-[var(--accent)]/10';
+      case 'risky': return 'border-[var(--app-accent)]/50 text-[var(--app-accent)]';
       case 'invalid':
       case 'disposable':
-      case 'error': return 'border-red-500/50 bg-red-500/5 dark:bg-red-500/10';
-      case 'skipped': return 'border-[var(--foreground)]/20 bg-[var(--foreground)]/5 dark:bg-[var(--foreground)]/10 opacity-60';
-      case 'pending': return 'border-[var(--accent)] bg-[var(--bot-bubble-bg)] animate-pulse';
-      default: return 'border-[var(--foreground)]/20 bg-[var(--bot-bubble-bg)]';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'valid': return '✓ VALID';
-      case 'accept_all': return '? CATCH-ALL';
-      case 'risky': return '⚠ RISKY';
-      case 'invalid': return '✗ INVALID';
-      case 'disposable': return '✗ DISPOSABLE';
-      case 'error': return '✗ ERROR';
-      case 'skipped': return '⏭ SKIPPED';
-      case 'pending': return '... CHECKING';
-      default: return `? ${status.toUpperCase()}`;
-    }
-  };
-
-  const getStatusBadgeClass = (status: string) => {
-    switch (status) {
-      case 'valid': return 'bg-green-500 text-white';
-      case 'accept_all':
-      case 'risky': return 'bg-[var(--accent)] text-white';
-      case 'invalid':
-      case 'disposable':
-      case 'error': return 'bg-red-500 text-white';
-      case 'skipped': return 'bg-[var(--foreground)]/40 text-white';
-      case 'pending': return 'bg-[var(--accent)] text-white';
-      default: return 'bg-[var(--foreground)]/50 text-white';
+      case 'error': return 'border-red-500/50 text-red-400';
+      case 'skipped': return 'border-white/10 text-white/20';
+      case 'pending': return 'border-[var(--app-accent)] animate-pulse text-[var(--app-accent)]';
+      default: return 'border-white/10 text-white/40';
     }
   };
 
   const copyEmail = (email: string) => {
     navigator.clipboard.writeText(email);
-    alert('Email copied: ' + email);
   };
 
-  const validCount = results.filter(r => r.status === 'valid').length;
-  const catchallCount = results.filter(r => r.status === 'accept_all' || r.status === 'risky').length;
-  const invalidCount = results.filter(r => !['valid', 'accept_all', 'risky', 'pending', 'skipped'].includes(r.status)).length;
-
-  const bestResult = results.find(r => r.status === 'valid') || results.find(r => r.status === 'accept_all');
-
   return (
-    <div className="min-h-full bg-[var(--background)]">
-      <div className="max-w-3xl mx-auto p-4 md:p-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[var(--foreground)]">
-            Email Finder
-          </h1>
-          <p className="text-sm text-[var(--foreground)]/70">
-            Multi-API email verification cascade
-          </p>
+    <AppLayout
+      title="Mail Finder // Discovery"
+      description="Multi-API email verification cascade pour identifier des contacts directs."
+    >
+      {/* Left: Search Panel */}
+      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5">
+        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery Parameters</span>
+          <div className="flex gap-2">
+            {providers.map((p) => (
+              <div
+                key={p.name}
+                className={`w-1.5 h-1.5 rounded-full ${!p.configured ? 'bg-white/10' : p.status.exhausted ? 'bg-red-500' : 'bg-green-500'}`}
+                title={`${p.name}: ${!p.configured ? 'Not Configured' : p.status.exhausted ? 'Exhausted' : 'Active'}`}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Providers Status */}
-        <div className="flex flex-wrap gap-2 mb-6 p-4 bg-[var(--bot-bubble-bg)] rounded-xl border border-[var(--foreground)]/10">
-          {providers.map((p) => (
-            <span
-              key={p.name}
-              className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${!p.configured ? 'bg-[var(--foreground)]/20 text-[var(--foreground)]/50' :
-                p.status.exhausted ? 'bg-red-500 text-white' :
-                  'bg-green-500 text-white'
-                }`}
-            >
-              {!p.configured ? '○' : p.status.exhausted ? '✗' : '✓'} {p.name}
-            </span>
-          ))}
-        </div>
-
-        {/* Form */}
-        <div className="bg-[var(--bot-bubble-bg)] border-2 border-[var(--foreground)]/10 rounded-2xl p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-[var(--foreground)]">
-                $ FIRST NAME: *
-              </label>
+        <div className="p-6 space-y-6 flex-1 overflow-auto">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-white/20 block">First Name</label>
               <input
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="John"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
               />
             </div>
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-[var(--foreground)]">
-                $ LAST NAME: *
-              </label>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-white/20 block">Last Name</label>
               <input
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Doe"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
               />
             </div>
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-[var(--foreground)]">
-                $ COMPANY: (optional)
-              </label>
-              <input
-                type="text"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                placeholder="Acme Corp"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-[var(--foreground)]">
-                $ DOMAIN: *
-              </label>
-              <input
-                type="text"
-                value={domain}
-                onChange={(e) => setDomain(e.target.value)}
-                placeholder="acme.com"
-                className="w-full px-4 py-3 bg-[var(--background)] border-2 border-[var(--foreground)]/10 rounded-xl text-[var(--foreground)] outline-none focus:border-[var(--accent)] transition-colors"
-                onKeyPress={(e) => e.key === 'Enter' && searchEmails()}
-              />
-            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-widest text-white/20 block">Target Domain</label>
+            <input
+              type="text"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="company.com"
+              className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
+              onKeyPress={(e) => e.key === 'Enter' && searchEmails()}
+            />
           </div>
 
           <button
             onClick={searchEmails}
-            disabled={isSearching}
-            className="w-full py-4 bg-[var(--accent)] text-white border-none rounded-xl font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+            disabled={isSearching || !firstName || !lastName || !domain}
+            className={`
+              w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
+              ${!isSearching && firstName && lastName && domain
+                ? "bg-[var(--app-accent)] text-white hover:bg-[#0060df] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
+                : "bg-white/5 text-white/20 cursor-not-allowed"}
+            `}
           >
-            {isSearching ? '[RUNNING...] VERIFICATION IN PROGRESS' : '[EXEC] >> FIND EMAIL'}
+            {isSearching ? "Verification Cascade Active..." : "[ EXECUTE ] >> Find Email"}
           </button>
-        </div>
 
-        {/* Results */}
-        {showResults && (
-          <div className="mb-6">
-            <h2 className="text-xl font-bold mb-4 text-[var(--foreground)]">&gt; RESULTS.log</h2>
-
-            <div className="space-y-3">
-              {results.map((result, index) => (
-                <div
-                  key={index}
-                  className={`p-4 rounded-xl border-2 transition-all ${getStatusClass(result.status)} ${bestResult?.email === result.email && result.status === 'valid' ? 'ring-2 ring-green-500 ring-offset-2' : ''
-                    }`}
-                >
-                  {bestResult?.email === result.email && result.status === 'valid' && (
-                    <div className="text-xs font-bold text-green-600 mb-2">⭐ BEST RESULT</div>
-                  )}
-                  <div className="flex justify-between items-start flex-wrap gap-2">
-                    <span className="font-semibold text-[var(--foreground)] break-all">
-                      {result.email}
-                      {(result.status === 'valid' || result.status === 'accept_all') && (
-                        <button
-                          onClick={() => copyEmail(result.email)}
-                          className="ml-2 text-xs px-2 py-1 bg-[var(--foreground)]/10 rounded hover:bg-[var(--foreground)]/20 transition-colors"
-                        >
-                          📋 Copy
-                        </button>
-                      )}
-                    </span>
-                    {result.provider && result.provider !== 'none' && result.status !== 'pending' && (
-                      <span className="text-xs px-2 py-1 bg-blue-500 text-white rounded">
-                        via {result.provider}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-2 mt-2 flex-wrap">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeClass(result.status)}`}>
-                      {getStatusText(result.status)}
-                    </span>
-                    {result.score && (
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[var(--foreground)] text-[var(--background)]">
-                        Score: {result.score}/100
-                      </span>
-                    )}
-                  </div>
-                  {result.details && result.status !== 'pending' && (
-                    <div className="mt-2 text-xs text-[var(--foreground)]/60">
-                      // {result.details}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Summary */}
-            {!isSearching && results.length > 0 && (
-              <div className="mt-6 p-4 bg-[var(--bot-bubble-bg)] rounded-xl">
-                <div className="font-semibold mb-2 text-[var(--foreground)]">📊 Summary:</div>
-                <div className="flex gap-6 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-green-500"></span>
-                    <span className="text-[var(--foreground)]">{validCount} valid</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                    <span className="text-[var(--foreground)]">{catchallCount} catch-all</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                    <span className="text-[var(--foreground)]">{invalidCount} invalid</span>
-                  </div>
-                </div>
-              </div>
-            )}
+          <div className="p-4 bg-white/5 rounded-md border border-white/5 space-y-2">
+            <h4 className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Protocol Info</h4>
+            <p className="text-[10px] text-white/20 leading-relaxed uppercase">
+              // Sequential pattern generation<br />
+              // Real-time SMTP & API handshake<br />
+              // automatic provider failover
+            </p>
           </div>
-        )}
-
-        {/* Info Note */}
-        <div className="p-4 bg-[var(--bot-bubble-bg)] rounded-xl border border-[var(--foreground)]/10 text-sm text-[var(--foreground)]/70">
-          <p>
-            <strong>[INFO]</strong> This app uses multiple free APIs in cascade.<br />
-            When one API is exhausted, it automatically switches to the next!<br /><br />
-            ✅ <strong>Valid</strong> = Address exists<br />
-            ⚠️ <strong>Catch-all</strong> = Server accepts all<br />
-            ❌ <strong>Invalid</strong> = Address doesn't exist
-          </p>
         </div>
       </div>
-    </div>
+
+      {/* Right: Results Panel */}
+      <div className="flex-1 flex flex-col bg-[var(--app-bg-primary)]">
+        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery Logs</span>
+          {results.length > 0 && !isSearching && (
+            <span className="text-[9px] text-white/40 uppercase tracking-widest">
+              {results.filter(r => r.status === 'valid').length} Found
+            </span>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-auto p-4 space-y-2">
+          {results.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-white/5 space-y-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span className="text-xs uppercase tracking-[0.3em]">No Logs recorded</span>
+            </div>
+          ) : (
+            results.map((result, idx) => (
+              <div
+                key={idx}
+                className={`flex items-center justify-between p-3 border rounded-md transition-all ${getStatusClass(result.status)} bg-black/20`}
+              >
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-bold tracking-wider truncate max-w-[200px] md:max-w-none">
+                    {result.email}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] uppercase tracking-[0.2em] opacity-60">
+                      {result.status.replace('_', ' ')}
+                    </span>
+                    {result.provider && result.provider !== 'none' && (
+                      <span className="text-[8px] px-1 bg-blue-500/20 text-blue-400 rounded">
+                        {result.provider}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {(result.status === 'valid' || result.status === 'accept_all') && (
+                  <button
+                    onClick={() => copyEmail(result.email)}
+                    className="p-2 hover:bg-white/10 rounded transition-colors text-white/40 hover:text-white"
+                    title="Copy Email"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </AppLayout>
   );
 }
