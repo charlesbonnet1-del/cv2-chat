@@ -1,14 +1,14 @@
 // CORRECTION ICI : On utilise './' pour chercher dans le dossier app/components voisin
-import RecruiterPopup from './components/RecruiterPopup'; 
+import RecruiterPopup from './components/RecruiterPopup';
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
-  fallback: ["system-ui", "arial"],
 });
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body className={dmSerifDisplay.className}>
         {children}
         <RecruiterPopup />
       </body>

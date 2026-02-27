@@ -219,7 +219,7 @@ function ScrollProgress() {
 // ============================================
 export default function CuurePage() {
     return (
-        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden font-mono transition-colors duration-300">
+        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden transition-colors duration-300">
             <FloatingAssistant />
             <ScrollProgress />
 
@@ -622,7 +622,7 @@ export default function CuurePage() {
                             <motion.a
                                 href="mailto:charles.bonnet@pm.me?subject=Candidature Head of Growth — Cuure"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[var(--accent)] text-white rounded-full font-semibold text-lg shadow-lg"
-                                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(234,88,12,0.4)" }}
+                                whileHover={{ scale: 1.05, boxShadow: "0 0 30px var(--accent)" }}
                                 whileTap={{ scale: 0.95 }}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
