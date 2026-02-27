@@ -67,7 +67,7 @@ export default function GMSPage() {
             style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
           >
             <FadeIn delay={0.2}>
-              <span className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-[var(--accent)] block mb-8">
+              <span className="text-xs md:text-sm tracking-[0.3em] uppercase text-[var(--accent)] block mb-8">
                 Direction Marketing Abonnement &mdash; Candidature 2026
               </span>
             </FadeIn>
@@ -115,7 +115,7 @@ export default function GMSPage() {
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="flex flex-col items-center gap-2"
             >
-              <span className="text-[10px] font-mono tracking-[0.3em] uppercase">
+              <span className="text-[10px] tracking-[0.3em] uppercase">
                 Scroll
               </span>
               <svg
@@ -266,7 +266,7 @@ export default function GMSPage() {
                 <div className="flex items-start gap-6 py-4 border-b border-[var(--foreground)]/5 last:border-0">
                   <div className="shrink-0 w-32 text-right">
                     <p className="font-bold text-sm text-[var(--accent)]">{item.brand}</p>
-                    <p className="text-[10px] font-mono tracking-wider uppercase opacity-30 mt-0.5">
+                    <p className="text-[10px] tracking-wider uppercase opacity-30 mt-0.5">
                       {item.role}
                     </p>
                   </div>
@@ -278,7 +278,7 @@ export default function GMSPage() {
 
           {/* CA breakdown */}
           <FadeIn>
-            <h4 className="text-sm font-mono tracking-[0.2em] uppercase opacity-30 mb-8 text-center">
+            <h4 className="text-sm tracking-[0.2em] uppercase opacity-30 mb-8 text-center">
               Répartition du CA — 9,6 M€
             </h4>
           </FadeIn>
@@ -413,7 +413,7 @@ export default function GMSPage() {
       <section className="py-12 md:py-24 px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
-            <span className="text-xs font-mono tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
+            <span className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
               Axe 1
             </span>
             <h3 className="text-2xl md:text-4xl font-bold mb-2">Membership as a Service</h3>
@@ -431,11 +431,11 @@ export default function GMSPage() {
           <FadeIn>
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 mb-2">
-                <span className="text-xs font-mono tracking-wider uppercase opacity-30 text-right">
+                <span className="text-xs tracking-wider uppercase opacity-30 text-right">
                   Aujourd&apos;hui
                 </span>
                 <span />
-                <span className="text-xs font-mono tracking-wider uppercase text-[var(--accent)] opacity-60">
+                <span className="text-xs tracking-wider uppercase text-[var(--accent)] opacity-60">
                   Demain — 349 €/an
                 </span>
               </div>
@@ -460,7 +460,7 @@ export default function GMSPage() {
       <section className="py-12 md:py-24 px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
-            <span className="text-xs font-mono tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
+            <span className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
               Axe 2
             </span>
             <h3 className="text-2xl md:text-4xl font-bold mb-2">IA Propriétaire & AEO</h3>
@@ -478,7 +478,7 @@ export default function GMSPage() {
             {/* Assistant IA */}
             <FadeIn direction="left">
               <div>
-                <h4 className="text-sm font-mono tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 mb-6">
+                <h4 className="text-sm tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 mb-6">
                   Assistant IA propriétaire
                 </h4>
                 <div className="space-y-4">
@@ -503,7 +503,7 @@ export default function GMSPage() {
             {/* AEO */}
             <FadeIn direction="right">
               <div>
-                <h4 className="text-sm font-mono tracking-[0.2em] uppercase opacity-30 mb-6">
+                <h4 className="text-sm tracking-[0.2em] uppercase opacity-30 mb-6">
                   Answer Engine Optimization
                 </h4>
                 <div className="space-y-4">
@@ -537,7 +537,7 @@ export default function GMSPage() {
       <section className="py-12 md:py-24 px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
-            <span className="text-xs font-mono tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
+            <span className="text-xs tracking-[0.2em] uppercase text-[var(--accent)] opacity-60 block mb-2">
               Axe 3
             </span>
             <h3 className="text-2xl md:text-4xl font-bold mb-2">Conquête Exercice Coordonné</h3>
@@ -553,7 +553,7 @@ export default function GMSPage() {
 
           {/* MSP Network Effect — Visual */}
           <FadeIn>
-            <h4 className="text-sm font-mono tracking-[0.2em] uppercase opacity-30 mb-8 text-center">
+            <h4 className="text-sm tracking-[0.2em] uppercase opacity-30 mb-8 text-center">
               L&apos;effet réseau du contrat groupe
             </h4>
           </FadeIn>
@@ -575,7 +575,7 @@ export default function GMSPage() {
               >
                 3 200
               </motion.span>
-              <p className="text-sm opacity-30 mt-3 font-mono tracking-wider uppercase">
+              <p className="text-sm opacity-30 mt-3 tracking-wider uppercase">
                 MSP en France — marché quasi vierge
               </p>
             </motion.div>
@@ -604,7 +604,7 @@ export default function GMSPage() {
               ].map((item, i) => (
                 <FadeIn key={i} delay={i * 0.12} direction="left">
                   <div className="flex items-center gap-6 py-5 border-b border-[var(--foreground)]/5 last:border-0">
-                    <span className="text-xs font-mono opacity-20 w-6 shrink-0">{item.step}</span>
+                    <span className="text-xs opacity-20 w-6 shrink-0">{item.step}</span>
                     <div className="flex-1">
                       <p className="font-semibold text-sm">{item.title}</p>
                       <p className="text-xs opacity-40 mt-0.5">{item.sub}</p>
@@ -625,7 +625,7 @@ export default function GMSPage() {
 
             {/* Reach comparison bars */}
             <FadeIn delay={0.5}>
-              <p className="text-xs font-mono tracking-[0.2em] uppercase opacity-20 text-center mb-6">
+              <p className="text-xs tracking-[0.2em] uppercase opacity-20 text-center mb-6">
                 Portée par type de contrat
               </p>
               <div className="space-y-5">
@@ -739,16 +739,16 @@ export default function GMSPage() {
 
           {/* Transferable skills */}
           <FadeIn>
-            <h3 className="text-xs font-mono tracking-[0.2em] uppercase opacity-30 mb-8 text-center max-w-3xl mx-auto">
+            <h3 className="text-xs tracking-[0.2em] uppercase opacity-30 mb-8 text-center max-w-3xl mx-auto">
               Compétences directement transférables
             </h3>
           </FadeIn>
           <div className="max-w-3xl mx-auto mb-16">
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 mb-2">
-                <span className="text-xs font-mono tracking-wider uppercase opacity-30 text-right">Mon parcours</span>
+                <span className="text-xs tracking-wider uppercase opacity-30 text-right">Mon parcours</span>
                 <span />
-                <span className="text-xs font-mono tracking-wider uppercase text-[var(--accent)] opacity-60">Chez GMS</span>
+                <span className="text-xs tracking-wider uppercase text-[var(--accent)] opacity-60">Chez GMS</span>
               </div>
             </div>
             <ComparisonRow
@@ -882,7 +882,7 @@ export default function GMSPage() {
           </FadeIn>
 
           <motion.p
-            className="mt-20 text-xs opacity-15 font-mono"
+            className="mt-20 text-xs opacity-15"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 0.15 }}
             viewport={{ once: true }}

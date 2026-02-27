@@ -186,21 +186,19 @@ function ComparisonSection() {
         <div className="bg-[var(--bot-bubble-bg)] border border-[var(--foreground)]/10 rounded-full p-1 flex">
           <button
             onClick={() => setActiveTab("media")}
-            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === "media"
+            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "media"
                 ? "bg-[var(--accent)] text-white"
                 : "text-[var(--foreground)] opacity-60 hover:opacity-100"
-            }`}
+              }`}
           >
             Ce que j&apos;ai fait (Média)
           </button>
           <button
             onClick={() => setActiveTab("crypto")}
-            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === "crypto"
+            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "crypto"
                 ? "bg-[var(--accent)] text-white"
                 : "text-[var(--foreground)] opacity-60 hover:opacity-100"
-            }`}
+              }`}
           >
             Ce que je ferai (Crypto)
           </button>
@@ -326,7 +324,7 @@ function FloatingAssistant() {
             animate={{ opacity: 1, x: 0 }}
             className="bg-[var(--bot-bubble-bg)] border border-[var(--accent)] rounded-2xl px-4 py-3 shadow-lg"
           >
-            <p className="text-sm text-[var(--foreground)] whitespace-nowrap font-mono">{message}</p>
+            <p className="text-sm text-[var(--foreground)] whitespace-nowrap">{message}</p>
           </motion.div>
         </motion.div>
       )}
@@ -350,7 +348,7 @@ function ScrollIndicator() {
         transition={{ duration: 1.5, repeat: Infinity }}
         className="flex flex-col items-center gap-2 text-[var(--foreground)] opacity-40"
       >
-        <span className="text-xs uppercase tracking-widest font-mono">Scroll</span>
+        <span className="text-xs uppercase tracking-widest">Scroll</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M12 5v14M19 12l-7 7-7-7" />
         </svg>
@@ -366,7 +364,7 @@ export default function CoinHousePage() {
   const [hoveredCTA, setHoveredCTA] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden font-mono transition-colors duration-300">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden transition-colors duration-300">
       <FloatingAssistant />
 
       {/* Theme Toggle */}
@@ -377,7 +375,7 @@ export default function CoinHousePage() {
       {/* Back to home */}
       <motion.a
         href="/"
-        className="fixed top-6 left-6 z-50 text-[var(--foreground)] opacity-50 hover:opacity-100 transition-opacity font-mono text-sm"
+        className="fixed top-6 left-6 z-50 text-[var(--foreground)] opacity-50 hover:opacity-100 transition-opacity text-sm"
         whileHover={{ x: -3 }}
       >
         ← Retour

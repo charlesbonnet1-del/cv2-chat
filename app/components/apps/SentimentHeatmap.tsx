@@ -44,18 +44,18 @@ export default function SentimentHeatmap() {
 
   const getSentimentColor = (sentiment: number) => {
     if (sentiment > 0.6) return 'var(--accent)';
-    if (sentiment > 0.2) return '#F59E0B';
+    if (sentiment > 0.2) return 'var(--accent)';
     if (sentiment > -0.2) return 'var(--foreground)';
-    if (sentiment > -0.5) return '#EF4444';
-    return '#DC2626';
+    if (sentiment > -0.5) return 'var(--accent)'; // Standardize risky to accent
+    return 'var(--foreground)'; // Fallback to foreground
   };
 
   const getSentimentBg = (sentiment: number) => {
-    if (sentiment > 0.6) return 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700';
-    if (sentiment > 0.2) return 'bg-orange-50 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700';
+    if (sentiment > 0.6) return 'bg-[var(--accent)]/10 border-[var(--accent)]/30';
+    if (sentiment > 0.2) return 'bg-[var(--accent)]/5 border-[var(--accent)]/20';
     if (sentiment > -0.2) return 'border-[var(--bot-bubble-bg)]';
-    if (sentiment > -0.5) return 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700';
-    return 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700';
+    if (sentiment > -0.5) return 'bg-[var(--accent)]/5 border-[var(--accent)]/20';
+    return 'bg-[var(--foreground)]/5 border-[var(--foreground)]/10';
   };
 
   const getScoreColor = (score: number) => {
@@ -170,8 +170,8 @@ export default function SentimentHeatmap() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex-1 px-4 py-3 text-xs font-semibold transition-colors ${activeTab === tab.id
-                        ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
-                        : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
+                      ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
+                      : 'text-[var(--foreground)]/60 hover:text-[var(--foreground)]'
                       }`}
                   >
                     {tab.label}
@@ -217,8 +217,8 @@ export default function SentimentHeatmap() {
                       <div
                         key={idx}
                         className={`border-l-4 p-4 rounded-r-xl ${rec.type === 'critical' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
-                            rec.type === 'high' ? 'border-[var(--accent)] bg-orange-50 dark:bg-orange-900/20' :
-                              'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+                          rec.type === 'high' ? 'border-[var(--accent)] bg-orange-50 dark:bg-orange-900/20' :
+                            'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
                           }`}
                       >
                         <div className="flex justify-between items-start mb-2">

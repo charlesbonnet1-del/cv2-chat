@@ -19,7 +19,7 @@ export function ScrollSection({
     className = "",
     id,
 }: {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
     id?: string;
 }) {
@@ -41,7 +41,7 @@ export function ParallaxLayer({
     speed = 0.5,
     className = "",
 }: {
-    children: ReactNode;
+    children?: ReactNode;
     speed?: number;
     className?: string;
 }) {
@@ -69,7 +69,7 @@ export function FadeIn({
     delay = 0,
     direction = "up",
 }: {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
     delay?: number;
     direction?: "up" | "down" | "left" | "right" | "none";
@@ -331,7 +331,7 @@ export function ChapterMarker({
 }) {
     return (
         <FadeIn className="text-center max-w-3xl mx-auto">
-            <span className="text-[var(--accent)] text-sm font-mono tracking-[0.3em] uppercase mb-4 block">
+            <span className="text-[var(--accent)] text-sm tracking-[0.3em] uppercase mb-4 block">
                 {number}
             </span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
@@ -365,7 +365,7 @@ export function TimelineStep({
             className={`w-full md:min-w-[40vw] lg:min-w-[30vw] shrink-0 ${highlight ? "text-[var(--accent)]" : ""
                 }`}
         >
-            <span className="text-xs font-mono tracking-[0.2em] uppercase opacity-40 block mb-2">
+            <span className="text-xs tracking-[0.2em] uppercase opacity-40 block mb-2">
                 {period}
             </span>
             <h4 className="text-xl md:text-2xl font-bold mb-4">{title}</h4>
@@ -469,9 +469,9 @@ export function SideNav({
                 <button
                     key={id}
                     onClick={() => handleClick(id)}
-                    className={`text-left text-[10px] font-mono tracking-wider uppercase transition-all duration-300 leading-tight max-w-[100px] ${activeId === id
-                            ? "text-[var(--accent)] opacity-80 translate-x-1"
-                            : "opacity-20 hover:opacity-50"
+                    className={`text-left text-[10px] tracking-wider uppercase transition-all duration-300 leading-tight max-w-[100px] ${activeId === id
+                        ? "text-[var(--accent)] opacity-80 translate-x-1"
+                        : "opacity-20 hover:opacity-50"
                         }`}
                 >
                     {label}

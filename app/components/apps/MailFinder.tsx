@@ -155,13 +155,13 @@ export default function MailFinder() {
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case 'valid': return 'border-green-500 bg-green-50 dark:bg-green-900/20';
+      case 'valid': return 'border-green-500/50 bg-green-500/5 dark:bg-green-500/10';
       case 'accept_all':
-      case 'risky': return 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20';
+      case 'risky': return 'border-[var(--accent)]/50 bg-[var(--accent)]/5 dark:bg-[var(--accent)]/10';
       case 'invalid':
       case 'disposable':
-      case 'error': return 'border-red-500 bg-red-50 dark:bg-red-900/20';
-      case 'skipped': return 'border-gray-400 bg-gray-50 dark:bg-gray-900/20 opacity-60';
+      case 'error': return 'border-red-500/50 bg-red-500/5 dark:bg-red-500/10';
+      case 'skipped': return 'border-[var(--foreground)]/20 bg-[var(--foreground)]/5 dark:bg-[var(--foreground)]/10 opacity-60';
       case 'pending': return 'border-[var(--accent)] bg-[var(--bot-bubble-bg)] animate-pulse';
       default: return 'border-[var(--foreground)]/20 bg-[var(--bot-bubble-bg)]';
     }
@@ -185,11 +185,11 @@ export default function MailFinder() {
     switch (status) {
       case 'valid': return 'bg-green-500 text-white';
       case 'accept_all':
-      case 'risky': return 'bg-yellow-500 text-black';
+      case 'risky': return 'bg-[var(--accent)] text-white';
       case 'invalid':
       case 'disposable':
       case 'error': return 'bg-red-500 text-white';
-      case 'skipped': return 'bg-gray-400 text-white';
+      case 'skipped': return 'bg-[var(--foreground)]/40 text-white';
       case 'pending': return 'bg-[var(--accent)] text-white';
       default: return 'bg-[var(--foreground)]/50 text-white';
     }
@@ -225,8 +225,8 @@ export default function MailFinder() {
             <span
               key={p.name}
               className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${!p.configured ? 'bg-[var(--foreground)]/20 text-[var(--foreground)]/50' :
-                  p.status.exhausted ? 'bg-red-500 text-white' :
-                    'bg-green-500 text-white'
+                p.status.exhausted ? 'bg-red-500 text-white' :
+                  'bg-green-500 text-white'
                 }`}
             >
               {!p.configured ? '○' : p.status.exhausted ? '✗' : '✓'} {p.name}
