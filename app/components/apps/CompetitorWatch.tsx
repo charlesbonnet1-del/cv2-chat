@@ -78,7 +78,7 @@ export default function CompetitorWatch() {
         const { data } = await supabase
             .from("snapshots")
             .select("*")
-            .filter("competitor_id", "eq", id)
+            .eq("competitor_id", id)
             .order("created_at", { ascending: false });
         if (data) setSnapshots(data);
         setIsLoading(false);
@@ -107,7 +107,7 @@ export default function CompetitorWatch() {
         });
 
         const counts = last30Days.map(date => {
-            return snapshots.filter(s =>
+            return snapshots.filter((s: Snapshot) =>
                 new Date(s.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) === date &&
                 s.category === 'Price' && s.change_detected
             ).length;
@@ -207,7 +207,7 @@ export default function CompetitorWatch() {
                             <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar">
                                 <h3 className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">Timeline d'activité</h3>
                                 <div className="relative border-l-2 border-[var(--app-border)] pl-8 ml-4 space-y-12">
-                                    {snapshots.map((s, idx) => (
+                                    {snapshots.map((s: Snapshot, idx: number) => (
                                         <div key={s.id} className="relative group">
                                             {/* Dot */}
                                             <div className="absolute -left-[41px] top-4 w-4 h-4 rounded-full bg-[var(--app-bg-primary)] border-2 border-[var(--app-accent)] z-10" />

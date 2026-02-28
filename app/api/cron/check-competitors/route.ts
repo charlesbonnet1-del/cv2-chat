@@ -88,10 +88,11 @@ async function processCompetitor(competitor: any) {
         // Get previous snapshot
         const { data: lastSnapshot } = await supabase
             .from('snapshots')
-            .filter('competitor_id', 'eq', competitor.id)
+            .select('*')
+            .eq('competitor_id', competitor.id)
             .order('created_at', { ascending: false })
             .limit(1)
-            .single();
+            .maybeSingle();
 
         let aiReport: any = { change_detected: false };
 
