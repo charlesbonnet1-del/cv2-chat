@@ -79,7 +79,10 @@ export default function CompetitorWatch() {
     }, [selectedCompetitor]);
 
     const fetchCompetitors = async () => {
-        const { data } = await supabase.from("competitors").select("*").order("name");
+        const { data, error } = await supabase.from("competitors").select("*").order("name");
+        if (error) {
+            console.error("Supabase Error fetching competitors:", error);
+        }
         if (data) {
             setCompetitors(data);
             if (data.length > 0 && !selectedCompetitor) {
@@ -90,11 +93,14 @@ export default function CompetitorWatch() {
 
     const fetchSnapshots = async (id: string) => {
         setIsLoading(true);
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from("snapshots")
             .select("*")
             .eq("competitor_id", id)
             .order("created_at", { ascending: false });
+        if (error) {
+            console.error("Supabase Error fetching snapshots:", error);
+        }
         if (data) setSnapshots(data as Snapshot[]);
         setIsLoading(false);
     };
@@ -157,9 +163,11 @@ export default function CompetitorWatch() {
 
     const filteredSnapshots = useMemo(() => {
         return snapshots.filter((s: Snapshot) => {
-            const matchesSearch = s.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                s.category?.toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesCategory = categoryFilter === "All" || s.category === categoryFilter;
+            const desc = s.description || "";
+            const cat = s.category || "";
+            const matchesSearch = desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                cat.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesCategory = categoryFilter === "All" || cat === categoryFilter;
             return matchesSearch && matchesCategory;
         });
     }, [snapshots, searchQuery, categoryFilter]);
