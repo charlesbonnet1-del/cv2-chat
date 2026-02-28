@@ -4,10 +4,5 @@
             "path": "/api/cron/check-competitors",
             "schedule": "0 0 * * *"
         }
-    ],
-    "functions": {
-        "app/api/cron/check-competitors/route.ts": {
-            "includeFiles": "node_modules/@sparticuz/chromium/bin/**"
-        }
-    }
+    ]
 }
