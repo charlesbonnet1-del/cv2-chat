@@ -21,7 +21,14 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "three": "^0.169.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@supabase/supabase-js": "^2.43.4",
+    "chart.js": "^4.4.3",
+    "react-chartjs-2": "^5.2.0",
+    "puppeteer-core": "^22.11.0",
+    "@sparticuz/chromium": "^123.0.1",
+    "resend": "^3.2.0",
+    "openai": "^4.47.1"
   },
   "devDependencies": {
     "@types/node": "^20",
