@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import path from 'path';
+
 import { supabase } from '@/lib/supabase';
 import { resend } from '@/lib/resend';
 import OpenAI from 'openai';
@@ -51,7 +53,8 @@ async function processCompetitor(competitor: any) {
         if (process.env.RENDER) {
             // Standard Puppeteer for Render
             p = puppeteerRender;
-            executablePath = ''; // Puppeteer handles its own path on Render
+            process.env.PUPPETEER_CACHE_DIR = path.join(process.cwd(), '.cache', 'puppeteer');
+            executablePath = p.executablePath();
         } else {
             // Sparticuz Chromium for Vercel
             p = puppeteerCore;
