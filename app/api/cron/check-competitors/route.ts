@@ -3,7 +3,8 @@ import { supabase } from '@/lib/supabase';
 import { resend } from '@/lib/resend';
 import OpenAI from 'openai';
 import chromium from '@sparticuz/chromium';
-import puppeteer from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
+import puppeteerRender from 'puppeteer';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -44,15 +45,25 @@ export async function GET(req: Request) {
 async function processCompetitor(competitor: any) {
     let browser = null;
     try {
-        // Use remote pack URL as fallback for Vercel bundling issues
-        const remoteExecutablePath = await chromium.executablePath(
-            "https://github.com/sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar"
-        );
+        let executablePath: string;
+        let p: any;
 
-        browser = await puppeteer.launch({
+        if (process.env.RENDER) {
+            // Standard Puppeteer for Render
+            p = puppeteerRender;
+            executablePath = ''; // Puppeteer handles its own path on Render
+        } else {
+            // Sparticuz Chromium for Vercel
+            p = puppeteerCore;
+            executablePath = await chromium.executablePath(
+                "https://github.com/sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar"
+            );
+        }
+
+        browser = await p.launch({
             args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
             defaultViewport: chromium.defaultViewport,
-            executablePath: remoteExecutablePath,
+            executablePath: executablePath || undefined,
             headless: chromium.headless,
         });
 
