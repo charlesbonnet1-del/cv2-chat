@@ -7,7 +7,7 @@ import OpenAI from 'openai';
 import chromium from '@sparticuz/chromium';
 import puppeteerCore from 'puppeteer-core';
 import puppeteerRender from 'puppeteer';
-import { install, resolveBuildId } from '@puppeteer/browsers';
+import { install, resolveBuildId, Browser } from '@puppeteer/browsers';
 import os from 'os';
 import * as fs from 'fs';
 
@@ -63,10 +63,10 @@ async function processCompetitor(competitor: any) {
             process.env.PUPPETEER_CACHE_DIR = cacheDir;
 
             // Explicitly install the browser right now
-            const buildId = await resolveBuildId('chrome', 'linux', '127.0.6533.88');
+            const buildId = await resolveBuildId(Browser.CHROME, 'linux', '127.0.6533.88');
             const installOptions = {
                 cacheDir,
-                browser: 'chrome' as any,
+                browser: Browser.CHROME,
                 buildId,
             };
             const installedBrowser = await install(installOptions);
