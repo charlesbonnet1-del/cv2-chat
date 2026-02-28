@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import SentimentHeatmap from "./apps/SentimentHeatmap";
 import MailFinder from "./apps/MailFinder";
 import ProcessAgent from "./apps/ProcessAgent";
+import CompetitorWatch from "./apps/CompetitorWatch";
 
-type AppId = "sentiment" | "mailfinder" | "process" | null;
+type AppId = "sentiment" | "mailfinder" | "process" | "competitorwatch" | null;
 
 type App = {
   id: AppId;
@@ -44,11 +45,22 @@ const apps: App[] = [
   },
   {
     id: "process",
-    name: "The Process Agent",
-    description: "Bulletproof SOP extraction",
+    name: "Agentic SOP Builder",
+    description: "Multi-tab workflow pack",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+  },
+  {
+    id: "competitorwatch",
+    name: "CompetitorWatch",
+    description: "Visual & price intelligence",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <rect x="3" y="3" width="18" height="18" rx="2" />
       </svg>
     ),
   },
