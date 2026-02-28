@@ -240,7 +240,7 @@ export function HorizontalScroll({
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
                 <motion.div
                     style={{ x }}
-                    className={`flex gap-8 md:gap-16 px-6 md:px-12 ${className}`}
+                    className={`flex gap-8 md:gap-16 pl-6 pr-6 md:pl-40 md:pr-12 lg:pl-56 ${className}`}
                 >
                     {children}
                 </motion.div>
