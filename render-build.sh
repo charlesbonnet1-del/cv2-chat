@@ -9,5 +9,6 @@ npm run build
 # This is required for Puppeteer to run
 if [ "$RENDER" ]; then
   echo "Installing Chromium..."
+  export PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer
   npx puppeteer browsers install chrome
 fi
