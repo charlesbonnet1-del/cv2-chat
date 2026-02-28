@@ -53,7 +53,7 @@ async function processCompetitor(competitor: any) {
         if (process.env.RENDER) {
             // Standard Puppeteer for Render
             p = puppeteerRender;
-            process.env.PUPPETEER_CACHE_DIR = path.join(process.cwd(), '.cache', 'puppeteer');
+            process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
             executablePath = p.executablePath();
         } else {
             // Sparticuz Chromium for Vercel
