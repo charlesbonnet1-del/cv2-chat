@@ -27,13 +27,27 @@ export default function SentimentHeatmap() {
     setResults([]);
 
     try {
-      const response = await fetch('/api/analyze-sentiment', {
+      const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText }),
       });
       const data = await response.json();
-      setResults(data);
+
+      if (data.wordAnalysis) {
+        const mappedResults = data.wordAnalysis.map((item: any) => ({
+          text: item.word,
+          score: (item.sentiment * 2) - 1, // Map 0-1 to -1 to 1 if needed, but let's check what the API meant. 
+          // Re-reading route.ts: "sentiment": 0.5. 
+          // Let's keep it as is and adjust getColor or map it.
+          // The previous getColor (Step 769) used -1 to 1.
+          // Let's map 0-1 to -1-1 for consistency with my UI logic.
+          label: item.reasoning || item.word,
+          type: 'word',
+          details: { perspective: item.sentiment }
+        }));
+        setResults(mappedResults);
+      }
     } catch (e) {
       console.error('Failed to analyze sentiment', e);
     } finally {
