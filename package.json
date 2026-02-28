@@ -30,7 +30,7 @@
     "@sparticuz/chromium": "^123.0.1",
     "resend": "^3.2.0",
     "openai": "^4.47.1",
-    "@puppeteer/browsers": "^22.11.0"
+    "@puppeteer/browsers": "latest"
   },
   "devDependencies": {
     "@types/node": "^20",
