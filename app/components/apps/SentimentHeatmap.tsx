@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppLayout from "./AppLayout";
 
 type WordAnalysis = {
@@ -45,11 +45,18 @@ type AnalysisData = {
 };
 
 export default function SentimentHeatmap() {
+  const [mounted, setMounted] = useState(false);
   const [inputText, setInputText] = useState('');
   const [targetGoal, setTargetGoal] = useState('conversion');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState('map');
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const analyzeSentiment = async () => {
     if (!inputText.trim()) return;
