@@ -44,10 +44,15 @@ export async function GET(req: Request) {
 async function processCompetitor(competitor: any) {
     let browser = null;
     try {
+        // Use remote pack URL as fallback for Vercel bundling issues
+        const remoteExecutablePath = await chromium.executablePath(
+            "https://github.com/sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar"
+        );
+
         browser = await puppeteer.launch({
             args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
+            executablePath: remoteExecutablePath,
             headless: chromium.headless,
         });
 
