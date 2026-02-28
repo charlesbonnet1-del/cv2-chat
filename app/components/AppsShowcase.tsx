@@ -120,6 +120,7 @@ export default function AppsShowcase() {
           {activeApp === "sentiment" && <SentimentHeatmap />}
           {activeApp === "mailfinder" && <MailFinder />}
           {activeApp === "process" && <ProcessAgent />}
+          {activeApp === "competitorwatch" && <CompetitorWatch />}
         </div>
       </div>
     );
