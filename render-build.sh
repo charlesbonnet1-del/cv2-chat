@@ -6,9 +6,8 @@ npm install
 npm run build
 
 # Install Chromium dependencies for Render's Native Runtime
-# This is required for Puppeteer to run
 if [ "$RENDER" ]; then
   echo "Installing Chromium..."
-  export PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer
+  # The .puppeteerrc.cjs file will direct the cache to the local .cache folder
   npx puppeteer browsers install chrome
 fi
