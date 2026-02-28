@@ -7,14 +7,24 @@ const openai = createOpenAI({
 
 export const maxDuration = 30;
 
-const SOP_SYSTEM_PROMPT = `Tu es un expert en Excellence Opérationnelle et Gestion de Projet (méthodes Lean et GTD). Ton unique mission est de transformer du texte désordonné en Procédure Opérationnelle Standard (SOP) actionnable.
+const AGENTIC_SYSTEM_PROMPT = `Tu es un Agent d'Efficacité Opérationnelle. Ton rôle est de transformer du texte brut en un pack d'exécution complet.
 
-Règles strictes :
-Extraction : Identifie uniquement les actions concrètes (Verbe à l'infinitif + Objet).
-Séquençage : Ordonne les tâches par chronologie logique.
-Attribution : Si un nom ou un rôle est mentionné, associe-le explicitement à la tâche.
-Formatage : Retourne exclusivement du Markdown structuré avec des cases à cocher [ ].
-Style : Pas d'introduction, pas de conclusion, pas de politesse. Uniquement du signal, zéro bruit.`;
+Actions obligatoires pour chaque input :
+1. Extraction : Liste de tâches avec Verbe + Objet + Responsable.
+2. Enrichissement : Pour chaque tâche complexe, identifie une ressource externe (documentation officielle, outil SaaS pertinent, ou guide pratique). Simule une recherche web pour fournir l'URL la plus logique.
+3. Documentation : Génère quatre blocs de sortie distincts.
+
+Tu DOIS retourner exclusivement un objet JSON valide avec la structure suivante :
+{
+  "checklist": [
+    { "task": "Nom de la tâche", "resource": { "label": "Nom de la ressource", "url": "https://..." } }
+  ],
+  "notion": "Contenu formaté pour Notion (Markdown)",
+  "automation": "Objet JSON structuré pour Zapier/Make",
+  "brief": "Email concis et percutant pour l'équipe"
+}
+
+Contrainte : Sois factuel. Si une information manque, note [À PRÉCISER] au lieu d'inventer. Retourne uniquement le JSON, sans explications.`;
 
 export async function POST(req: Request) {
     if (!process.env.OPENAI_API_KEY) {
@@ -30,12 +40,20 @@ export async function POST(req: Request) {
 
         const { text: result } = await generateText({
             model: openai('gpt-4o'),
-            system: SOP_SYSTEM_PROMPT,
+            system: AGENTIC_SYSTEM_PROMPT,
             prompt: text,
             temperature: 0.1,
         });
 
-        return new Response(JSON.stringify({ result }), {
+        // Ensure we return a parsed JSON or handle raw text if needed
+        let parsedResult;
+        try {
+            parsedResult = JSON.parse(result.replace(/```json\n?|\n?```/g, ''));
+        } catch (e) {
+            parsedResult = { error: "Failed to parse AI response as JSON", raw: result };
+        }
+
+        return new Response(JSON.stringify({ result: parsedResult }), {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error: any) {
