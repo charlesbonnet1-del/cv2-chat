@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AppLayout from "./AppLayout";
 
 type WordAnalysis = {
@@ -64,7 +64,13 @@ export default function SentimentHeatmap() {
         body: JSON.stringify({ text: inputText, targetGoal }),
       });
       const data = await response.json();
-      setAnalysis(data);
+
+      // Basic validation to prevent crashes if AI returns invalid structure
+      if (data && data.wordAnalysis && data.overallMetrics) {
+        setAnalysis(data);
+      } else {
+        console.error('Invalid analysis data structure', data);
+      }
     } catch (e) {
       console.error('Failed to analyze sentiment', e);
     } finally {
@@ -92,7 +98,7 @@ export default function SentimentHeatmap() {
       description="Cartographie vectorielle et optimisation sémantique multivariée."
     >
       {/* Left: Input Panel */}
-      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5">
+      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5 min-h-[400px]">
         <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
           <span className="text-[10px] uppercase tracking-widest text-white/20">Input Corpus</span>
 
@@ -125,27 +131,19 @@ export default function SentimentHeatmap() {
                 : "bg-white/5 text-white/20 cursor-not-allowed"}
             `}
           >
-            {isAnalyzing ? (
-              <div className="flex items-center gap-2">
-                <svg className="animate-spin h-3 w-3 text-white" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Analyzing Vector Depth...
-              </div>
-            ) : "[ EXECUTE ANALYSIS ]"}
+            {isAnalyzing ? "Analyzing Vector Depth..." : "[ EXECUTE ANALYSIS ]"}
           </button>
         </div>
       </div>
 
       {/* Right: Visualization Panel */}
       <div className="flex-1 flex flex-col bg-[var(--app-bg-primary)]">
-        <div className="border-b border-white/5 bg-[var(--app-bg-secondary)] flex items-center">
+        <div className="border-b border-white/5 bg-[var(--app-bg-secondary)] flex items-center overflow-x-auto no-scrollbar">
           {['map', 'logic', 'suggestions', 'versions'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border-r border-white/5 ${activeTab === tab ? 'text-[var(--app-accent)] bg-white/5' : 'text-white/20 hover:text-white/40'
+              className={`px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border-r border-white/5 whitespace-nowrap ${activeTab === tab ? 'text-[var(--app-accent)] bg-white/5' : 'text-white/20 hover:text-white/40'
                 }`}
             >
               {tab}
@@ -163,35 +161,34 @@ export default function SentimentHeatmap() {
             </div>
           ) : (
             <div className="space-y-8 animate-in fade-in duration-500">
-              {/* Tab Content */}
               {activeTab === 'map' && (
                 <div className="space-y-8">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div className="p-4 bg-white/5 rounded border border-white/5">
                       <div className="text-[9px] uppercase text-white/20 mb-1">Conversion</div>
-                      <div className="text-xl font-bold text-[var(--app-accent)]">{analysis.overallMetrics.conversionScore}%</div>
+                      <div className="text-xl font-bold text-[var(--app-accent)]">{analysis.overallMetrics?.conversionScore || 0}%</div>
                     </div>
                     <div className="p-4 bg-white/5 rounded border border-white/5">
                       <div className="text-[9px] uppercase text-white/20 mb-1">Clarity</div>
-                      <div className="text-xl font-bold text-white/80">{analysis.overallMetrics.clarityScore}%</div>
+                      <div className="text-xl font-bold text-white/80">{analysis.overallMetrics?.clarityScore || 0}%</div>
                     </div>
                     <div className="p-4 bg-white/5 rounded border border-white/5">
                       <div className="text-[9px] uppercase text-white/20 mb-1">Tone</div>
-                      <div className="text-[11px] font-bold text-white/80 uppercase">{analysis.overallMetrics.emotionalTone}</div>
+                      <div className="text-[11px] font-bold text-white/80 uppercase">{analysis.overallMetrics?.emotionalTone || 'Neutral'}</div>
                     </div>
                     <div className="p-4 bg-white/5 rounded border border-white/5">
                       <div className="text-[9px] uppercase text-white/20 mb-1">Density</div>
-                      <div className="text-[11px] font-bold text-white/80 uppercase">{analysis.overallMetrics.linguisticDensity}</div>
+                      <div className="text-[11px] font-bold text-white/80 uppercase">{analysis.overallMetrics?.linguisticDensity || 'Normal'}</div>
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     <h3 className="text-[10px] uppercase tracking-widest text-white/20">Vector Heatmap</h3>
-                    <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-                      {analysis.wordAnalysis.map((word, idx) => (
+                    <div className="flex flex-wrap gap-2">
+                      {analysis.wordAnalysis?.map((word, idx) => (
                         <div
                           key={idx}
-                          className={`aspect-square rounded-sm ${getColor(word.sentiment)} transition-all hover:scale-110 cursor-help border border-white/5 shadow-sm group relative`}
+                          className={`w-8 h-8 rounded-sm ${getColor(word.sentiment)} transition-all hover:scale-110 cursor-help border border-white/5 shadow-sm group relative`}
                         >
                           <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 hidden group-hover:block z-50 p-2 bg-black border border-white/10 rounded text-[9px] text-white/80 backdrop-blur-md">
                             <div className="font-bold border-b border-white/5 pb-1 mb-1">{word.word}</div>
@@ -208,7 +205,7 @@ export default function SentimentHeatmap() {
                 <div className="space-y-4">
                   <h3 className="text-[10px] uppercase tracking-widest text-white/20">Linguistic Protocol</h3>
                   <div className="space-y-2">
-                    {analysis.wordAnalysis.map((word, idx) => (
+                    {analysis.wordAnalysis?.map((word, idx) => (
                       <div key={idx} className="p-4 bg-white/5 rounded border border-white/5 space-y-2 group shadow-sm hover:border-white/10 transition-colors">
                         <div className="flex justify-between items-center">
                           <span className="text-xs font-bold text-white/80 uppercase tracking-wider">{word.word}</span>
@@ -232,7 +229,7 @@ export default function SentimentHeatmap() {
                 <div className="space-y-4">
                   <h3 className="text-[10px] uppercase tracking-widest text-white/20">Actionable Protocols</h3>
                   <div className="space-y-4">
-                    {analysis.recommendations.map((rec, idx) => (
+                    {analysis.recommendations?.map((rec, idx) => (
                       <div key={idx} className="p-4 bg-white/5 rounded border-l-2 border-l-[var(--app-accent)] border-white/5 space-y-3">
                         <div className="flex justify-between items-start">
                           <h4 className="text-xs font-bold text-white/80 uppercase tracking-widest">{rec.title}</h4>
@@ -258,7 +255,7 @@ export default function SentimentHeatmap() {
               {activeTab === 'versions' && (
                 <div className="space-y-4">
                   <h3 className="text-[10px] uppercase tracking-widest text-white/20">Targeted Optimizations</h3>
-                  {analysis.optimizedVersions.map((v, idx) => (
+                  {analysis.optimizedVersions?.map((v, idx) => (
                     <div key={idx} className="p-6 bg-white/5 rounded border border-white/5 space-y-4">
                       <div className="flex justify-between items-center border-b border-white/5 pb-2">
                         <span className="text-[10px] uppercase font-bold text-[var(--app-accent)]">{v.title}</span>
@@ -268,7 +265,7 @@ export default function SentimentHeatmap() {
                       <div className="space-y-2">
                         <div className="text-[9px] uppercase text-white/20">Linguistic Shifts:</div>
                         <div className="flex gap-2 flex-wrap">
-                          {v.changes.map((c, i) => (
+                          {v.changes?.map((c, i) => (
                             <span key={i} className="text-[8px] bg-white/5 border border-white/10 px-2 py-1 rounded text-white/40 text-[var(--app-accent)]">+ {c}</span>
                           ))}
                         </div>
