@@ -51,6 +51,7 @@ export default function SentimentHeatmap() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState('map');
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -63,6 +64,7 @@ export default function SentimentHeatmap() {
 
     setIsAnalyzing(true);
     setAnalysis(null);
+    setError(null);
 
     try {
       const response = await fetch('/api/analyze', {
@@ -70,16 +72,21 @@ export default function SentimentHeatmap() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText, targetGoal }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
       const data = await response.json();
 
-      // Basic validation to prevent crashes if AI returns invalid structure
-      if (data && data.wordAnalysis && data.overallMetrics) {
+      if (data && (data.wordAnalysis || data.overallMetrics)) {
         setAnalysis(data);
       } else {
-        console.error('Invalid analysis data structure', data);
+        throw new Error('Invalid analysis format from AI');
       }
     } catch (e) {
       console.error('Failed to analyze sentiment', e);
+      setError((e as Error).message);
     } finally {
       setIsAnalyzing(false);
     }
@@ -159,12 +166,19 @@ export default function SentimentHeatmap() {
         </div>
 
         <div className="flex-1 overflow-auto p-6">
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-md text-red-500 text-[10px] uppercase tracking-wider flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+              <span>Error: {error}</span>
+            </div>
+          )}
+
           {!analysis ? (
             <div className="h-full flex flex-col items-center justify-center text-white/5 space-y-4">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
               </svg>
-              <span className="text-xs uppercase tracking-[0.3em]">Awaiting Vector input</span>
+              <span className="text-xs uppercase tracking-[0.3em]">{isAnalyzing ? "Processing Corpus..." : "Awaiting Vector input"}</span>
             </div>
           ) : (
             <div className="space-y-8 animate-in fade-in duration-500">
