@@ -46,20 +46,20 @@ export default function ProcessAgent() {
             description="Entrez vos notes en vrac pour les structurer en procédures actionnables."
         >
             {/* Left: Input */}
-            <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5">
-                <div className="px-4 py-2 border-b border-white/5 bg-[var(--bg-panel-header)]">
-                    <span className="text-[10px] uppercase tracking-widest text-white/20">Raw Notes</span>
+            <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-[var(--app-border)]">
+                <div className="px-4 py-2 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)]">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">Raw Notes</span>
                 </div>
                 <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Paste your messy notes here..."
-                    className="flex-1 p-6 bg-transparent resize-none outline-none text-sm leading-relaxed placeholder:text-white/10"
+                    className="flex-1 p-6 bg-transparent resize-none outline-none text-sm leading-relaxed placeholder:text-[var(--app-text-muted)]"
                 />
             </div>
 
             {/* Center: Action */}
-            <div className="flex md:flex-col items-center justify-center p-4 bg-[var(--bg-panel-header)] border-b md:border-b-0 md:border-r border-white/5 gap-4">
+            <div className="flex md:flex-col items-center justify-center p-4 bg-[var(--app-bg-secondary)] border-b md:border-b-0 md:border-r border-[var(--app-border)] gap-4">
                 <button
                     onClick={handleConvert}
                     disabled={!input.trim() || isLoading}
@@ -67,7 +67,7 @@ export default function ProcessAgent() {
             flex items-center gap-2 px-6 py-3 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-wider
             ${input.trim() && !isLoading
                             ? "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
-                            : "bg-white/5 text-white/20 cursor-not-allowed"}
+                            : "bg-[var(--app-border)] text-[var(--app-text-muted)] cursor-not-allowed"}
           `}
                 >
                     {isLoading ? (
@@ -85,9 +85,9 @@ export default function ProcessAgent() {
             </div>
 
             {/* Right: Output */}
-            <div className="flex-1 flex flex-col bg-[var(--bg-panel)]">
-                <div className="px-4 py-2 border-b border-white/5 flex justify-between items-center bg-[var(--bg-panel-header)]">
-                    <span className="text-[10px] uppercase tracking-widest text-white/20">SOP Result</span>
+            <div className="flex-1 flex flex-col bg-[var(--app-bg-primary)]">
+                <div className="px-4 py-2 border-b border-[var(--app-border)] flex justify-between items-center bg-[var(--app-bg-secondary)]">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">SOP Result</span>
                     {result && (
                         <button
                             onClick={handleCopy}
@@ -108,11 +108,11 @@ export default function ProcessAgent() {
                                 exit={{ opacity: 0 }}
                                 className="space-y-4"
                             >
-                                <div className="h-4 bg-white/5 rounded w-3/4 animate-pulse" />
-                                <div className="h-4 bg-white/5 rounded w-full animate-pulse" />
-                                <div className="h-4 bg-white/5 rounded w-5/6 animate-pulse" />
-                                <div className="h-4 bg-white/5 rounded w-1/2 animate-pulse" />
-                                <div className="h-4 bg-white/5 rounded w-2/3 animate-pulse" />
+                                <div className="h-4 bg-[var(--app-border)] rounded w-3/4 animate-pulse" />
+                                <div className="h-4 bg-[var(--app-border)] rounded w-full animate-pulse" />
+                                <div className="h-4 bg-[var(--app-border)] rounded w-5/6 animate-pulse" />
+                                <div className="h-4 bg-[var(--app-border)] rounded w-1/2 animate-pulse" />
+                                <div className="h-4 bg-[var(--app-border)] rounded w-2/3 animate-pulse" />
                             </motion.div>
                         ) : result ? (
                             <motion.div
@@ -121,12 +121,12 @@ export default function ProcessAgent() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="prose prose-invert prose-sm max-w-none"
                             >
-                                <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-white/80">
+                                <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-[var(--app-text-primary)]/80">
                                     {result}
                                 </pre>
                             </motion.div>
                         ) : (
-                            <div key="empty" className="h-full flex flex-col items-center justify-center text-white/5 space-y-4">
+                            <div key="empty" className="h-full flex flex-col items-center justify-center text-[var(--app-text-dim)] space-y-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                                     <line x1="9" y1="9" x2="15" y2="9" />

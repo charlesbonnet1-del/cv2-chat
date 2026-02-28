@@ -170,9 +170,9 @@ export default function MailFinder() {
       description="Multi-API email verification cascade pour identifier des contacts directs."
     >
       {/* Left: Search Panel */}
-      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-white/5">
-        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
-          <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery Parameters</span>
+      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-[var(--app-border)]">
+        <div className="px-4 py-2 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">Discovery Parameters</span>
           <div className="flex gap-2">
             {providers.map((p) => (
               <div
@@ -187,35 +187,35 @@ export default function MailFinder() {
         <div className="p-6 space-y-6 flex-1 overflow-auto">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-white/20 block">First Name</label>
+              <label className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)] block">First Name</label>
               <input
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="John"
-                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
+                className="w-full bg-[var(--app-bg-secondary)] border border-[var(--app-border)] rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-white/20 block">Last Name</label>
+              <label className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)] block">Last Name</label>
               <input
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Doe"
-                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
+                className="w-full bg-[var(--app-bg-secondary)] border border-[var(--app-border)] rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/20 block">Target Domain</label>
+            <label className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)] block">Target Domain</label>
             <input
               type="text"
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
               placeholder="company.com"
-              className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
+              className="w-full bg-[var(--app-bg-secondary)] border border-[var(--app-border)] rounded-md px-4 py-2 text-sm outline-none focus:border-[var(--app-accent)] transition-colors"
               onKeyPress={(e) => e.key === 'Enter' && searchEmails()}
             />
           </div>
@@ -227,15 +227,15 @@ export default function MailFinder() {
               w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
               ${!isSearching && firstName && lastName && domain
                 ? "bg-[var(--app-accent)] text-white hover:bg-[#0060df] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
-                : "bg-white/5 text-white/20 cursor-not-allowed"}
+                : "bg-[var(--app-bg-secondary)] text-[var(--app-text-muted)] cursor-not-allowed"}
             `}
           >
             {isSearching ? "Verification Cascade Active..." : "[ EXECUTE ] >> Find Email"}
           </button>
 
-          <div className="p-4 bg-white/5 rounded-md border border-white/5 space-y-2">
-            <h4 className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Protocol Info</h4>
-            <p className="text-[10px] text-white/20 leading-relaxed uppercase">
+          <div className="p-4 bg-[var(--app-bg-secondary)] rounded-md border border-[var(--app-border)] space-y-2">
+            <h4 className="text-[10px] uppercase tracking-widest text-[var(--app-text-dim)] font-bold">Protocol Info</h4>
+            <p className="text-[10px] text-[var(--app-text-muted)] leading-relaxed uppercase">
               // Sequential pattern generation<br />
               // Real-time SMTP & API handshake<br />
               // automatic provider failover
@@ -246,10 +246,10 @@ export default function MailFinder() {
 
       {/* Right: Results Panel */}
       <div className="flex-1 flex flex-col bg-[var(--app-bg-primary)]">
-        <div className="px-4 py-2 border-b border-white/5 bg-[var(--app-bg-secondary)] flex justify-between items-center">
-          <span className="text-[10px] uppercase tracking-widest text-white/20">Discovery Logs</span>
+        <div className="px-4 py-2 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)] flex justify-between items-center">
+          <span className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">Discovery Logs</span>
           {results.length > 0 && !isSearching && (
-            <span className="text-[9px] text-white/40 uppercase tracking-widest">
+            <span className="text-[9px] text-[var(--app-text-dim)] uppercase tracking-widest">
               {results.filter(r => r.status === 'valid').length} Found
             </span>
           )}
@@ -288,7 +288,7 @@ export default function MailFinder() {
                 {(result.status === 'valid' || result.status === 'accept_all') && (
                   <button
                     onClick={() => copyEmail(result.email)}
-                    className="p-2 hover:bg-white/10 rounded transition-colors text-white/40 hover:text-white"
+                    className="p-2 hover:bg-white/10 rounded transition-colors text-[var(--app-text-dim)] hover:text-white"
                     title="Copy Email"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

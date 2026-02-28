@@ -56,10 +56,22 @@ export async function POST(request: NextRequest) {
         ],
         "optimizedVersions": [
           {
-            "title": "Goal-Focused Rewrite",
+            "title": "Strategy A: [Name]",
             "text": "The full rewritten copy",
             "score": 90,
-            "changes": ["summary of major improvements"]
+            "changes": ["summary of improvements"]
+          },
+          {
+            "title": "Strategy B: [Name]",
+            "text": "The full rewritten copy",
+            "score": 92,
+            "changes": ["summary of improvements"]
+          },
+          {
+            "title": "Strategy C: [Name]",
+            "text": "The full rewritten copy",
+            "score": 88,
+            "changes": ["summary of improvements"]
           }
         ]
       }`,
