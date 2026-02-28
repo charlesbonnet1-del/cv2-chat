@@ -7,6 +7,9 @@ import OpenAI from 'openai';
 import chromium from '@sparticuz/chromium';
 import puppeteerCore from 'puppeteer-core';
 import puppeteerRender from 'puppeteer';
+import { install, resolveBuildId } from '@puppeteer/browsers';
+import os from 'os';
+import * as fs from 'fs';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -51,10 +54,24 @@ async function processCompetitor(competitor: any) {
         let p: any;
 
         if (process.env.RENDER) {
-            // Standard Puppeteer for Render
+            // Standard Puppeteer for Render: force dynamic installation at runtime
             p = puppeteerRender;
-            process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
-            executablePath = p.executablePath();
+            const cacheDir = path.join(os.tmpdir(), 'puppeteer-dynamic');
+            if (!fs.existsSync(cacheDir)) {
+                fs.mkdirSync(cacheDir, { recursive: true });
+            }
+            process.env.PUPPETEER_CACHE_DIR = cacheDir;
+
+            // Explicitly install the browser right now
+            const buildId = await resolveBuildId('chrome', 'linux', '127.0.6533.88');
+            const installOptions = {
+                cacheDir,
+                browser: 'chrome' as any,
+                buildId,
+            };
+            const installedBrowser = await install(installOptions);
+            executablePath = installedBrowser.executablePath;
+            console.log("Dynamically installed chrome to", executablePath);
         } else {
             // Sparticuz Chromium for Vercel
             p = puppeteerCore;

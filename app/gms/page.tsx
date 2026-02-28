@@ -581,7 +581,7 @@ export default function GMSPage() {
             </motion.div>
 
             {/* Multiplier chain */}
-            <div className="space-y-0 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {[
                 {
                   step: "01",
@@ -602,7 +602,7 @@ export default function GMSPage() {
                   value: "∞",
                 },
               ].map((item, i) => (
-                <FadeIn key={i} delay={i * 0.12} direction="left">
+                <FadeIn key={i} delay={i * 0.12} direction="right" className="p-6 rounded-2xl border border-[var(--foreground)]/5">
                   <div className="flex items-center gap-6 py-5 border-b border-[var(--foreground)]/5 last:border-0">
                     <span className="text-xs opacity-20 w-6 shrink-0">{item.step}</span>
                     <div className="flex-1">

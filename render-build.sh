@@ -2,13 +2,14 @@
 # exit on error
 set -o errexit
 
-# Ensure Puppeteer downloads Chrome to the persistent cache directory
-export PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer
+# Ensure Puppeteer downloads Chrome to the local project directory
+# so it persists between the build container and runtime container
+export PUPPETEER_CACHE_DIR=$PWD/.cache/puppeteer
 
-# Install dependencies; Puppeteer's postinstall will download Chrome to the cache dir
+# Install dependencies
 npm install
 
-# Force puppeteer to install the browser again just in case the cache was cleared
+# Force puppeteer to install the browser
 npx puppeteer install
 
 npm run build
