@@ -88,7 +88,13 @@ async function processCompetitor(competitor: any) {
         });
 
         const page = await browser.newPage();
-        await page.goto(competitor.url, { waitUntil: 'networkidle2' });
+
+        // Anti-bot stealth and longer timeouts
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36');
+        await page.setExtraHTTPHeaders({ 'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7' });
+        await page.setViewport({ width: 1280, height: 800 });
+
+        await page.goto(competitor.url, { waitUntil: 'networkidle2', timeout: 60000 });
 
         // Wait 5s as requested
         await new Promise(r => setTimeout(r, 5000));
