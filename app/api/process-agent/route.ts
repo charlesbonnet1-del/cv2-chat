@@ -1,8 +1,8 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createAnthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
 
-const openai = createOpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+const anthropic = createAnthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export const maxDuration = 30;
@@ -27,8 +27,8 @@ Tu DOIS retourner exclusivement un objet JSON valide avec la structure suivante 
 Contrainte : Sois factuel. Si une information manque, note [À PRÉCISER] au lieu d'inventer. Retourne uniquement le JSON, sans explications.`;
 
 export async function POST(req: Request) {
-    if (!process.env.OPENAI_API_KEY) {
-        return new Response(JSON.stringify({ error: "OpenAI API Key not configured" }), { status: 500 });
+    if (!process.env.ANTHROPIC_API_KEY) {
+        return new Response(JSON.stringify({ error: "Anthropic API Key not configured" }), { status: 500 });
     }
 
     try {
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         }
 
         const { text: result } = await generateText({
-            model: openai('gpt-4o'),
+            model: anthropic('claude-sonnet-4-5'),
             system: AGENTIC_SYSTEM_PROMPT,
             prompt: text,
             temperature: 0.1,

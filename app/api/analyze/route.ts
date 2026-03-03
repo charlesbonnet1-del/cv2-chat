@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createOpenAI } from '@ai-sdk/openai';
+import { createAnthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const anthropic = createAnthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export const maxDuration = 30;
@@ -16,12 +16,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
     const { text: aiResponse } = await generateText({
-      model: openai('gpt-4o'),
+      model: anthropic('claude-sonnet-4-5'),
       temperature: 0.1,
       system: `You are a linguist and high-end marketing strategist. Analyze the provided copy for emotional resonance, linguistic depth, and marketing effectiveness.
       Return ONLY valid JSON with this EXACT structure:

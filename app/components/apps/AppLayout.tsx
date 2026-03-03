@@ -38,7 +38,7 @@ export default function AppLayout({
     return (
         <div className={`flex flex-col h-full bg-[var(--app-bg-primary)] text-[var(--app-text-primary)] linear-mono selection:bg-[var(--app-accent)]/30 ${theme} ${className}`}>
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)]">
+            <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)]">
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-[var(--app-accent)] shadow-[0_0_10px_var(--app-accent-glow)]" />
@@ -73,10 +73,10 @@ export default function AppLayout({
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-2 border-t border-[var(--app-border)] bg-[var(--app-bg-secondary)] flex justify-between items-center text-[9px] text-[var(--app-text-muted)] uppercase tracking-widest">
-                <div>{footerLeft}</div>
-                <div className="flex items-center gap-4">
-                    <span>GPT-4o Engine</span>
+            <div className="px-4 md:px-6 py-2 border-t border-[var(--app-border)] bg-[var(--app-bg-secondary)] flex justify-between items-center gap-2 text-[9px] text-[var(--app-text-muted)] uppercase tracking-widest">
+                <div className="hidden sm:block truncate min-w-0">{footerLeft}</div>
+                <div className="flex items-center gap-3 shrink-0 ml-auto">
+                    <span>Claude Sonnet 4.5</span>
                     <span className="text-[var(--app-accent)]">{statusText}</span>
                 </div>
             </div>

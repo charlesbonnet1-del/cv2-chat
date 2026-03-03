@@ -150,7 +150,7 @@ export default function AppsShowcase() {
 
           {/* Content */}
           <div
-            className="relative z-10 flex flex-col items-center gap-8 p-8"
+            className="relative z-10 flex flex-col items-center gap-6 md:gap-8 p-5 md:p-8"
             onClick={(e) => e.stopPropagation()}
             style={{ animation: "scaleIn 0.3s ease-out" }}
           >
@@ -172,18 +172,18 @@ export default function AppsShowcase() {
             </h2>
 
             {/* Apps Grid */}
-            <div className="flex flex-wrap justify-center gap-8 max-w-2xl">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 max-w-2xl">
               {apps.map((app, index) => (
                 <button
                   key={app.id}
                   onClick={() => handleAppClick(app.id)}
-                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] transition-all duration-300 w-44 border-none cursor-pointer"
+                  className="group flex flex-col items-center gap-3 p-4 md:p-6 rounded-2xl bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] transition-all duration-300 w-36 md:w-44 border-none cursor-pointer"
                   style={{
                     animation: `slideUp 0.4s ease-out ${index * 0.1}s both`,
                   }}
                 >
                   {/* Icon */}
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-[var(--background)] text-[var(--accent)] group-hover:bg-white group-hover:text-[var(--accent)] transition-all duration-300 shadow-sm">
+                  <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-[var(--background)] text-[var(--accent)] group-hover:bg-white group-hover:text-[var(--accent)] transition-all duration-300 shadow-sm">
                     {app.icon}
                   </div>
 

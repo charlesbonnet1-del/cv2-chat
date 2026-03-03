@@ -172,10 +172,10 @@ export default function Home() {
         )}
 
         {/* BARRE DE SAISIE */}
-        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0">
+        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="relative w-full mb-2 shrink-0 flex items-center border border-[var(--bot-bubble-bg)] rounded-2xl px-4 py-1 bg-[var(--bot-bubble-bg)]/30">
           <input
             ref={inputRef}
-            className="w-full outline-none pr-14 bg-transparent placeholder:opacity-40"
+            className="w-full outline-none pr-4 bg-transparent placeholder:opacity-40 py-2 text-[15px]"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question..."
@@ -185,7 +185,7 @@ export default function Home() {
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-30 transition-all rounded-full hover:bg-[var(--bot-bubble-bg)]"
+            className="shrink-0 w-10 h-10 p-2 flex items-center justify-center disabled:opacity-30 transition-all rounded-full hover:bg-[var(--bot-bubble-bg)]"
             style={{ color: "var(--accent)" }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'translateX(-1px) translateY(1px)' }}>

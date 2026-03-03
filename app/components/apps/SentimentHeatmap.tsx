@@ -112,7 +112,7 @@ export default function SentimentHeatmap() {
       description="Cartographie vectorielle et optimisation sémantique multivariée."
     >
       {/* Left: Input Panel */}
-      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-[var(--app-border)] min-h-[400px]">
+      <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-[var(--app-border)] min-h-[280px] md:min-h-0">
         <div className="px-4 py-2 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)] flex justify-between items-center">
           <span className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)]">Input Corpus</span>
 
@@ -127,7 +127,7 @@ export default function SentimentHeatmap() {
           </select>
         </div>
 
-        <div className="flex-1 flex flex-col p-6 space-y-4">
+        <div className="flex-1 flex flex-col p-4 md:p-6 space-y-4">
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
@@ -165,7 +165,7 @@ export default function SentimentHeatmap() {
           ))}
         </div>
 
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-4 md:p-6">
           {error && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-md text-red-500 text-[10px] uppercase tracking-wider flex items-center gap-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>

@@ -184,8 +184,8 @@ export default function MailFinder() {
           </div>
         </div>
 
-        <div className="p-6 space-y-6 flex-1 overflow-auto">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6 flex-1 overflow-auto">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-[var(--app-text-muted)] block">First Name</label>
               <input

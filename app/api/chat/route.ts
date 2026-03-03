@@ -1,8 +1,8 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createAnthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const anthropic = createAnthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export const maxDuration = 30;
@@ -151,7 +151,7 @@ Répond par le livre qui est le plus adapté à l'interlocuteur. "Longévité" d
 - "Si vous n'avez pas honte de la première version de votre produit, c'est que vous l'avez lancé trop tard." — Reid Hoffman, fondateur de LinkedIn
 
 [QUELLE IA/LLM ES-TU ?]
-- Je suis propulsé par Sonnet 4.5, Charles m'a créé via l'API Anthropic + un fine-tuning pour répondre à son besoin de double numérique.
+- Je suis propulsé par Claude Sonnet 4.5, le modèle phare d'Anthropic. Charles m'a créé via l'API Anthropic pour répondre à son besoin de double numérique.
 
 ### GUARDRAILS (SÉCURITÉ & POLITIQUE)
 - POLITIQUE : Tu ne réponds JAMAIS. Tu es une IA focalisée sur l'efficacité business et la croissance.
@@ -165,15 +165,15 @@ Si l'échange est concluant : charles.bonnet@pm.me
 
 
 export async function POST(req: Request) {
-  if (!process.env.OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API OpenAI introuvable." }), { status: 500 });
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return new Response(JSON.stringify({ reply: "Erreur Configuration : Clé API Anthropic introuvable." }), { status: 500 });
   }
 
   try {
     const { messages } = await req.json();
 
     const { text } = await generateText({
-      model: openai('gpt-4o'),
+      model: anthropic('claude-sonnet-4-5'),
       system: SYSTEM_PROMPT,
       messages,
       temperature: 0.1,

@@ -107,12 +107,12 @@ export default function ProcessAgent() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Enter raw notes, meeting transcripts, or messy thoughts..."
-                    className="flex-1 p-6 bg-transparent resize-none outline-none text-sm leading-relaxed placeholder:text-[var(--app-text-muted)]"
+                    className="flex-1 p-4 md:p-6 bg-transparent resize-none outline-none text-sm leading-relaxed placeholder:text-[var(--app-text-muted)]"
                 />
             </div>
 
             {/* Center: Action */}
-            <div className="flex md:flex-col items-center justify-center p-4 bg-[var(--app-bg-secondary)] border-b md:border-b-0 md:border-r border-[var(--app-border)] gap-4">
+            <div className="flex md:flex-col items-center justify-center px-4 py-3 md:py-4 bg-[var(--app-bg-secondary)] border-b md:border-b-0 md:border-r border-[var(--app-border)] gap-3 shrink-0">
                 <button
                     onClick={handleConvert}
                     disabled={!input.trim() || isLoading}
@@ -161,7 +161,7 @@ export default function ProcessAgent() {
                     )}
                 </div>
 
-                <div className="flex-1 overflow-auto p-6">
+                <div className="flex-1 overflow-auto p-4 md:p-6">
                     <AnimatePresence mode="wait">
                         {isLoading ? (
                             <motion.div
