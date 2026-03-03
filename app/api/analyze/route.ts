@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { text: aiResponse } = await generateText({
-      model: anthropic('claude-sonnet-4-5'),
+      model: anthropic('claude-sonnet-4-6'),
       temperature: 0.1,
       system: `You are a linguist and high-end marketing strategist. Analyze the provided copy for emotional resonance, linguistic depth, and marketing effectiveness.
       Return ONLY valid JSON with this EXACT structure:

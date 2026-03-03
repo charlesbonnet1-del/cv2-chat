@@ -1,30 +1,28 @@
+/* ── Default: Light (aligned with main page palette) ─────────────────── */
 :root {
-    /* Default: Dark Theme */
-    --app-bg-primary: #0a0a0a;
-    --app-bg-secondary: #121212;
-    --app-border: rgba(255, 255, 255, 0.05);
-    --app-accent: #0070f3;
-    --app-accent-glow: rgba(0, 112, 243, 0.4);
-    --app-text-primary: #f5f5f5;
-    --app-text-dim: rgba(255, 255, 255, 0.5);
-    --app-text-muted: rgba(255, 255, 255, 0.3);
-}
-
-.light {
-    --app-bg-primary: #fbfcff;
-    --app-bg-secondary: #ffffff;
+    --app-bg-primary: #F9F7F1;          /* = --background (Beige Crème) */
+    --app-bg-secondary: #F2EFE8;        /* = --sidebar-bg */
     --app-border: rgba(0, 0, 0, 0.08);
-    --app-accent: #0060df;
-    --app-accent-glow: rgba(0, 96, 223, 0.2);
-    --app-text-primary: #111111;
+    --app-accent: #913104;              /* Orange Brûlé */
+    --app-accent-glow: rgba(145, 49, 4, 0.25);
+    --app-text-primary: #1a1817;
     --app-text-dim: rgba(0, 0, 0, 0.6);
-    --app-text-muted: rgba(0, 0, 0, 0.4);
+    --app-text-muted: rgba(0, 0, 0, 0.38);
 }
 
-.linear-mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+/* ── Dark (aligned with main page dark palette) ──────────────────────── */
+.dark {
+    --app-bg-primary: #66625e;          /* = dark --background */
+    --app-bg-secondary: #504c49;        /* = dark --sidebar-bg */
+    --app-border: rgba(255, 255, 255, 0.1);
+    --app-accent: #c04a10;              /* slightly lighter orange for dark bg */
+    --app-accent-glow: rgba(192, 74, 16, 0.35);
+    --app-text-primary: #f5f5f5;
+    --app-text-dim: rgba(255, 255, 255, 0.65);
+    --app-text-muted: rgba(255, 255, 255, 0.42);
 }
 
+/* ── Utilities ───────────────────────────────────────────────────────── */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }

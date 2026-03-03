@@ -88,7 +88,7 @@ export default function Home() {
       >
         {/* Identity — desktop only */}
         <div className="hidden md:block mb-10 px-3">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-bold">Charles Bonnet</p>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] dark:text-white font-bold">Charles Bonnet</p>
           <p className="text-[10px] text-[var(--foreground)]/40 mt-0.5">Digital Clone · AI</p>
         </div>
 
