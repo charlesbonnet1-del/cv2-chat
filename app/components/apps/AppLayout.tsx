@@ -17,7 +17,7 @@ export default function AppLayout({
     title,
     description,
     statusText = "Active",
-    footerLeft = "Claude Sonnet 4.5",
+    footerLeft = "Claude Sonnet 4.6",
     className = "",
 }: AppLayoutProps) {
     return (
@@ -71,7 +71,7 @@ export default function AppLayout({
             >
                 <span className="hidden sm:inline truncate min-w-0">{footerLeft}</span>
                 <span className="ml-auto shrink-0" style={{ color: "var(--app-accent)" }}>
-                    Claude Sonnet 4.5
+                    Claude Sonnet 4.6
                 </span>
             </div>
         </div>

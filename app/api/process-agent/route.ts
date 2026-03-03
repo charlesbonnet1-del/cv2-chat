@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         }
 
         const { text: result } = await generateText({
-            model: anthropic('claude-sonnet-4-5'),
+            model: anthropic('claude-sonnet-4-6'),
             system: AGENTIC_SYSTEM_PROMPT,
             prompt: text,
             temperature: 0.1,
