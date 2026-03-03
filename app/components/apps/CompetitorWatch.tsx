@@ -65,6 +65,7 @@ export default function CompetitorWatch() {
 
     const [showSlider, setShowSlider] = useState<{ old: string; new: string } | null>(null);
     const [sliderPos, setSliderPos] = useState(50);
+    const [chartCollapsed, setChartCollapsed] = useState(false);
 
     const ADMIN_PASSWORD = "admin"; // Simple password as requested
 
@@ -296,10 +297,16 @@ export default function CompetitorWatch() {
                             </div>
                         </div>
 
-                        <div className="mt-8 p-3 rounded-lg bg-[var(--app-accent)]/5 border border-[var(--app-accent)]/10">
-                            <p className="text-[10px] text-[var(--app-text-muted)] leading-relaxed italic">
-                                ℹ️ Chaque modification détectée est envoyée instantanément sur votre email avec un rapport d'analyse détaillé.
-                            </p>
+                        <div className="mt-8 p-3 rounded-xl border" style={{ backgroundColor: 'color-mix(in srgb, var(--app-accent) 6%, transparent)', borderColor: 'color-mix(in srgb, var(--app-accent) 25%, transparent)' }}>
+                            <div className="flex items-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5" style={{ color: 'var(--app-accent)' }}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                <div>
+                                    <p className="text-[10px] font-semibold text-[var(--app-text-dim)] mb-1">Alertes email automatiques</p>
+                                    <p className="text-[10px] text-[var(--app-text-muted)] leading-relaxed">
+                                        Dès qu'un changement visuel est constaté d'un jour à l'autre sur le screenshot d'un concurrent, l'agent génère un rapport d'analyse et vous l'envoie par email.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -309,20 +316,20 @@ export default function CompetitorWatch() {
                     {selectedCompetitor ? (
                         <>
                             {/* Header Stats / Chart */}
-                            <div className="p-6 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)]/30 h-72 shrink-0">
-                                <div className="flex items-center justify-between mb-6">
+                            <div className={`px-6 pt-4 border-b border-[var(--app-border)] bg-[var(--app-bg-secondary)]/30 shrink-0 transition-all duration-300 ${chartCollapsed ? 'pb-4' : 'pb-5 h-72'}`}>
+                                <div className={`flex items-center justify-between ${chartCollapsed ? 'mb-0' : 'mb-4'}`}>
                                     <div className="flex flex-col">
                                         <h2 className="text-lg font-bold text-[var(--app-text-primary)]">{selectedCompetitor.name}</h2>
-                                        <span className="text-[10px] text-[var(--app-text-muted)] font-mono">{selectedCompetitor.url}</span>
+                                        <span className="text-[10px] text-[var(--app-text-muted)]">{selectedCompetitor.url}</span>
                                     </div>
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3">
                                         <div className="flex border border-[var(--app-border)] rounded-md overflow-hidden bg-[var(--app-bg-primary)]">
                                             <input
                                                 type="text"
                                                 placeholder="Rechercher..."
                                                 value={searchQuery}
                                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                                                className="bg-transparent px-3 py-1.5 text-xs outline-none w-48 border-r border-[var(--app-border)]"
+                                                className="bg-transparent px-3 py-1.5 text-xs outline-none w-32 md:w-48 border-r border-[var(--app-border)]"
                                             />
                                             <select
                                                 value={categoryFilter}
@@ -335,22 +342,36 @@ export default function CompetitorWatch() {
                                                 <option value="Product">Produit</option>
                                             </select>
                                         </div>
+                                        {/* Chart collapse toggle */}
+                                        <button
+                                            onClick={() => setChartCollapsed(!chartCollapsed)}
+                                            className="p-1.5 rounded-lg border border-[var(--app-border)] hover:border-[var(--app-accent)] hover:text-[var(--app-accent)] transition-all shrink-0"
+                                            title={chartCollapsed ? "Afficher le graphique" : "Masquer le graphique"}
+                                        >
+                                            {chartCollapsed ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                                            ) : (
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15" /></svg>
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="h-44">
-                                    <Line
-                                        data={getChartData()}
-                                        options={{
-                                            responsive: true,
-                                            maintainAspectRatio: false,
-                                            plugins: { legend: { display: false } },
-                                            scales: {
-                                                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 9 } } },
-                                                x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 9 } } }
-                                            }
-                                        }}
-                                    />
-                                </div>
+                                {!chartCollapsed && (
+                                    <div className="h-44">
+                                        <Line
+                                            data={getChartData()}
+                                            options={{
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: { legend: { display: false } },
+                                                scales: {
+                                                    y: { beginAtZero: true, grid: { color: 'rgba(120,100,85,0.12)' }, ticks: { color: 'rgba(120,100,85,0.7)', font: { size: 9 } } },
+                                                    x: { grid: { display: false }, ticks: { color: 'rgba(120,100,85,0.7)', font: { size: 9 } } }
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             {/* Timeline */}
