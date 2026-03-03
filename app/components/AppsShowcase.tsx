@@ -8,6 +8,17 @@ import CompetitorWatch from "./apps/CompetitorWatch";
 
 type AppId = "sentiment" | "mailfinder" | "process" | "competitorwatch" | null;
 
+function AppsGridIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+    </svg>
+  );
+}
+
 type App = {
   id: AppId;
   name: string;
@@ -66,7 +77,11 @@ const apps: App[] = [
   },
 ];
 
-export default function AppsShowcase() {
+interface AppsShowcaseProps {
+  variant?: "link" | "sidebar";
+}
+
+export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeApp, setActiveApp] = useState<AppId>(null);
   const [mounted, setMounted] = useState(false);
@@ -128,13 +143,24 @@ export default function AppsShowcase() {
 
   return (
     <>
-      {/* Trigger Link */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer bg-transparent border-none"
-      >
-        Apps I Built
-      </button>
+      {/* Trigger */}
+      {variant === "sidebar" ? (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--bot-bubble-bg)] hover:text-[var(--accent)] transition-all"
+          title="My Apps"
+        >
+          <AppsGridIcon />
+          <span className="hidden md:inline text-sm">My Apps</span>
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer bg-transparent border-none"
+        >
+          Apps I Built
+        </button>
+      )}
 
       {/* Overlay */}
       {isOpen && (

@@ -8,14 +8,16 @@
   --background: #F9F7F1;    /* Beige Crème */
   --foreground: black;    /* NOIR */
   --accent: #913104;        /* ORANGE BRÛLÉ */
-  
+
   --bot-bubble-bg: #E5E0D8; /* Beige Pierre */
   --bot-bubble-text: #44403C; /* Marron Foncé */
-  
+
   --user-bubble-bg: #913104; /* Orange Accent */
   --user-bubble-text: #FFFFFF; /* Blanc */
-  
+
   --input-placeholder: #A8A29E;
+  --card-bg: #FFFFFF;       /* Cedar card background */
+  --sidebar-bg: #F2EFE8;    /* Sidebar légèrement plus sombre */
 }
 
 /* DARK MODE (Marron Foncé / Pierre) */
@@ -23,12 +25,14 @@
   --background: #66625e;    /* Marron Gris (Dark background requested) */
   --foreground: white;    /* BLANC */
   --accent: #913104;        /* Orange brûlé */
-  
+
   --bot-bubble-bg: #1C1917; /* Marron très sombre */
-  --bot-bubble-text: #E7E5E4; 
-  
-  --user-bubble-bg: #913104; 
+  --bot-bubble-text: #E7E5E4;
+
+  --user-bubble-bg: #913104;
   --user-bubble-text: #FFFFFF;
+  --card-bg: #2a2724;       /* Cedar card background dark */
+  --sidebar-bg: #504c49;    /* Sidebar dark */
 }
 
 /* --- 2. CONFIGURATION GLOBALE --- */
