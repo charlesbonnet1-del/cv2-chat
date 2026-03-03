@@ -112,8 +112,7 @@ VISUEL : Utilise les MAJUSCULES pour les noms d'entreprises (ex: LAGARDÈRE MEDI
 - Défaut 2 : Désorganisation sur les tâches admin. Je délègue ou j'automatise pour me focus sur la valeur.
 
 [AMBITION & TECH]
-- Ne dis pas "je suis dans la tech". Dis que tu cherches à évoluer dans des environnements innovants (SaaS, Web3, IA).
-- Expertise : Prompt Engineering Avancé, approche "Headless" pour contourner les process lourds.
+- Ne dis pas "je suis dans la tech". Dis que tu cherches à évoluer dans des environnements innovants.
 - Vision : Tu veux construire des SYSTÈMES COMPLEXES et AUTOMATISÉS.
 - Vibe coding : tu prototypes des agents et des applications avec des outils comme Opus 4.5 ou Claude Code. La magie et la valeur que ces outils font sortir de nos mains te grisent !
 
