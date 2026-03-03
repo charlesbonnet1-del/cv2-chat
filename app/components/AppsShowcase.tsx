@@ -113,25 +113,46 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
 
   if (!mounted) return null;
 
-  // Render active app fullscreen
+  // Render active app — Cedar card fullscreen
   if (activeApp) {
     return (
-      <div className="fixed inset-0 z-50 bg-[var(--background)]">
-        {/* Header with back button */}
-        <div className="absolute top-4 left-4 z-10">
+      <div
+        className="fixed inset-0 z-50 flex flex-col gap-3 p-3 md:p-5"
+        style={{ backgroundColor: "var(--background)" }}
+      >
+        {/* Back button row */}
+        <div className="shrink-0">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all"
+            style={{
+              backgroundColor: "var(--bot-bubble-bg)",
+              color: "var(--foreground)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--accent)";
+              (e.currentTarget as HTMLButtonElement).style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--bot-bubble-bg)";
+              (e.currentTarget as HTMLButtonElement).style.color = "var(--foreground)";
+            }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
-            Back to Apps
+            My Apps
           </button>
         </div>
 
-        {/* App content */}
-        <div className="w-full h-full overflow-auto pt-16">
+        {/* App in Cedar card */}
+        <div
+          className="flex-1 min-h-0 rounded-2xl overflow-hidden"
+          style={{
+            boxShadow: "0 4px 4px 0 rgba(46,46,43,0.15)",
+            border: "1px solid var(--bot-bubble-bg)",
+          }}
+        >
           {activeApp === "sentiment" && <SentimentHeatmap />}
           {activeApp === "mailfinder" && <MailFinder />}
           {activeApp === "process" && <ProcessAgent />}

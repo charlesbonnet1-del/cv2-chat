@@ -226,7 +226,7 @@ export default function MailFinder() {
             className={`
               w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
               ${!isSearching && firstName && lastName && domain
-                ? "bg-[var(--app-accent)] text-white hover:bg-[#0060df] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
+                ? "bg-[var(--app-accent)] text-white hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
                 : "bg-[var(--app-bg-secondary)] text-[var(--app-text-muted)] cursor-not-allowed"}
             `}
           >

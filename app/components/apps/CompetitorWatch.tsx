@@ -192,8 +192,8 @@ export default function CompetitorWatch() {
                 {
                     label: "Fréquence des Promos (30j)",
                     data: counts,
-                    borderColor: "#0070f3",
-                    backgroundColor: "rgba(0, 112, 243, 0.1)",
+                    borderColor: "#913104",
+                    backgroundColor: "rgba(145, 49, 4, 0.1)",
                     fill: true,
                     tension: 0.4,
                 },

@@ -121,9 +121,9 @@ export default function SentimentHeatmap() {
             onChange={(e) => setTargetGoal(e.target.value)}
             className="bg-transparent text-[9px] uppercase tracking-widest text-[var(--app-accent)] outline-none border-none cursor-pointer"
           >
-            <option value="conversion" className="bg-[#0a0a0a]">Goal: Conversion</option>
-            <option value="branding" className="bg-[#0a0a0a]">Goal: Brand Aura</option>
-            <option value="educational" className="bg-[#0a0a0a]">Goal: Clarity</option>
+            <option value="conversion">Goal: Conversion</option>
+            <option value="branding">Goal: Brand Aura</option>
+            <option value="educational">Goal: Clarity</option>
           </select>
         </div>
 
@@ -141,7 +141,7 @@ export default function SentimentHeatmap() {
             className={`
               w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
               ${!isAnalyzing && inputText.trim()
-                ? "bg-[var(--app-accent)] text-white hover:bg-[#0060df] shadow-[0_0_20px_rgba(0,112,243,0.2)] active:scale-95"
+                ? "bg-[var(--app-accent)] text-white hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
                 : "bg-[var(--app-bg-secondary)] text-[var(--app-text-muted)] cursor-not-allowed"}
             `}
           >
