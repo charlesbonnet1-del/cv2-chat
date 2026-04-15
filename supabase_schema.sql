@@ -26,3 +26,12 @@ ALTER TABLE snapshots ENABLE ROW LEVEL SECURITY;
 -- Simple policy for development (allow all for now)
 CREATE POLICY "Allow all for now" ON competitors FOR ALL USING (true);
 CREATE POLICY "Allow all for now" ON snapshots FOR ALL USING (true);
+
+-- Create Storage bucket for screenshots
+INSERT INTO storage.buckets (id, name, public) VALUES ('screenshots', 'screenshots', true) ON CONFLICT DO NOTHING;
+
+-- Allow public access to read screenshots
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'screenshots');
+
+-- Allow anon and authenticated users to insert screenshots
+CREATE POLICY "Anon/Auth Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'screenshots');

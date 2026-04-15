@@ -543,10 +543,10 @@ body{font-family:'Open Sans',system-ui,sans-serif;background:var(--bg);color:var
         </div>
       </div>
       <div class="hero-games">
-        <div class="hg"><div class="hg-img gc1">♟</div><div class="hg-name">Carcassonne</div><div class="hg-live"><span></span>2 314</div></div>
-        <div class="hg"><div class="hg-prem">★</div><div class="hg-img gc2">🎴</div><div class="hg-name">7 Wonders</div><div class="hg-live"><span></span>1 892</div></div>
-        <div class="hg"><div class="hg-img gc3">🌿</div><div class="hg-name">Azul</div><div class="hg-live"><span></span>1 547</div></div>
-        <div class="hg"><div class="hg-prem">★</div><div class="hg-img gc4">🏰</div><div class="hg-name">Splendor</div><div class="hg-live"><span></span>987</div></div>
+        <div class="hg" onclick="window.location.href='/bga2/game'"><div class="hg-img gc1">♟</div><div class="hg-name">Carcassonne</div><div class="hg-live"><span></span>2 314</div></div>
+        <div class="hg" onclick="window.location.href='/bga2/game'"><div class="hg-prem">★</div><div class="hg-img gc2">🎴</div><div class="hg-name">7 Wonders</div><div class="hg-live"><span></span>1 892</div></div>
+        <div class="hg" onclick="window.location.href='/bga2/game'"><div class="hg-img gc3">🌿</div><div class="hg-name">Azul</div><div class="hg-live"><span></span>1 547</div></div>
+        <div class="hg" onclick="window.location.href='/bga2/game'"><div class="hg-prem">★</div><div class="hg-img gc4">🏰</div><div class="hg-name">Splendor</div><div class="hg-live"><span></span>987</div></div>
       </div>
     </div>
   </div>
@@ -1108,6 +1108,17 @@ function sendChat(){
   },600);
   msgs.scrollTop=msgs.scrollHeight;
 }
+
+setTimeout(()=>{
+  if(!chatOpen){
+    toggleChat();
+    setTimeout(()=>{
+      const msgs=document.getElementById('chatMsgs');
+      msgs.innerHTML+=`<div class="msg bot">bonjour je suis votre assistant interactif je connais par coeur les jeux de Board Game Arena, je peux vous apprendre les règles du jeu de votre choix, et meme vous aider à développer les meilleures tactiques !</div>`;
+      msgs.scrollTop=msgs.scrollHeight;
+    },600);
+  }
+},3000);
 </script>
 
 </body>
