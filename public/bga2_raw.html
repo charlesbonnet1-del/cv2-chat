@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Board Game Arena — Redesign Concept v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan:#00aeef; --cyan-dark:#0090cc; --cyan-light:#e5f6fd;
+  --black:#0f0f0f; --black2:#1a1a2e;
+  --bg:#f2f3f5; --bg-dark:#e8eaed; --white:#fff;
+  --text:#1a1a2e; --text2:#5a6272; --text3:#9aa3b2;
+  --border:#dde1e9; --border2:#c8cfd9;
+  --gold:#f59e0b; --gold-light:#fefce8;
+  --green:#22c55e; --red:#ef4444;
+  --r:10px; --rsm:6px; --rlg:14px;
+  --s:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --sm:0 4px 16px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.06);
+  --sl:0 8px 32px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Open Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--black);height:58px;display:flex;align-items:center;padding:0 20px;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.4);}
+.nav-logo{display:flex;align-items:center;cursor:pointer;margin-right:16px;flex-shrink:0;}
+.nav-logo img{height:34px;width:auto;}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;}
+.nl{color:rgba(255,255,255,.65);font-size:13px;font-weight:600;padding:6px 11px;border-radius:var(--rsm);cursor:pointer;border:none;background:transparent;transition:all .15s;font-family:'Open Sans',sans-serif;white-space:nowrap;}
+.nl:hover{color:#fff;background:rgba(255,255,255,.08);}
+.nl.active-nl{color:#fff;}
+.nav-right{display:flex;gap:7px;align-items:center;margin-left:auto;}
+.btn-no{border:1.5px solid rgba(255,255,255,.25);background:transparent;color:#fff;padding:6px 14px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;transition:all .15s;}
+.btn-no:hover{background:rgba(255,255,255,.1);}
+.btn-nc{background:var(--cyan);color:#fff;border:none;padding:6px 14px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;transition:all .15s;}
+.btn-nc:hover{background:var(--cyan-dark);}
+.btn-ng{background:var(--gold);color:var(--black);border:none;padding:6px 12px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;}
+.btn-ng:hover{background:#e08d00;}
+
+/* SCREEN */
+.screen{display:none;padding-top:58px;min-height:100vh;}
+.screen.active{display:block;}
+
+/* COMMON BUTTONS */
+.btn-c{background:var(--cyan);color:#fff;border:none;padding:11px 22px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
+.btn-c:hover{background:var(--cyan-dark);transform:translateY(-1px);box-shadow:var(--sm);}
+.btn-o{background:#fff;color:var(--text);border:1.5px solid var(--border2);padding:10px 18px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s;}
+.btn-o:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn-g{background:var(--gold);color:var(--black);border:none;padding:11px 22px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
+.annot{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11.5px;padding:4px 10px;border-radius:100px;font-weight:700;}
+
+/* ════ S1 LANDING ════ */
+#s-landing{background:var(--bg);}
+.hero{background:var(--black);padding:50px 0 0;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,174,239,.15) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+.hero::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,174,239,.13) 0%,transparent 70%);pointer-events:none;}
+.hero-in{max-width:1140px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:flex-end;position:relative;z-index:1;}
+.hero-left{padding-bottom:50px;}
+.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,174,239,.12);border:1px solid rgba(0,174,239,.28);padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:20px;letter-spacing:.04em;}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-left h1{font-size:clamp(30px,4.5vw,54px);font-weight:800;line-height:1.06;color:#fff;margin-bottom:16px;letter-spacing:-.025em;}
+.hero-left h1 em{color:var(--cyan);font-style:normal;}
+.hero-sub{font-size:15.5px;color:rgba(255,255,255,.56);line-height:1.65;margin-bottom:28px;}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px;}
+.hero-social{display:flex;align-items:center;gap:12px;}
+.avs{display:flex;}
+.av{width:27px;height:27px;border-radius:50%;border:2px solid var(--black);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-left:-7px;}
+.av:first-child{margin-left:0;}
+.a1{background:#3b82f6;color:#fff;}.a2{background:var(--cyan);color:#fff;}.a3{background:var(--green);color:#fff;}.a4{background:#8b5cf6;color:#fff;}.a5{background:var(--gold);color:var(--black);}
+.hero-social p{font-size:13px;color:rgba(255,255,255,.48);}
+.hero-social strong{color:rgba(255,255,255,.88);}
+/* newsletter strip in hero */
+.hero-nl{margin-top:20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.hero-nl input{flex:1;min-width:180px;padding:9px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:var(--rsm);color:#fff;font-family:'Open Sans',sans-serif;font-size:13px;outline:none;}
+.hero-nl input::placeholder{color:rgba(255,255,255,.4);}
+.hero-nl input:focus{border-color:var(--cyan);}
+.hero-nl button{background:var(--cyan);color:#fff;border:none;padding:9px 16px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;}
+
+/* hero game cards */
+.hero-games{display:flex;gap:10px;align-self:flex-end;}
+.hg{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px 10px 0 0;padding:10px;width:118px;flex-shrink:0;cursor:pointer;transition:all .2s;position:relative;}
+.hg:hover{background:rgba(255,255,255,.11);transform:translateY(-5px);}
+.hg-img{height:70px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:7px;}
+.hg-name{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.88);margin-bottom:3px;}
+.hg-live{font-size:9.5px;color:rgba(255,255,255,.38);display:flex;align-items:center;gap:4px;}
+.hg-live span{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.hg-prem{position:absolute;top:5px;right:5px;background:var(--gold);color:var(--black);font-size:7.5px;font-weight:800;padding:2px 4px;border-radius:3px;}
+.gc1{background:linear-gradient(150deg,#103060,#061830);}.gc2{background:linear-gradient(150deg,#2d1050,#180828);}.gc3{background:linear-gradient(150deg,#0f3820,#072010);}.gc4{background:linear-gradient(150deg,#402010,#201008);}.gc5{background:linear-gradient(150deg,#103040,#061820);}
+
+/* stats */
+.stats-strip{background:var(--black2);border-top:1px solid rgba(255,255,255,.06);padding:14px 24px;}
+.stats-in{max-width:1140px;margin:0 auto;display:flex;justify-content:space-around;gap:12px;flex-wrap:wrap;}
+.stat-s .num{font-size:21px;font-weight:800;color:var(--cyan);}
+.stat-s .lbl{font-size:11px;color:rgba(255,255,255,.36);margin-top:1px;}
+
+/* land body */
+.lbody{max-width:1140px;margin:0 auto;padding:40px 24px;}
+.seye{font-size:11px;font-weight:800;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;}
+.stitle{font-size:clamp(20px,3vw,32px);font-weight:800;margin-bottom:10px;}
+.ssub{font-size:15px;color:var(--text2);margin-bottom:30px;max-width:520px;line-height:1.6;}
+
+/* phygital */
+.phy{background:var(--black);border-radius:var(--rlg);padding:26px 30px;display:flex;align-items:center;gap:22px;margin-bottom:36px;}
+.phy-ic{width:58px;height:58px;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.phy h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:5px;}
+.phy p{font-size:13px;color:rgba(255,255,255,.52);line-height:1.55;max-width:480px;}
+
+/* catalog */
+.cg{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:30px;}
+.ccard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .2s;box-shadow:var(--s);}
+.ccard:hover{border-color:var(--cyan);box-shadow:var(--sm);transform:translateY(-2px);}
+.cthumb{height:85px;display:flex;align-items:center;justify-content:center;font-size:32px;}
+.cbody{padding:9px 9px 8px;}
+.cname{font-size:12px;font-weight:700;margin-bottom:4px;}
+.cfoot{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text3);}
+.tf{background:#f0fdf4;color:#166534;font-size:8.5px;font-weight:800;padding:2px 5px;border-radius:3px;}
+.tp{background:var(--gold-light);color:#92400e;font-size:8.5px;font-weight:800;padding:2px 5px;border-radius:3px;}
+
+/* feats */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px;}
+.feat{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:22px 18px;box-shadow:var(--s);}
+.fiw{width:38px;height:38px;border-radius:8px;background:var(--cyan-light);border:1px solid rgba(0,174,239,.14);display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:12px;}
+.feat h3{font-size:14.5px;font-weight:700;margin-bottom:5px;}
+.feat p{font-size:13px;color:var(--text2);line-height:1.55;}
+
+/* Newsletter section on landing */
+.nl-section{background:var(--black);border-radius:var(--rlg);padding:32px 36px;margin-bottom:40px;display:flex;align-items:center;gap:32px;}
+.nl-text{flex:1;}
+.nl-text h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;}
+.nl-text p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.55;}
+.nl-form{display:flex;gap:8px;flex-shrink:0;}
+.nl-form input{width:220px;padding:10px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:var(--rsm);color:#fff;font-family:'Open Sans',sans-serif;font-size:13.5px;outline:none;}
+.nl-form input::placeholder{color:rgba(255,255,255,.38);}
+.nl-form input:focus{border-color:var(--cyan);}
+.nl-form button{background:var(--cyan);color:#fff;border:none;padding:10px 18px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;white-space:nowrap;}
+
+/* ════ POPUP ════ */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.popup-overlay.show{opacity:1;pointer-events:all;}
+.popup-box{background:var(--white);border-radius:var(--rlg);padding:32px 28px;max-width:440px;width:90%;position:relative;box-shadow:var(--sl);transform:translateY(20px);transition:transform .3s;}
+.popup-overlay.show .popup-box{transform:translateY(0);}
+.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1;}
+.popup-emoji{font-size:44px;margin-bottom:14px;display:block;text-align:center;}
+.popup-box h3{font-size:20px;font-weight:800;text-align:center;margin-bottom:8px;}
+.popup-box p{font-size:14px;color:var(--text2);text-align:center;margin-bottom:22px;line-height:1.55;}
+.popup-cta{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:800;font-size:15px;cursor:pointer;transition:all .15s;}
+.popup-cta:hover{background:#e08d00;}
+.popup-skip{display:block;text-align:center;margin-top:10px;font-size:12px;color:var(--text3);cursor:pointer;}
+
+/* ════ S2 SIGNUP ════ */
+#s-signup{background:var(--bg);}
+.sw{max-width:960px;margin:0 auto;padding:36px 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;}
+.sl{background:var(--black);border-radius:var(--rlg);padding:30px 26px;}
+.sl h2{font-size:21px;font-weight:800;color:#fff;margin-bottom:7px;}
+.sl h2 em{color:var(--cyan);font-style:normal;}
+.sl .sub{font-size:13px;color:rgba(255,255,255,.48);margin-bottom:22px;}
+.vl{display:flex;flex-direction:column;gap:12px;}
+.vi{display:flex;gap:9px;align-items:flex-start;}
+.vic{width:19px;height:19px;border-radius:50%;background:rgba(0,174,239,.16);border:1px solid rgba(0,174,239,.32);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:9.5px;flex-shrink:0;margin-top:1px;font-weight:800;}
+.vi p{font-size:13px;color:rgba(255,255,255,.58);line-height:1.45;}
+.vi strong{color:#fff;font-weight:700;}
+.pm{margin-top:18px;background:rgba(0,174,239,.08);border:1px solid rgba(0,174,239,.18);border-radius:var(--rsm);padding:11px 13px;font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.5;}
+.pm strong{color:var(--cyan);}
+.sr{background:var(--white);border-radius:var(--rlg);padding:30px 26px;border:1.5px solid var(--border);box-shadow:var(--sm);}
+.sr h3{font-size:19px;font-weight:800;margin-bottom:4px;}
+.fsub{font-size:12.5px;color:var(--text3);margin-bottom:20px;}
+.sso{width:100%;padding:10px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rsm);color:var(--text);font-family:'Open Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:all .15s;margin-bottom:7px;}
+.sso:hover{border-color:var(--cyan);background:#fff;}
+.divv{display:flex;align-items:center;gap:9px;margin:14px 0;}
+.divv hr{flex:1;border:none;border-top:1px solid var(--border);}
+.divv span{font-size:12px;color:var(--text3);}
+.ff{margin-bottom:10px;}
+.ff label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;}
+.ff input{width:100%;padding:9px 11px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rsm);color:var(--text);font-family:'Open Sans',sans-serif;font-size:13.5px;transition:border-color .15s;outline:none;}
+.ff input:focus{border-color:var(--cyan);background:#fff;}
+.ff input::placeholder{color:var(--text3);}
+.terms-t{font-size:11px;color:var(--text3);margin-top:9px;line-height:1.5;}
+.terms-t a{color:var(--cyan);}
+.alr{font-size:12.5px;color:var(--text2);text-align:center;margin-top:12px;}
+.alr a{color:var(--cyan);font-weight:700;cursor:pointer;text-decoration:none;}
+
+/* ════ S3 ONBOARDING 1 ════ */
+#s-onboarding1{background:var(--bg);}
+.obs{max-width:680px;margin:0 auto;padding:36px 24px 80px;}
+.prog{margin-bottom:28px;}
+.prgt{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:7px;}
+.prgtr{height:5px;background:var(--bg-dark);border-radius:10px;overflow:hidden;}
+.prgf{height:100%;background:var(--cyan);border-radius:10px;transition:width .4s;}
+.obc{background:var(--white);border-radius:var(--rlg);padding:30px 26px;border:1.5px solid var(--border);box-shadow:var(--sm);}
+.obc h2{font-size:21px;font-weight:800;margin-bottom:5px;}
+.obc .sub{font-size:13.5px;color:var(--text2);margin-bottom:24px;}
+.qsec{margin-bottom:22px;}
+.qlbl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.qopts{display:flex;flex-wrap:wrap;gap:7px;}
+.qo{border:1.5px solid var(--border2);background:var(--bg);padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;user-select:none;}
+.qo:hover{border-color:var(--cyan);background:var(--cyan-light);color:var(--cyan-dark);}
+.qo.sel{background:var(--cyan-light);border-color:var(--cyan);color:var(--cyan-dark);}
+/* newsletter in onboarding */
+.nl-ob{margin-top:16px;padding:14px;background:var(--cyan-light);border:1px solid rgba(0,174,239,.25);border-radius:var(--rsm);}
+.nl-ob p{font-size:13px;color:var(--cyan-dark);font-weight:600;margin-bottom:8px;}
+.nl-ob-row{display:flex;gap:6px;}
+.nl-ob-row input{flex:1;padding:8px 11px;background:#fff;border:1.5px solid rgba(0,174,239,.3);border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-size:13px;outline:none;color:var(--text);}
+.nl-ob-row input:focus{border-color:var(--cyan);}
+.nl-ob-row button{background:var(--cyan);color:#fff;border:none;padding:8px 14px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;}
+.nl-toggle{cursor:pointer;flex-shrink:0;user-select:none;}
+.nl-tog-track{width:46px;height:26px;background:var(--border2);border-radius:100px;position:relative;transition:background .2s;}
+.nl-toggle.on .nl-tog-track{background:var(--cyan);}
+.nl-tog-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.nl-toggle.on .nl-tog-knob{transform:translateX(20px);}
+.obfoot{display:flex;gap:9px;margin-top:24px;}
+
+/* ════ S4 ONBOARDING 2 — catalogue search ════ */
+#s-onboarding2{background:var(--bg);}
+.game-search-bar{position:relative;margin-bottom:16px;}
+.game-search-bar input{width:100%;padding:11px 16px 11px 42px;background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r);font-family:'Open Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;box-shadow:var(--s);}
+.game-search-bar input:focus{border-color:var(--cyan);}
+.game-search-bar .search-ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:16px;pointer-events:none;}
+.filter-tags{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
+.ftag{padding:5px 12px;border-radius:100px;border:1.5px solid var(--border2);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);transition:all .15s;}
+.ftag:hover{border-color:var(--cyan);color:var(--cyan);}
+.ftag.on{background:var(--cyan-light);border-color:var(--cyan);color:var(--cyan-dark);}
+.gpg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;max-height:380px;overflow-y:auto;padding-right:4px;}
+.gpg::-webkit-scrollbar{width:4px;}
+.gpg::-webkit-scrollbar-track{background:var(--bg-dark);border-radius:4px;}
+.gpg::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+.gc{background:var(--white);border:2px solid var(--border);border-radius:var(--r);cursor:pointer;overflow:hidden;transition:all .2s;position:relative;box-shadow:var(--s);}
+.gc:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:var(--sm);}
+.gc.sel{border-color:var(--cyan);}
+.gct{height:80px;display:flex;align-items:center;justify-content:center;font-size:32px;}
+.gcb{padding:8px 10px;}
+.gcn{font-size:12px;font-weight:700;margin-bottom:3px;}
+.gctags{display:flex;gap:3px;flex-wrap:wrap;}
+.gctag{font-size:9px;padding:1.5px 5px;border-radius:3px;background:var(--bg-dark);color:var(--text3);font-weight:600;}
+.gcchk{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:var(--cyan);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0;transition:opacity .2s;font-weight:800;}
+.gc.sel .gcchk{opacity:1;}
+.no-results{text-align:center;padding:40px;color:var(--text3);font-size:14px;}
+
+/* ════ S5 PREMIUM ════ */
+#s-premium{background:var(--bg);}
+.prems{max-width:880px;margin:0 auto;padding:36px 24px 80px;}
+.premh{text-align:center;margin-bottom:36px;}
+.premh h2{font-size:clamp(24px,4vw,40px);font-weight:800;margin-bottom:9px;}
+.premh h2 em{color:var(--cyan);font-style:normal;}
+.premh p{font-size:15px;color:var(--text2);}
+.billr{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:32px;}
+.blbl{font-size:14px;font-weight:600;color:var(--text3);}
+.blbl.on{color:var(--text);}
+.tog{width:44px;height:24px;background:var(--cyan);border-radius:100px;position:relative;cursor:pointer;}
+.togk{position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;}
+.spill{background:#f0fdf4;color:#166534;font-size:11px;font-weight:800;padding:3px 8px;border-radius:100px;}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.plan{background:var(--white);border:2px solid var(--border);border-radius:var(--rlg);padding:26px 22px;position:relative;box-shadow:var(--s);}
+.plan.ft{border-color:var(--cyan);}
+.ptb{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--cyan);color:#fff;font-size:10.5px;font-weight:800;padding:3px 13px;border-radius:100px;white-space:nowrap;}
+.pname{font-size:17px;font-weight:800;margin-bottom:4px;}
+.pprice{display:flex;align-items:baseline;gap:3px;margin-bottom:3px;}
+.pnum{font-size:36px;font-weight:800;color:var(--cyan);line-height:1;}
+.pper{font-size:13px;color:var(--text3);}
+.pbl{font-size:12px;color:var(--text3);margin-bottom:14px;min-height:15px;}
+.pdesc{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5;}
+.pfeats{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.pf{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;color:var(--text3);}
+.pf.yes{color:var(--text);}
+.pfy{color:var(--green);flex-shrink:0;font-weight:800;margin-top:.5px;}
+.pfn{color:var(--text3);flex-shrink:0;margin-top:.5px;}
+.bpg{width:100%;padding:10px;background:transparent;border:2px solid var(--border2);border-radius:var(--rsm);color:var(--text);font-family:'Open Sans',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;transition:all .15s;}
+.bpg:hover{border-color:var(--text2);}
+.bpc{width:100%;padding:10px;background:var(--cyan);border:none;border-radius:var(--rsm);color:#fff;font-family:'Open Sans',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;transition:all .15s;}
+.bpc:hover{background:var(--cyan-dark);}
+.guar{text-align:center;font-size:13px;color:var(--text3);}
+
+/* ════ S6 DASHBOARD ════ */
+#s-dashboard{background:var(--bg);}
+.ds{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
+.dtop{background:var(--black);border-radius:var(--rlg);padding:22px 26px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.dg{font-size:12.5px;color:rgba(255,255,255,.38);margin-bottom:3px;}
+.dn{font-size:21px;font-weight:800;color:#fff;}
+.dlv{background:rgba(0,174,239,.12);border:1px solid rgba(0,174,239,.28);padding:7px 14px;border-radius:100px;font-size:12.5px;font-weight:700;color:var(--cyan);display:flex;align-items:center;gap:5px;}
+.cta1{background:#fff;border:2px solid var(--cyan);border-radius:var(--rlg);padding:18px 22px;display:flex;align-items:center;gap:16px;cursor:pointer;margin-bottom:20px;box-shadow:var(--s);transition:box-shadow .2s;}
+.cta1:hover{box-shadow:var(--sm);}
+.cta1-ic{font-size:36px;flex-shrink:0;}
+.cta1 h3{font-size:16px;font-weight:800;color:var(--cyan-dark);margin-bottom:3px;}
+.cta1 p{font-size:12.5px;color:var(--text2);}
+.cta1-arrow{margin-left:auto;color:var(--cyan);font-size:20px;font-weight:800;flex-shrink:0;}
+.dcols{display:grid;grid-template-columns:2fr 1fr;gap:18px;}
+.dcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rlg);padding:20px 18px;box-shadow:var(--s);}
+.dch{font-size:11px;font-weight:800;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+.dcl{color:var(--cyan);font-size:12px;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:700;}
+/* Recommended games */
+.reco-label{font-size:11px;font-weight:700;color:var(--cyan-dark);background:var(--cyan-light);border:1px solid rgba(0,174,239,.2);padding:3px 9px;border-radius:100px;display:inline-flex;align-items:center;gap:4px;margin-bottom:12px;}
+.reco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.rcard{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .2s;}
+.rcard:hover{border-color:var(--cyan);box-shadow:var(--sm);}
+.rct{height:70px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.rcb{padding:8px 10px;}
+.rcn{font-size:12px;font-weight:700;margin-bottom:2px;}
+.rcm{font-size:10px;color:var(--text3);}
+.rcwhy{font-size:10px;color:var(--cyan-dark);font-style:italic;margin-top:2px;}
+/* game list */
+.gr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s;}
+.gr:last-of-type{border-bottom:none;}
+.gr:hover{opacity:.8;}
+.gric{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.grin{flex:1;}
+.grn{font-size:13px;font-weight:700;margin-bottom:1px;}
+.grm{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px;}
+.grd{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.grp{background:var(--cyan);color:#fff;border:none;padding:5px 12px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:11.5px;cursor:pointer;white-space:nowrap;}
+.ups{margin-top:12px;background:var(--gold-light);border:1px solid rgba(245,158,11,.35);border-radius:var(--rsm);padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:9px;}
+.ust{font-size:12.5px;color:var(--text);}
+.ust strong{color:#92400e;}
+.usb{background:var(--gold);color:var(--black);border:none;padding:6px 11px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:800;font-size:11.5px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.statcol{display:flex;flex-direction:column;gap:12px;}
+.stb{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;box-shadow:var(--s);}
+.sbn{font-size:26px;font-weight:800;color:var(--black2);margin-bottom:1px;}
+.sbl{font-size:11px;color:var(--text3);}
+
+/* ════ S7 LEARN ════ */
+#s-learn{background:var(--bg);}
+.learn-shell{max-width:1100px;margin:0 auto;padding:36px 24px 80px;}
+.learn-hero{background:var(--black);border-radius:var(--rlg);padding:36px 36px;margin-bottom:36px;position:relative;overflow:hidden;}
+.learn-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,174,239,.12) 1px,transparent 1px);background-size:28px 28px;}
+.learn-hero h2{font-size:28px;font-weight:800;color:#fff;margin-bottom:10px;position:relative;}
+.learn-hero h2 em{color:var(--cyan);font-style:normal;}
+.learn-hero p{font-size:15px;color:rgba(255,255,255,.55);max-width:480px;line-height:1.6;position:relative;}
+.learn-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.lcat{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:22px 18px;cursor:pointer;transition:all .2s;box-shadow:var(--s);}
+.lcat:hover{border-color:var(--cyan);box-shadow:var(--sm);transform:translateY(-2px);}
+.lcat-ic{font-size:28px;margin-bottom:12px;}
+.lcat h3{font-size:15px;font-weight:700;margin-bottom:5px;}
+.lcat p{font-size:12.5px;color:var(--text2);line-height:1.5;}
+.lcat-count{font-size:11px;color:var(--cyan);font-weight:700;margin-top:8px;}
+.learn-articles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.larc{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;cursor:pointer;transition:all .2s;box-shadow:var(--s);display:flex;gap:14px;}
+.larc:hover{border-color:var(--cyan);box-shadow:var(--sm);}
+.larc-ic{font-size:32px;flex-shrink:0;}
+.larc-body h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.larc-body p{font-size:12.5px;color:var(--text2);line-height:1.5;}
+.larc-tag{font-size:10.5px;font-weight:700;color:var(--cyan);margin-top:6px;}
+
+/* ════ GAME FINDER MODAL ════ */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-ov.show{opacity:1;pointer-events:all;}
+.modal{background:var(--white);border-radius:var(--rlg);width:90%;max-width:580px;max-height:80vh;overflow-y:auto;box-shadow:var(--sl);transform:scale(.95);transition:transform .25s;}
+.modal-ov.show .modal{transform:scale(1);}
+.modal-head{padding:24px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;}
+.modal-head h3{font-size:20px;font-weight:800;}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);line-height:1;flex-shrink:0;}
+.modal-body{padding:20px 24px 28px;}
+.modal-sub{font-size:13.5px;color:var(--text2);margin-bottom:20px;}
+.mq{margin-bottom:20px;}
+.mq-lbl{font-size:13px;font-weight:700;margin-bottom:10px;}
+.mq-opts{display:flex;flex-wrap:wrap;gap:7px;}
+.mopt{border:1.5px solid var(--border2);background:var(--bg);padding:7px 13px;border-radius:100px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;color:var(--text);}
+.mopt:hover{border-color:var(--cyan);background:var(--cyan-light);}
+.mopt.sel{background:var(--cyan-light);border-color:var(--cyan);color:var(--cyan-dark);}
+.modal-result{background:var(--cyan-light);border:1.5px solid rgba(0,174,239,.3);border-radius:var(--r);padding:18px;display:none;}
+.modal-result.show{display:block;}
+.modal-result h4{font-size:15px;font-weight:800;color:var(--cyan-dark);margin-bottom:10px;}
+.mrec{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(0,174,239,.15);}
+.mrec:last-child{border-bottom:none;}
+.mrec-ic{font-size:26px;flex-shrink:0;}
+.mrec-n{font-size:13.5px;font-weight:700;}
+.mrec-w{font-size:11.5px;color:var(--cyan-dark);}
+
+/* ════ AI CHATBOT BUBBLE ════ */
+.chat-bubble{position:fixed;bottom:76px;right:20px;z-index:400;}
+.cb-btn{width:52px;height:52px;border-radius:50%;background:var(--cyan);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(0,174,239,.45);transition:all .2s;}
+.cb-btn:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(0,174,239,.55);}
+.cb-label{position:absolute;bottom:58px;right:0;background:var(--black2);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:100px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;}
+.chat-bubble:hover .cb-label{opacity:1;}
+.cb-win{position:fixed;bottom:140px;right:20px;width:300px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--rlg);box-shadow:var(--sl);z-index:400;display:none;flex-direction:column;overflow:hidden;}
+.cb-win.open{display:flex;}
+.cbwh{background:var(--black);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.cbwh-t{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px;}
+.cbwh-t span{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.cbwh-c{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:18px;line-height:1;}
+.cbwm{padding:14px 14px 8px;flex:1;overflow-y:auto;max-height:240px;display:flex;flex-direction:column;gap:8px;}
+.msg{max-width:85%;padding:8px 11px;border-radius:10px;font-size:12.5px;line-height:1.45;}
+.msg.bot{background:var(--cyan-light);color:var(--cyan-dark);border-radius:3px 10px 10px 10px;align-self:flex-start;}
+.msg.usr{background:var(--cyan);color:#fff;border-radius:10px 10px 3px 10px;align-self:flex-end;}
+.cbwf{padding:8px 12px 12px;display:flex;gap:6px;border-top:1px solid var(--border);}
+.cbwf input{flex:1;padding:8px 10px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-size:12.5px;outline:none;color:var(--text);}
+.cbwf input:focus{border-color:var(--cyan);}
+.cbwf button{background:var(--cyan);color:#fff;border:none;padding:8px 12px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:12px;cursor:pointer;}
+/* quick suggestions */
+.cbqs{padding:0 14px 8px;display:flex;gap:5px;flex-wrap:wrap;}
+.cbq{border:1px solid rgba(0,174,239,.3);background:var(--cyan-light);color:var(--cyan-dark);padding:4px 9px;border-radius:100px;font-size:11px;cursor:pointer;transition:all .15s;font-weight:600;}
+.cbq:hover{background:var(--cyan);color:#fff;}
+
+/* ════ BOTTOM NAV ════ */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--black2);border-top:1px solid rgba(255,255,255,.07);padding:9px 18px 11px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;}
+.bnl{font-size:11px;color:rgba(255,255,255,.28);margin-right:4px;}
+.bt{padding:6px 12px;border-radius:100px;font-size:11.5px;font-family:'Open Sans',sans-serif;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.48);}
+.bt:hover{background:rgba(255,255,255,.07);color:#fff;}
+.bt.on{background:var(--cyan);color:#fff;border-color:var(--cyan);}
+.bs{color:rgba(255,255,255,.18);font-size:11px;}
+
+@media(max-width:700px){
+  .hero-in,.sw{grid-template-columns:1fr;}
+  .hero-games,.nl-section .nl-form{display:none;}
+  .cg{grid-template-columns:repeat(2,1fr);}
+  .gpg{grid-template-columns:repeat(2,1fr);}
+  .plans{grid-template-columns:1fr;}
+  .feats,.learn-cats{grid-template-columns:1fr;}
+  .dcols{grid-template-columns:1fr;}
+  .learn-articles,.reco-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" onclick="go('s-landing')">
+    <img src="data:image/webp;base64,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" alt="Board Game Arena">
+  </a>
+  <div class="nav-links">
+    <button class="nl" onclick="go('s-landing')">Accueil</button>
+    <button class="nl">Jeux</button>
+    <button class="nl" onclick="go('s-learn')">Apprendre</button>
+    <button class="nl" onclick="go('s-premium')">Premium ★</button>
+    <button class="nl" onclick="openFinder()" style="color:var(--cyan);">🎯 Quel jeu pour moi ?</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn-no" onclick="go('s-signup')">Connexion</button>
+    <button class="btn-nc" onclick="go('s-signup')">Créer un compte</button>
+    <button class="btn-ng" onclick="go('s-premium')">★ Go Premium</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     GAME FINDER MODAL
+══════════════════════════════════ -->
+<div class="modal-ov" id="finderModal" onclick="if(event.target===this)closeFinder()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>🎯 Quel jeu est fait pour toi ?</h3>
+      <button class="modal-close" onclick="closeFinder()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub">Réponds à 3 questions, on te trouve ton prochain jeu favori parmi 1 200+ titres.</p>
+      <div class="mq">
+        <div class="mq-lbl">Combien de joueurs êtes-vous ?</div>
+        <div class="mq-opts" id="mq1">
+          <div class="mopt" onclick="mpick(this,'mq1')">Solo</div>
+          <div class="mopt" onclick="mpick(this,'mq1')">2 joueurs</div>
+          <div class="mopt" onclick="mpick(this,'mq1')">3-4 joueurs</div>
+          <div class="mopt" onclick="mpick(this,'mq1')">5+ joueurs</div>
+        </div>
+      </div>
+      <div class="mq">
+        <div class="mq-lbl">Combien de temps avez-vous ?</div>
+        <div class="mq-opts" id="mq2">
+          <div class="mopt" onclick="mpick(this,'mq2')">15 min</div>
+          <div class="mopt" onclick="mpick(this,'mq2')">30-45 min</div>
+          <div class="mopt" onclick="mpick(this,'mq2')">1h+</div>
+          <div class="mopt" onclick="mpick(this,'mq2')">Peu importe</div>
+        </div>
+      </div>
+      <div class="mq">
+        <div class="mq-lbl">Quel style vous attire ?</div>
+        <div class="mq-opts" id="mq3">
+          <div class="mopt" onclick="mpick(this,'mq3')">🧩 Stratégie pure</div>
+          <div class="mopt" onclick="mpick(this,'mq3')">🎴 Gestion de cartes</div>
+          <div class="mopt" onclick="mpick(this,'mq3')">🗺 Placement / territoire</div>
+          <div class="mopt" onclick="mpick(this,'mq3')">🎲 Hasard + tactique</div>
+          <div class="mopt" onclick="mpick(this,'mq3')">🤝 Coopératif</div>
+          <div class="mopt" onclick="mpick(this,'mq3')">🎭 Déduction / bluff</div>
+        </div>
+      </div>
+      <button class="btn-c" style="width:100%;margin-bottom:14px;" onclick="showFinderResult()">Trouver mes jeux →</button>
+      <div class="modal-result" id="finderResult">
+        <h4>🎯 Parfaits pour toi :</h4>
+        <div class="mrec"><span class="mrec-ic">♟</span><div><div class="mrec-n">Carcassonne</div><div class="mrec-w">Placement de tuiles · Parfait pour 2-5 joueurs</div></div></div>
+        <div class="mrec"><span class="mrec-ic">🌿</span><div><div class="mrec-n">Azul</div><div class="mrec-w">Stratégie visuelle · Parties de 30-45 min</div></div></div>
+        <div class="mrec"><span class="mrec-ic">🏰</span><div><div class="mrec-n">Splendor</div><div class="mrec-w">Gestion de ressources · Facile à apprendre</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PREMIUM POPUP (auto 2s)
+══════════════════════════════════ -->
+<!-- ══ EXIT INTENT POPUP ══ -->
+<div class="popup-overlay" id="exitPopup" onclick="if(event.target===this)closeExit()">
+  <div class="popup-box" style="max-width:480px;text-align:left;">
+    <button class="popup-close" onclick="closeExit()">✕</button>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:52px;height:52px;border-radius:12px;background:var(--cyan-light);border:1.5px solid rgba(0,174,239,.2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🎲</div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;">Avant de partir…</div>
+        <h3 style="font-size:20px;font-weight:800;line-height:1.15;text-align:left;">Des milliers de parties vous attendent.<br>Ne les laissez pas sans adversaire.</h3>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px;">Chaque semaine, les meilleurs guides stratégiques, les nouvelles sorties et les tournois à ne pas rater — directement dans votre boîte mail. <strong style="color:var(--text);">Gratuit. Sans spam. Désabonnement en un clic.</strong></p>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input type="email" id="exitEmail" placeholder="votre@email.com" style="flex:1;padding:11px 14px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--cyan)'" onblur="this.style.borderColor='var(--border2)'">
+      <button onclick="submitExit()" style="background:var(--cyan);color:#fff;border:none;padding:11px 18px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;transition:background .15s;" onmouseover="this.style.background='var(--cyan-dark)'" onmouseout="this.style.background='var(--cyan)'">Je m'abonne →</button>
+    </div>
+    <div id="exitSuccess" style="display:none;background:var(--cyan-light);border:1px solid rgba(0,174,239,.25);border-radius:var(--rsm);padding:11px 14px;font-size:13.5px;font-weight:700;color:var(--cyan-dark);">✓ Parfait ! On se retrouve dans votre boîte mail.</div>
+    <p style="font-size:11.5px;color:var(--text3);margin-top:8px;">Déjà membre BGA ? <a onclick="go('s-signup');closeExit()" style="color:var(--cyan);cursor:pointer;font-weight:700;text-decoration:none;">Connectez-vous →</a></p>
+  </div>
+</div>
+
+<div class="popup-overlay" id="premiumPopup">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <span class="popup-emoji">🚀</span>
+    <h3>Tu adores Terraforming Mars ?</h3>
+    <p>200+ jeux Premium t'attendent sur BGA — débloque-les tous pour <strong>42€/an</strong>, soit 3,50€/mois.</p>
+    <button class="popup-cta" onclick="go('s-premium');closePopup()">Je passe Premium →</button>
+    <span class="popup-skip" onclick="closePopup()">Non merci, je reste en gratuit</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S1 — LANDING
+══════════════════════════════════ -->
+<div id="s-landing" class="screen active">
+  <div class="hero">
+    <div class="hero-in">
+      <div class="hero-left">
+        <div class="hbadge"><span class="ldot"></span>47 340 joueurs en ligne maintenant</div>
+        <h1>Les meilleurs jeux<br>de société,<br><em>joués ensemble</em></h1>
+        <p class="hero-sub">1 200+ jeux adaptés pour le navigateur. Gratuit, sans installation. 10 millions de joueurs dans 200 pays.</p>
+        <div class="hero-ctas">
+          <button class="btn-c" onclick="go('s-signup')">Jouer gratuitement →</button>
+          <button class="btn-o" onclick="go('s-premium')" style="background:transparent;color:rgba(255,255,255,.68);border-color:rgba(255,255,255,.2);">Découvrir Premium</button>
+        </div>
+        <div class="hero-social">
+          <div class="avs"><div class="av a1">JR</div><div class="av a2">MK</div><div class="av a3">AS</div><div class="av a4">PL</div><div class="av a5">TW</div></div>
+          <p><strong>10M membres</strong> actifs · 200 pays</p>
+        </div>
+        <!-- Newsletter hero -->
+        <div class="hero-nl" style="margin-top:18px;">
+          <input type="email" placeholder="Reçois les actus jeux par email…">
+          <button>S'abonner</button>
+        </div>
+      </div>
+      <div class="hero-games">
+        <div class="hg"><div class="hg-img gc1">♟</div><div class="hg-name">Carcassonne</div><div class="hg-live"><span></span>2 314</div></div>
+        <div class="hg"><div class="hg-prem">★</div><div class="hg-img gc2">🎴</div><div class="hg-name">7 Wonders</div><div class="hg-live"><span></span>1 892</div></div>
+        <div class="hg"><div class="hg-img gc3">🌿</div><div class="hg-name">Azul</div><div class="hg-live"><span></span>1 547</div></div>
+        <div class="hg"><div class="hg-prem">★</div><div class="hg-img gc4">🏰</div><div class="hg-name">Splendor</div><div class="hg-live"><span></span>987</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stats-in">
+      <div class="stat-s"><div class="num">1 200+</div><div class="lbl">Jeux disponibles</div></div>
+      <div class="stat-s"><div class="num">47K</div><div class="lbl">Joueurs en ligne</div></div>
+      <div class="stat-s"><div class="num">10M</div><div class="lbl">Membres actifs</div></div>
+      <div class="stat-s"><div class="num">200</div><div class="lbl">Pays représentés</div></div>
+    </div>
+  </div>
+
+  <div class="lbody">
+    <div class="phy">
+      <div class="phy-ic">📦</div>
+      <div>
+        <div class="annot" style="margin-bottom:9px;">💡 Stratégie phygital — pont Asmodee physique → digital</div>
+        <h3>Tu as la boîte ? Joue directement sur BGA.</h3>
+        <p>Scanne le QR code sur ta boîte Asmodee et retrouve le jeu immédiatement. Des millions de boîtes vendues deviennent un canal d'acquisition digitale unique.</p>
+      </div>
+    </div>
+
+    <div class="seye">Catalogue</div>
+    <div class="stitle">Explore 1 200+ jeux de société</div>
+    <p class="ssub">Des classiques aux nouveautés — joue gratuitement ou débloque tous les jeux avec Premium.</p>
+
+    <div class="cg">
+      <div class="ccard"><div class="cthumb gc1">♟</div><div class="cbody"><div class="cname">Carcassonne</div><div class="cfoot"><span>2-5j</span><span class="tf">GRATUIT</span></div></div></div>
+      <div class="ccard"><div class="cthumb gc2">🎴</div><div class="cbody"><div class="cname">7 Wonders</div><div class="cfoot"><span>2-7j</span><span class="tp">★ PREMIUM</span></div></div></div>
+      <div class="ccard"><div class="cthumb gc3">🌿</div><div class="cbody"><div class="cname">Azul</div><div class="cfoot"><span>2-4j</span><span class="tf">GRATUIT</span></div></div></div>
+      <div class="ccard"><div class="cthumb gc4">🏰</div><div class="cbody"><div class="cname">Splendor</div><div class="cfoot"><span>2-4j</span><span class="tp">★ PREMIUM</span></div></div></div>
+      <div class="ccard" onclick="go('s-premium')" style="border-color:rgba(0,174,239,.25);background:var(--cyan-light);">
+        <div class="cthumb" style="background:var(--cyan-light);font-size:22px;">+900</div>
+        <div class="cbody"><div class="cname" style="color:var(--cyan);">Voir tout →</div><div class="cfoot"><span style="color:var(--cyan-dark);font-size:10px;">avec Premium</span></div></div>
+      </div>
+    </div>
+
+    <div class="feats">
+      <div class="feat"><div class="fiw">🎮</div><h3>Joue instantanément</h3><p>Aucun téléchargement. Lance une partie en 30 secondes depuis ton navigateur, sur PC, mobile ou tablette.</p></div>
+      <div class="feat"><div class="fiw">🌍</div><h3>Trouve des adversaires</h3><p>Matchmaking 24h/24, temps réel ou asynchrone. Des joueurs de ton niveau à toute heure dans 200 pays.</p></div>
+      <div class="feat"><div class="fiw">📈</div><h3>Analyse et progresse</h3><p>Stats détaillées, replays complets, classement ELO. Comprends tes erreurs et améliore ton niveau.</p></div>
+    </div>
+
+    <!-- Newsletter section -->
+    <div class="nl-section">
+      <div class="nl-text">
+        <h3>🗞 La newsletter BGA</h3>
+        <p>Nouveautés, tournois, guides stratégiques et offres exclusives. Chaque semaine, directement dans ta boîte mail.</p>
+      </div>
+      <div class="nl-form">
+        <input type="email" placeholder="ton@email.com">
+        <button>S'abonner gratuitement</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:6px 0 44px;">
+      <button class="btn-c" onclick="go('s-signup')" style="font-size:15px;padding:13px 30px;">Créer mon compte gratuit →</button>
+      <p style="font-size:12px;color:var(--text3);margin-top:10px;">Aucune carte bancaire · Accès immédiat à des centaines de jeux</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S2 — SIGNUP
+══════════════════════════════════ -->
+<div id="s-signup" class="screen">
+  <div class="sw">
+    <div class="sl">
+      <div class="annot" style="margin-bottom:14px;">🔬 Redesign — Signup friction réduite + SSO</div>
+      <h2>Rejoins <em>10M</em> joueurs</h2>
+      <p class="sub">Gratuit pour toujours · Accès immédiat</p>
+      <div class="vl">
+        <div class="vi"><div class="vic">✓</div><p><strong>Des centaines de jeux gratuits</strong> — Carcassonne, Azul, Love Letter…</p></div>
+        <div class="vi"><div class="vic">✓</div><p><strong>Matchmaking instantané</strong> — adversaires de ton niveau, 24h/24</p></div>
+        <div class="vi"><div class="vic">✓</div><p><strong>Joue avec tes amis</strong> — invitations sans compte requis</p></div>
+        <div class="vi"><div class="vic">✓</div><p><strong>Tous tes appareils</strong> — PC, mobile, tablette, aucune installation</p></div>
+      </div>
+      <div class="pm">📦 Tu as une boîte Asmodee ? <strong>Scanne le QR code</strong> pour accéder au jeu directement.</div>
+    </div>
+    <div class="sr">
+      <h3>Créer un compte gratuit</h3>
+      <p class="fsub">Pas de carte bancaire · Accès immédiat</p>
+      <button class="sso"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/><path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>Continuer avec Google</button>
+      <button class="sso"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><rect width="18" height="18" rx="3" fill="#1877F2"/><path d="M12.5 9H10V7.5c0-.552.447-1 1-1h1V4H10c-1.657 0-3 1.343-3 3v2H5.5v2.5H7V18h3v-6.5h2l.5-2.5z" fill="white"/></svg>Continuer avec Facebook</button>
+      <div class="divv"><hr><span>ou avec un email</span><hr></div>
+      <div class="ff"><label>Pseudo</label><input type="text" placeholder="Ton nom de joueur"></div>
+      <div class="ff"><label>Email</label><input type="email" placeholder="ton@email.com"></div>
+      <div class="ff"><label>Mot de passe</label><input type="password" placeholder="Min. 8 caractères"></div>
+      <button class="btn-c" style="width:100%;margin-top:5px;padding:11px;" onclick="go('s-onboarding1')">Créer mon compte →</button>
+      <p class="terms-t">En t'inscrivant tu acceptes les <a href="#">CGU</a> et la <a href="#">politique de confidentialité</a>.</p>
+      <p class="alr">Déjà membre ? <a onclick="go('s-dashboard')">Connexion</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S3 — ONBOARDING 1
+══════════════════════════════════ -->
+<div id="s-onboarding1" class="screen">
+  <div class="obs">
+    <div class="annot" style="margin-bottom:14px;">🔬 Redesign — Onboarding personnalisé inexistant sur BGA actuel</div>
+    <div class="prog"><div class="prgt"><span>Étape 1 / 2 — Ton profil</span><span>50 %</span></div><div class="prgtr"><div class="prgf" style="width:50%"></div></div></div>
+    <div class="obc">
+      <h2>Dis-nous comment tu joues</h2>
+      <p class="sub">Personnalise ton expérience BGA en 30 secondes — on t'en suggère des jeux parfaits.</p>
+      <div class="qsec"><div class="qlbl">Tu te définis comme :</div><div class="qopts" id="q1"><div class="qo" onclick="pick(this,'q1',true)">🌱 Débutant curieux</div><div class="qo" onclick="pick(this,'q1',true)">🎯 Joueur régulier</div><div class="qo" onclick="pick(this,'q1',true)">⚔️ Compétiteur</div><div class="qo" onclick="pick(this,'q1',true)">👑 Expert stratège</div></div></div>
+      <div class="qsec"><div class="qlbl">Tu joues principalement :</div><div class="qopts" id="q2"><div class="qo" onclick="pick(this,'q2',true)">☀️ Le midi</div><div class="qo" onclick="pick(this,'q2',true)">🌙 Le soir</div><div class="qo" onclick="pick(this,'q2',true)">🗓 Le week-end</div><div class="qo" onclick="pick(this,'q2',true)">⚡ À tout moment</div></div></div>
+      <div class="qsec"><div class="qlbl">Types de jeux préférés (plusieurs choix) :</div><div class="qopts" id="q3"><div class="qo" onclick="pick(this,'q3',false)">🧩 Stratégie</div><div class="qo" onclick="pick(this,'q3',false)">🎴 Cartes</div><div class="qo" onclick="pick(this,'q3',false)">🗺 Placement</div><div class="qo" onclick="pick(this,'q3',false)">🎲 Dés + stratégie</div><div class="qo" onclick="pick(this,'q3',false)">🤝 Coopératif</div><div class="qo" onclick="pick(this,'q3',false)">⚡ Courts</div></div></div>
+      <!-- Newsletter in onboarding — toggle only (email already known) -->
+      <div class="nl-ob" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        <div>
+          <p style="margin-bottom:3px;">📬 Newsletter BGA</p>
+          <p style="font-size:12px;color:var(--cyan-dark);font-weight:400;opacity:.8;">Actus, tournois et guides stratégiques chaque semaine</p>
+        </div>
+        <label class="nl-toggle" onclick="this.classList.toggle('on')" title="Activer la newsletter">
+          <div class="nl-tog-track"><div class="nl-tog-knob"></div></div>
+        </label>
+      </div>
+      <div class="obfoot">
+        <button class="btn-o" onclick="go('s-onboarding2')" style="padding:9px 16px;font-size:13px;">Passer</button>
+        <button class="btn-c" style="flex:1;" onclick="go('s-onboarding2')">Continuer →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S4 — ONBOARDING 2 — CATALOGUE COMPLET
+══════════════════════════════════ -->
+<div id="s-onboarding2" class="screen">
+  <div class="obs">
+    <div class="annot" style="margin-bottom:14px;">🔬 Redesign — Catalogue complet avec recherche + filtre</div>
+    <div class="prog"><div class="prgt"><span>Étape 2 / 2 — Tes jeux favoris</span><span>100 %</span></div><div class="prgtr"><div class="prgf" style="width:100%"></div></div></div>
+    <div class="obc">
+      <h2>Choisis tes jeux favoris</h2>
+      <p class="sub">Recherche parmi 1 200+ jeux. On personnalisera ton dashboard avec tes recommandations. Tu peux aussi <a onclick="go('s-dashboard')" style="color:var(--cyan);cursor:pointer;font-weight:700;">passer cette étape →</a></p>
+
+      <!-- Search bar -->
+      <div class="game-search-bar">
+        <span class="search-ic">🔍</span>
+        <input type="text" id="gameSearch" placeholder="Rechercher un jeu… (ex: Terraforming Mars, Catan, Ticket to Ride)" oninput="filterGames()">
+      </div>
+
+      <!-- Filter tags -->
+      <div class="filter-tags" id="filterTags">
+        <div class="ftag on" onclick="setFilter('all',this)">Tous</div>
+        <div class="ftag" onclick="setFilter('strategie',this)">🧩 Stratégie</div>
+        <div class="ftag" onclick="setFilter('cartes',this)">🎴 Cartes</div>
+        <div class="ftag" onclick="setFilter('placement',this)">🗺 Placement</div>
+        <div class="ftag" onclick="setFilter('coop',this)">🤝 Coopératif</div>
+        <div class="ftag" onclick="setFilter('court',this)">⚡ Court</div>
+        <div class="ftag" onclick="setFilter('gratuit',this)">✅ Gratuit</div>
+        <div class="ftag" onclick="setFilter('premium',this)">★ Premium</div>
+      </div>
+
+      <!-- Game grid -->
+      <div class="gpg" id="gpg"></div>
+      <p class="sel-count" id="selCount" style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:18px;">0 jeu(x) sélectionné(s)</p>
+
+      <button class="btn-c" style="width:100%;" onclick="go('s-dashboard')">Accéder à mon dashboard →</button>
+      <p style="font-size:11.5px;color:var(--text3);text-align:center;margin-top:7px;">Tu pourras modifier tes préférences à tout moment</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S5 — PREMIUM
+══════════════════════════════════ -->
+<div id="s-premium" class="screen">
+  <div class="prems">
+    <div style="text-align:center;margin-bottom:18px;"><div class="annot">🔬 Redesign — Paywall orienté valeur, vrais prix BGA</div></div>
+    <div class="premh">
+      <h2>Passe au niveau <em>supérieur</em></h2>
+      <p>Débloque tous les jeux, crée tes tables et analyse ton jeu en profondeur</p>
+    </div>
+    <div class="billr">
+      <span class="blbl" id="lm">Mensuel</span>
+      <div class="tog" onclick="flipB()" id="tog"><div class="togk" id="togK"></div></div>
+      <span class="blbl on" id="la">Annuel</span>
+      <span class="spill">−30 %</span>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <div class="pname">Gratuit</div>
+        <div class="pprice"><span class="pnum" style="color:var(--text);">0€</span><span class="pper">/mois</span></div>
+        <div class="pbl"></div>
+        <p class="pdesc">Pour découvrir BGA et jouer occasionnellement</p>
+        <div class="pfeats">
+          <div class="pf yes"><span class="pfy">✓</span>Accès à des centaines de jeux</div>
+          <div class="pf yes"><span class="pfy">✓</span>Matchmaking automatique</div>
+          <div class="pf yes"><span class="pfy">✓</span>Tous les appareils</div>
+          <div class="pf"><span class="pfn">—</span>1 200+ jeux dont les exclusifs</div>
+          <div class="pf"><span class="pfn">—</span>Créer ses propres tables</div>
+          <div class="pf"><span class="pfn">—</span>Sans publicités</div>
+          <div class="pf"><span class="pfn">—</span>Statistiques avancées &amp; replays</div>
+          <div class="pf"><span class="pfn">—</span>Chat vidéo en partie</div>
+        </div>
+        <button class="bpg" onclick="go('s-signup')">Commencer gratuitement</button>
+      </div>
+      <div class="plan ft">
+        <div class="ptb">★ Le plus populaire</div>
+        <div class="pname" style="color:var(--cyan);">Premium</div>
+        <div class="pprice"><span class="pnum" id="pnum">3,50€</span><span class="pper">/mois</span></div>
+        <div class="pbl" id="pbl">Facturé 42€/an — soit 3,50€/mois</div>
+        <p class="pdesc">Pour les joueurs passionnés qui veulent tout débloquer</p>
+        <div class="pfeats">
+          <div class="pf yes"><span class="pfy">✓</span>Tout du plan Gratuit</div>
+          <div class="pf yes"><span class="pfy">✓</span><strong>1 200+ jeux dont les exclusifs</strong></div>
+          <div class="pf yes"><span class="pfy">✓</span>Crée tes tables privées</div>
+          <div class="pf yes"><span class="pfy">✓</span>Zéro publicité</div>
+          <div class="pf yes"><span class="pfy">✓</span>Stats &amp; replays détaillés</div>
+          <div class="pf yes"><span class="pfy">✓</span>Chat vidéo en partie</div>
+          <div class="pf yes"><span class="pfy">✓</span>Matchmaking prioritaire</div>
+          <div class="pf yes"><span class="pfy">✓</span>Accès anticipé aux nouveautés</div>
+        </div>
+        <button class="bpc" onclick="go('s-signup')">Essayer 14 jours gratuits →</button>
+      </div>
+    </div>
+    <p class="guar">🔒 Annulation à tout moment · Aucun engagement · Remboursement sous 14 jours</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S6 — DASHBOARD
+══════════════════════════════════ -->
+<div id="s-dashboard" class="screen">
+  <div class="ds">
+    <div class="annot" style="margin-bottom:14px;">🔬 Redesign — Dashboard avec recommandations IA personnalisées</div>
+    <div class="dtop">
+      <div><div class="dg">Bon retour,</div><div class="dn">Bienvenue sur Board Game Arena ♟</div></div>
+      <div class="dlv">★ Niveau 1 · Apprenti</div>
+    </div>
+    <div class="cta1">
+      <div class="cta1-ic">🎮</div>
+      <div><h3>Lance ta première partie maintenant</h3><p>Un adversaire t'attend sur Carcassonne — temps d'attente : moins de 30 secondes</p></div>
+      <div class="cta1-arrow">→</div>
+    </div>
+    <div class="dcols">
+      <div>
+        <div class="dcard" style="margin-bottom:16px;">
+          <div class="dch">Mes jeux <a class="dcl">Voir tout</a></div>
+          <div class="gr"><div class="gric gc1">♟</div><div class="grin"><div class="grn">Carcassonne</div><div class="grm"><span class="grd"></span>2 314 en ligne · ★ 4,8</div></div><button class="grp">Jouer</button></div>
+          <div class="gr"><div class="gric gc2">🎴</div><div class="grin"><div class="grn">7 Wonders</div><div class="grm"><span class="grd"></span>1 892 en ligne · ★ 4,9</div></div><button class="grp">Jouer</button></div>
+          <div class="gr"><div class="gric gc3">🌿</div><div class="grin"><div class="grn">Azul</div><div class="grm"><span class="grd"></span>1 547 en ligne · ★ 4,7</div></div><button class="grp">Jouer</button></div>
+          <div class="ups"><div class="ust">Débloque <strong>900+ jeux exclusifs</strong> avec Premium</div><button class="usb" onclick="go('s-premium')">★ Go Premium</button></div>
+        </div>
+
+        <!-- RECOMMANDATIONS IA -->
+        <div class="dcard">
+          <div class="dch">Recommandés pour toi <a class="dcl">Actualiser</a></div>
+          <div class="reco-label">🤖 Basé sur tes préférences — Stratégie · Placement</div>
+          <div class="reco-grid">
+            <div class="rcard">
+              <div class="rct" style="background:linear-gradient(150deg,#1a3a1a,#0a200a);">🌱</div>
+              <div class="rcb">
+                <div class="rcn">Terraforming Mars</div>
+                <div class="rcm">★ 4,9 · 1-5j</div>
+                <div class="rcwhy">Tu aimes la stratégie longue</div>
+              </div>
+            </div>
+            <div class="rcard">
+              <div class="rct" style="background:linear-gradient(150deg,#2a1a3a,#180a28);">🏙</div>
+              <div class="rcb">
+                <div class="rcn">Wingspan</div>
+                <div class="rcm">★ 4,8 · 1-5j</div>
+                <div class="rcwhy">Placement + moteur de cartes</div>
+              </div>
+            </div>
+            <div class="rcard">
+              <div class="rct" style="background:linear-gradient(150deg,#1a2a3a,#0a1828);">⚔️</div>
+              <div class="rcb">
+                <div class="rcn">Scythe</div>
+                <div class="rcm">★ 4,7 · 1-5j</div>
+                <div class="rcwhy">Stratégie territoire expert</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-c" style="width:100%;font-size:13px;padding:9px;" onclick="openFinder()">🎯 Affiner mes recommandations</button>
+        </div>
+      </div>
+
+      <div class="statcol">
+        <div class="stb"><div class="sbn">0</div><div class="sbl">Parties jouées</div></div>
+        <div class="stb"><div class="sbn">—</div><div class="sbl">Classement ELO</div></div>
+        <div class="stb"><div class="sbn">3</div><div class="sbl">Jeux favoris</div></div>
+        <!-- newsletter in dashboard -->
+        <div style="background:var(--cyan-light);border:1.5px solid rgba(0,174,239,.25);border-radius:var(--r);padding:16px;">
+          <p style="font-size:12px;font-weight:700;color:var(--cyan-dark);margin-bottom:8px;">📬 Newsletter BGA</p>
+          <p style="font-size:12px;color:var(--text2);margin-bottom:10px);line-height:1.4;">Actus jeux, tournois et guides chaque semaine</p>
+          <input type="email" placeholder="ton@email.com" style="width:100%;padding:8px 10px;background:#fff;border:1.5px solid rgba(0,174,239,.3);border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-size:12.5px;outline:none;margin-bottom:7px;color:var(--text);">
+          <button style="width:100%;background:var(--cyan);color:#fff;border:none;padding:8px;border-radius:var(--rsm);font-family:'Open Sans',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;">S'abonner</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     S7 — APPRENDRE (comme chess.com)
+══════════════════════════════════ -->
+<div id="s-learn" class="screen">
+  <div class="learn-shell">
+    <div class="annot" style="margin-bottom:16px;">🔬 Redesign — Onglet "Apprendre" inspiré Chess.com</div>
+    <div class="learn-hero">
+      <h2>Apprends à <em>mieux jouer</em></h2>
+      <p>Guides stratégiques, analyses de parties, tutoriels pour progresser sur tes jeux préférés — rédigés par la communauté BGA.</p>
+    </div>
+
+    <div class="seye" style="margin-top:32px;">Par catégorie</div>
+    <div class="stitle" style="margin-bottom:24px;">Que veux-tu apprendre ?</div>
+
+    <div class="learn-cats">
+      <div class="lcat"><div class="lcat-ic">🎯</div><h3>Stratégies débutant</h3><p>Les bases pour chaque type de jeu. Commence à gagner dès tes premières parties.</p><div class="lcat-count">48 guides</div></div>
+      <div class="lcat"><div class="lcat-ic">⚔️</div><h3>Tactiques avancées</h3><p>Ouvertures, mid-game, finales. Pour les joueurs qui veulent passer un cap.</p><div class="lcat-count">92 guides</div></div>
+      <div class="lcat"><div class="lcat-ic">🔬</div><h3>Analyse de parties</h3><p>Décortiquer les meilleures parties des top joueurs BGA et comprendre leurs choix.</p><div class="lcat-count">34 analyses</div></div>
+      <div class="lcat"><div class="lcat-ic">🎓</div><h3>Tutoriels jeux</h3><p>Apprends les règles de n'importe quel jeu du catalogue en 5 minutes.</p><div class="lcat-count">700+ tutoriels</div></div>
+      <div class="lcat"><div class="lcat-ic">🏆</div><h3>Préparer un tournoi</h3><p>Stratégies spécifiques au format tournoi. Pression, temps, adversaires multiples.</p><div class="lcat-count">21 guides</div></div>
+      <div class="lcat"><div class="lcat-ic">🤖</div><h3>Demander à l'IA</h3><p>Pose n'importe quelle question sur les règles ou stratégies à notre assistant IA.</p><div class="lcat-count" style="cursor:pointer;" onclick="toggleChat()">Ouvrir le chatbot →</div></div>
+    </div>
+
+    <div class="seye">Articles récents</div>
+    <div class="stitle" style="margin-bottom:20px;">En ce moment sur BGA Learn</div>
+
+    <div class="learn-articles">
+      <div class="larc"><div class="larc-ic">♟</div><div class="larc-body"><h4>Carcassonne : les 5 erreurs du débutant</h4><p>Les pièges classiques que font 90% des nouveaux joueurs et comment les éviter dès le départ.</p><div class="larc-tag">Débutant · Carcassonne · 5 min</div></div></div>
+      <div class="larc"><div class="larc-ic">🌱</div><div class="larc-body"><h4>Terraforming Mars : stratégie solo vs multijoueur</h4><p>Les priorités changent radicalement selon le nombre de joueurs. Voici pourquoi et comment adapter.</p><div class="larc-tag">Avancé · Terraforming Mars · 12 min</div></div></div>
+      <div class="larc"><div class="larc-ic">🎴</div><div class="larc-body"><h4>7 Wonders : quelle merveille choisir selon ta position</h4><p>Analyse complète des 14 merveilles et leur impact sur ta stratégie de départ.</p><div class="larc-tag">Intermédiaire · 7 Wonders · 8 min</div></div></div>
+      <div class="larc"><div class="larc-ic">🏆</div><div class="larc-body"><h4>Comment penser en tournoi : gestion du temps et du stress</h4><p>Les joueurs top 100 BGA partagent leurs routines mentales avant et pendant la compétition.</p><div class="larc-tag">Expert · Tous jeux · 10 min</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════
+     AI CHATBOT
+════════════════ -->
+<div class="chat-bubble" id="chatBubble">
+  <span class="cb-label">🤖 Règles & stratégies</span>
+  <button class="cb-btn" onclick="toggleChat()" title="Chatbot IA — règles et stratégies">🤖</button>
+</div>
+<div class="cb-win" id="chatWin">
+  <div class="cbwh">
+    <div class="cbwh-t"><span></span>BGA Assistant IA</div>
+    <button class="cbwh-c" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="cbwm" id="chatMsgs">
+    <div class="msg bot">Bonjour ! Je connais les règles et stratégies de tous les jeux BGA. Pose-moi n'importe quelle question 🎲</div>
+  </div>
+  <div class="cbqs">
+    <div class="cbq" onclick="sendQ('Comment jouer à Carcassonne ?')">Carcassonne ?</div>
+    <div class="cbq" onclick="sendQ('Stratégie Terraforming Mars ?')">TM stratégie</div>
+    <div class="cbq" onclick="sendQ('Règles de 7 Wonders ?')">7 Wonders</div>
+  </div>
+  <div class="cbwf">
+    <input type="text" id="chatInput" placeholder="Ex: Règles de Splendor…" onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">→</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <span class="bnl">Parcours :</span>
+  <button class="bt on" id="t-s-landing" onclick="go('s-landing')">① Landing</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-signup" onclick="go('s-signup')">② Signup</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-onboarding1" onclick="go('s-onboarding1')">③ Profil</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-onboarding2" onclick="go('s-onboarding2')">④ Catalogue</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-premium" onclick="go('s-premium')">⑤ Premium</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-dashboard" onclick="go('s-dashboard')">⑥ Dashboard</button>
+  <span class="bs">›</span>
+  <button class="bt" id="t-s-learn" onclick="go('s-learn')">⑦ Apprendre</button>
+</div>
+
+<script>
+// ── GAME DATA — catalogue complet simulé ──
+const GAMES=[
+  {n:'Carcassonne',ic:'♟',bg:'gc1',tags:['placement','gratuit'],cat:'placement'},
+  {n:'7 Wonders',ic:'🎴',bg:'gc2',tags:['cartes','premium'],cat:'cartes'},
+  {n:'Azul',ic:'🌿',bg:'gc3',tags:['strategie','gratuit'],cat:'strategie'},
+  {n:'Splendor',ic:'🏰',bg:'gc4',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Love Letter',ic:'🎭',bg:'gc5',tags:['cartes','court','gratuit'],cat:'cartes'},
+  {n:'Ticket to Ride',ic:'⚓',bg:'gc4',tags:['placement','premium'],cat:'placement'},
+  {n:'Terraforming Mars',ic:'🌱',bg:'gc3',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Wingspan',ic:'🦅',bg:'gc2',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Pandemic',ic:'🦠',bg:'gc1',tags:['coop','gratuit'],cat:'coop'},
+  {n:'Scythe',ic:'⚔️',bg:'gc5',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Codenames',ic:'🕵️',bg:'gc2',tags:['cartes','court','gratuit'],cat:'cartes'},
+  {n:'Hanabi',ic:'🎆',bg:'gc3',tags:['coop','court','gratuit'],cat:'coop'},
+  {n:'Race for the Galaxy',ic:'🚀',bg:'gc1',tags:['cartes','premium'],cat:'cartes'},
+  {n:'Dominion',ic:'👑',bg:'gc4',tags:['cartes','strategie','premium'],cat:'cartes'},
+  {n:'Puerto Rico',ic:'🌴',bg:'gc3',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Village',ic:'🏘',bg:'gc2',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Agricola',ic:'🌾',bg:'gc4',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Sushi Go',ic:'🍣',bg:'gc5',tags:['cartes','court','gratuit'],cat:'cartes'},
+  {n:'Dixit',ic:'🎨',bg:'gc1',tags:['cartes','court','gratuit'],cat:'cartes'},
+  {n:'Stone Age',ic:'🪨',bg:'gc3',tags:['strategie','gratuit'],cat:'strategie'},
+  {n:'Catan',ic:'⛵',bg:'gc2',tags:['placement','premium'],cat:'placement'},
+  {n:'Power Grid',ic:'⚡',bg:'gc4',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Through the Ages',ic:'🏛',bg:'gc1',tags:['strategie','premium'],cat:'strategie'},
+  {n:'Lords of Waterdeep',ic:'🧙',bg:'gc5',tags:['strategie','premium'],cat:'strategie'},
+],
+GCS={gc1:'linear-gradient(150deg,#103060,#061830)',gc2:'linear-gradient(150deg,#2d1050,#180828)',gc3:'linear-gradient(150deg,#0f3820,#072010)',gc4:'linear-gradient(150deg,#402010,#201008)',gc5:'linear-gradient(150deg,#103040,#061820)'};
+
+let curFilter='all', selectedGames=new Set();
+
+function buildGrid(filter='all', q=''){
+  const g=document.getElementById('gpg');
+  const filtered=GAMES.filter(gm=>{
+    const mf=filter==='all'||(filter==='gratuit'?gm.tags.includes('gratuit'):filter==='premium'?gm.tags.includes('premium'):gm.cat===filter||gm.tags.includes(filter));
+    const mq=q===''||gm.n.toLowerCase().includes(q.toLowerCase());
+    return mf&&mq;
+  });
+  if(!filtered.length){g.innerHTML='<div class="no-results" style="grid-column:1/-1">🔍 Aucun jeu trouvé — essaie un autre terme</div>';return;}
+  g.innerHTML=filtered.map(gm=>`
+    <div class="gc${selectedGames.has(gm.n)?' sel':''}" onclick="toggleGame('${gm.n}',this)">
+      <div class="gct" style="background:${GCS[gm.bg]}">${gm.ic}</div>
+      <div class="gcchk">✓</div>
+      <div class="gcb">
+        <div class="gcn">${gm.n}</div>
+        <div class="gctags">${gm.tags.map(t=>`<span class="gctag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleGame(name,el){
+  if(selectedGames.has(name)){selectedGames.delete(name);el.classList.remove('sel');}
+  else{selectedGames.add(name);el.classList.add('sel');}
+  const n=selectedGames.size;
+  document.getElementById('selCount').textContent=n+' jeu(x) sélectionné(s)'+(n>0?' — '+[...selectedGames].slice(0,3).join(', ')+(n>3?'…':''):'');
+}
+
+function filterGames(){buildGrid(curFilter,document.getElementById('gameSearch').value);}
+
+function setFilter(f,el){
+  curFilter=f;
+  document.querySelectorAll('.ftag').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  buildGrid(f,document.getElementById('gameSearch').value);
+}
+
+// init grid when screen shown
+function initGrid(){buildGrid();}
+
+// ── SCREEN NAV ──
+const SS=['s-landing','s-signup','s-onboarding1','s-onboarding2','s-premium','s-dashboard','s-learn'];
+function go(id){
+  SS.forEach(s=>document.getElementById(s).classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  SS.forEach(s=>{const t=document.getElementById('t-'+s);if(t)t.classList.remove('on');});
+  const t=document.getElementById('t-'+id);if(t)t.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='s-onboarding2')initGrid();
+}
+
+// ── QUIZ ──
+function pick(el,g,single){
+  if(single)document.querySelectorAll('#'+g+' .qo').forEach(o=>o.classList.remove('sel'));
+  el.classList.toggle('sel');
+}
+
+// ── PREMIUM BILLING ──
+let ann=true;
+function flipB(){
+  ann=!ann;
+  document.getElementById('togK').style.transform=ann?'':'translateX(20px)';
+  document.getElementById('la').classList.toggle('on',ann);
+  document.getElementById('lm').classList.toggle('on',!ann);
+  document.getElementById('pnum').textContent=ann?'3,50€':'5€';
+  document.getElementById('pbl').textContent=ann?'Facturé 42€/an — soit 3,50€/mois':'Facturé 5€/mois, sans engagement';
+}
+
+// ── POPUP ──
+let popupShown=false;
+function showPopup(){if(!popupShown){popupShown=true;document.getElementById('premiumPopup').classList.add('show');}}
+function closePopup(){document.getElementById('premiumPopup').classList.remove('show');}
+setTimeout(showPopup,2000);
+
+// ── EXIT INTENT ──
+let exitShown=false;
+function isLanding(){return document.getElementById('s-landing').classList.contains('active');}
+function triggerExit(){
+  if(exitShown||!isLanding())return;
+  exitShown=true;
+  document.getElementById('exitPopup').classList.add('show');
+}
+function closeExit(){document.getElementById('exitPopup').classList.remove('show');}
+function submitExit(){
+  const v=document.getElementById('exitEmail').value.trim();
+  if(!v||!v.includes('@'))return;
+  document.getElementById('exitSuccess').style.display='block';
+  document.getElementById('exitEmail').style.display='none';
+  document.getElementById('exitEmail').nextElementSibling.style.display='none';
+  setTimeout(closeExit,2200);
+}
+
+// Desktop — curseur qui remonte vers la barre navigateur
+document.addEventListener('mouseleave',function(e){
+  if(e.clientY<=0) triggerExit();
+});
+
+// Mobile/tablette — inactivité 25 secondes sans interaction
+let inactivityTimer;
+function resetInactivity(){
+  clearTimeout(inactivityTimer);
+  inactivityTimer=setTimeout(triggerExit, 25000);
+}
+['touchstart','touchmove','scroll','click'].forEach(function(ev){
+  document.addEventListener(ev, resetInactivity, {passive:true});
+});
+resetInactivity();
+
+// Mobile/tablette — scroll rapide vers le haut (intention de fermer)
+let lastScrollY=window.scrollY, lastScrollTime=Date.now();
+window.addEventListener('scroll',function(){
+  const now=Date.now();
+  const dy=window.scrollY-lastScrollY;
+  const dt=now-lastScrollTime;
+  // Vélocité < -1.5px/ms = scroll vers le haut rapide
+  if(dt>0 && dy/dt < -1.5 && window.scrollY < 200) triggerExit();
+  lastScrollY=window.scrollY;
+  lastScrollTime=now;
+},{passive:true});
+
+// ── GAME FINDER MODAL ──
+function openFinder(){document.getElementById('finderModal').classList.add('show');}
+function closeFinder(){document.getElementById('finderModal').classList.remove('show');}
+function mpick(el,g){document.querySelectorAll('#'+g+' .mopt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
+function showFinderResult(){document.getElementById('finderResult').classList.add('show');}
+
+// ── CHATBOT ──
+let chatOpen=false;
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatWin').classList.toggle('open',chatOpen);
+}
+function sendQ(q){document.getElementById('chatInput').value=q;sendChat();}
+function sendChat(){
+  const inp=document.getElementById('chatInput');
+  const q=inp.value.trim();
+  if(!q)return;
+  const msgs=document.getElementById('chatMsgs');
+  msgs.innerHTML+=`<div class="msg usr">${q}</div>`;
+  inp.value='';
+  const replies={
+    'carcassonne':'Carcassonne se joue en posant des tuiles pour construire villes, routes et monastères. Ton meeple placé sur une ville non fermée est la clé ! Ferme tes villes avant les adversaires. 🏰',
+    'terraforming':'En TM, priorise la hausse de température et d\'oxygène sur le score en cartes. Vise les projets standards dès le tour 3-4 pour ne pas être distancé. 🌱',
+    '7 wonders':'Surveille tes voisins autant que ta propre merveille. La chaîne de cartes bleues donne un avantage énorme en milieu de partie. 🎴',
+    'splendor':'Bloquer les gemmes de tes adversaires est souvent plus fort que développer rapidement. Reserve les cartes à 5+ points dès que possible. 🏰',
+  };
+  const key=Object.keys(replies).find(k=>q.toLowerCase().includes(k));
+  const resp=key?replies[key]:`Je cherche dans la base BGA… Pour le jeu "${q}", je recommande de commencer par lire les règles courtes dans la section Apprendre ! 📖`;
+  setTimeout(()=>{
+    msgs.innerHTML+=`<div class="msg bot">${resp}</div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },600);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+</script>
+
+</body>
+</html>
