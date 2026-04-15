@@ -363,6 +363,127 @@ function ScrollIndicator() {
 }
 
 // ============================================
+// PROMO POPUP COMPONENT
+// ============================================
+function PromoPopup() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="fixed bottom-6 left-6 z-[100] max-w-sm w-full"
+        >
+          <div className="bg-[var(--bot-bubble-bg)] border-2 border-[var(--accent)] rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-3 right-3 text-[var(--foreground)] opacity-50 hover:opacity-100 transition-opacity"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="mb-4">
+              <span className="inline-block bg-[var(--accent)] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest mb-2">
+                Nouveau
+              </span>
+              <p className="text-[var(--foreground)] font-medium leading-relaxed">
+                J&apos;ai repensé l&apos;onboarding et certaines fonctionnalités de Board Game Arena, venez la découvrir !
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <motion.a
+                href="/bga2"
+                className="bg-[var(--accent)] text-white text-center py-2.5 rounded-xl font-bold shadow-lg shadow-[var(--accent)]/20 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                whileHover={{ scale: 1.02 }}
+              >
+                Découvrir BGA2 →
+              </motion.a>
+
+              <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400 text-xs">
+                <span>⚠️</span>
+                <p>Ce n&apos;est qu&apos;une maquette, tout n&apos;est pas fonctionnel.</p>
+              </div>
+
+              <div>
+                <button
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="flex items-center gap-2 text-xs text-[var(--foreground)] opacity-60 hover:opacity-100 transition-opacity group"
+                >
+                  <span>{showMenu ? "▼" : "▶"}</span>
+                  <span className="font-semibold underline underline-offset-4 decoration-dotted">À voir dans cette démo</span>
+                </button>
+
+                <AnimatePresence>
+                  {showMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <ul className="mt-3 space-y-1.5 text-[11px] text-[var(--foreground)] opacity-80 pl-4 border-l border-[var(--foreground)]/10">
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          Le chatbot interactif (auto-open)
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          La nouvelle création de compte
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          Les pop-ups personnalisées
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          Les landing pages de jeu SEO (ex: Carcassonne)
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          L&apos;inscription newsletter
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          Section &quot;Apprendre&quot; inspirée de Chess.com
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          Outil &quot;Quel jeu pour moi ?&quot;
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="bullet text-[var(--accent)]">•</span>
+                          La nouvelle page d&apos;abonnement Premium
+                        </li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// ============================================
 // MAIN PAGE COMPONENT
 // ============================================
 export default function BGAPage() {
@@ -371,6 +492,7 @@ export default function BGAPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden transition-colors duration-300">
       <FloatingAssistant />
+      <PromoPopup />
 
       {/* Theme Toggle */}
       <div className="fixed top-6 right-6 z-50">
