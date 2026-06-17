@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
-const dmSerifDisplay = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Charles Bonnet - Assistant Virtuel",
-  description: "Interface conversationnelle professionnelle.",
+  title: "Charles Bonnet",
+  description: "charlesbonnet.xyz — digital clone · ai",
 };
 
 export default function RootLayout({
@@ -19,10 +12,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={dmSerifDisplay.className}>
-        {children}
-      </body>
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Instrument+Serif:ital@1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
