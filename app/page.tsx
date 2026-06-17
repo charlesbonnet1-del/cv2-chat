@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import AppsShowcase from "./components/AppsShowcase";
 
 const PIX    = 7;
 const GAP    = 1;
@@ -11,20 +12,14 @@ const WORDS = ['B2C Subscription Legend','Ex-High Stakes Poker Pro','AI Builder'
 
 let wIdx = 0;
 let rotInt: ReturnType<typeof setInterval> | null = null;
+let conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }> = [];
 
-const R: Record<string, string> = {
-  default:      `j'ai 8 ans d'expérience en subscription B2C media.\n\nchez <span class="hi">valmonde</span> : <span class="num">×17</span> abonnés from scratch en 4 ans — équipe lean, meilleur taux croissance marché 2 années consécutives.\n\nchez <span class="hi">lagardère</span> (JDD, Paris Match) : <span class="num">+28%</span> recrutement abonnés en marché décroissant, <span class="num">+21%</span> ARPU, <span class="num">11K</span> abonnés GTM JDNews lancé from scratch.`,
-  ia:           `je build en parallèle de mon activité principale.\n\n— moteur de podcasts synthétiques quotidiens (<span class="hi">openai + anthropic + supabase + vercel</span>)\n— agent "alfred" sur VPS hetzner, pilotable via telegram\n— MCP server santé agrégeant <span class="hi">garmin + withings</span> dans sqlite\n— ce site lui-même : le chatbot tourne sur l'api anthropic`,
-  achievements: `les trois chiffres qui comptent :\n\n<span class="num">×17</span>  abonnés valmonde en 4 ans (1K → 17K)\n<span class="num">+28%</span> recrutement lagardère en marché décroissant\n<span class="num">+21%</span> ARPU via repricing (+29% tarifs, zéro churn)\n\net 140+ scénarios d'automation lifecycle déployés.`,
-  poker:        `5 ans de poker professionnel en parallèle des études.\nHU sit&go, buy-ins les plus élevés du marché .fr.\ncircuit live unibet open.\n\nce que ça m'a appris :\n— décisions data-driven sous incertitude\n— gestion de la variance long terme\n— pattern recognition comportemental\n— calcul EV et ROI en temps réel\n\nles mêmes compétences que je mobilise en growth.`,
-};
-
-function getR(q: string): string {
-  const l = q.toLowerCase();
-  if (l.includes('ia') || l.includes('projet') || l.includes('build') || l.includes('ai')) return R.ia;
-  if (l.includes('achiev') || l.includes('résult') || l.includes('chiffre') || l.includes('key')) return R.achievements;
-  if (l.includes('poker')) return R.poker;
-  return R.default;
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>');
 }
 
 function typewrite(el: Element, html: string, speed = 12) {
@@ -55,13 +50,45 @@ function appendMsg(role: string, _: unknown, bodyHTML: string) {
   setTimeout(() => { wrap.scrollTop = 99999; }, 30);
 }
 
-function sendQ(btn: HTMLElement | null, custom?: string) {
+async function sendQ(btn: HTMLElement | null, custom?: string) {
   const q = custom || (btn && btn.textContent?.replace(/^>\s*/, '')) || '';
   if (!q.trim()) return;
-  (document.getElementById('chatInput') as HTMLInputElement).value = '';
+
+  const input = document.getElementById('chatInput') as HTMLInputElement;
+  input.value = '';
   document.getElementById('chatSuggestions')!.style.display = 'none';
-  appendMsg('user', null, q.toLowerCase());
-  setTimeout(() => appendMsg('ai', null, getR(q)), 300);
+
+  conversationHistory.push({ role: 'user', content: q });
+  appendMsg('user', null, escapeHtml(q));
+
+  // Loading indicator
+  const wrap = document.getElementById('chatMessages')!;
+  const loadEl = document.createElement('div');
+  loadEl.id = 'loadMsg';
+  loadEl.className = 'msg-line';
+  loadEl.innerHTML = '<div class="msg-prompt">// charles_clone</div><div class="msg-body"><span class="blink"></span></div>';
+  wrap.appendChild(loadEl);
+  wrap.scrollTop = 99999;
+  input.disabled = true;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: conversationHistory }),
+    });
+    const data = await res.json();
+    const reply = data.reply || "Je ne suis pas à même de répondre à cette question.";
+    loadEl.remove();
+    conversationHistory.push({ role: 'assistant', content: reply });
+    appendMsg('ai', null, escapeHtml(reply));
+  } catch {
+    loadEl.remove();
+    appendMsg('ai', null, 'Erreur de connexion. Veuillez réessayer.');
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
 }
 
 function startRotating() {
@@ -98,6 +125,7 @@ function openChat() {
 }
 
 function closeChat() {
+  conversationHistory = [];
   const hero = document.getElementById('hero')!;
   const chat = document.getElementById('chat')!;
   chat.style.opacity = '0';
@@ -397,10 +425,7 @@ export default function Home() {
           Email
         </a>
         <span className="nav-sep">//</span>
-        <a className="nav-link" href="/apps">
-          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
-          My Apps
-        </a>
+        <AppsShowcase variant="terminal" />
       </nav>
 
       <div id="terminal">
