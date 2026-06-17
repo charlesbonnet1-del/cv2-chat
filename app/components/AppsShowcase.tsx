@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import SentimentHeatmap from "./apps/SentimentHeatmap";
 import MailFinder from "./apps/MailFinder";
 import ProcessAgent from "./apps/ProcessAgent";
@@ -122,180 +123,182 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
     setIsOpen(true);
   };
 
-  if (!mounted) return null;
+  const trigger = variant === "terminal" ? (
+    <button className="nav-link" onClick={() => setIsOpen(true)}>
+      <TerminalGridIcon />
+      My Apps
+    </button>
+  ) : variant === "sidebar" ? (
+    <button
+      onClick={() => setIsOpen(true)}
+      className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--bot-bubble-bg)] hover:text-[var(--accent)] transition-all"
+      title="My Apps"
+    >
+      <AppsGridIcon />
+      <span className="hidden md:inline text-sm">My Apps</span>
+    </button>
+  ) : (
+    <button
+      onClick={() => setIsOpen(true)}
+      className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer bg-transparent border-none"
+    >
+      Apps I Built
+    </button>
+  );
 
-  // Render active app — terminal fullscreen overlay
-  if (activeApp) {
-    return (
-      <div
-        className="fixed inset-0 z-50 flex flex-col"
-        style={{ backgroundColor: "#F7FBF8", padding: "12px", gap: "8px" }}
-      >
-        {/* Back button row */}
-        <div className="shrink-0">
-          <button
-            onClick={handleBack}
-            style={{
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: "11px",
-              letterSpacing: "0.08em",
-              color: "#15803D",
-              background: "none",
-              border: "1px solid #86EFAC",
-              padding: "5px 16px",
-              cursor: "pointer",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
-              (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
-              (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
-            }}
-          >
-            ← My Apps
-          </button>
-        </div>
+  if (!mounted) return trigger;
 
-        {/* App fullscreen */}
-        <div
-          className="flex-1 min-h-0 overflow-hidden"
-          style={{ border: "1px solid #86EFAC" }}
+  const activeAppPortal = activeApp ? createPortal(
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        display: "flex", flexDirection: "column",
+        backgroundColor: "#F7FBF8", padding: "12px", gap: "8px",
+      }}
+    >
+      {/* Back button row */}
+      <div style={{ flexShrink: 0 }}>
+        <button
+          onClick={handleBack}
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "11px",
+            letterSpacing: "0.08em",
+            color: "#15803D",
+            background: "none",
+            border: "1px solid #86EFAC",
+            padding: "5px 16px",
+            cursor: "pointer",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
+            (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
+            (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
+          }}
         >
-          {activeApp === "sentiment" && <SentimentHeatmap />}
-          {activeApp === "mailfinder" && <MailFinder />}
-          {activeApp === "process" && <ProcessAgent />}
-          {activeApp === "competitorwatch" && <CompetitorWatch />}
-        </div>
+          ← My Apps
+        </button>
       </div>
-    );
-  }
 
-  return (
-    <>
-      {/* Trigger */}
-      {variant === "terminal" ? (
-        <button className="nav-link" onClick={() => setIsOpen(true)}>
-          <TerminalGridIcon />
-          My Apps
-        </button>
-      ) : variant === "sidebar" ? (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--bot-bubble-bg)] hover:text-[var(--accent)] transition-all"
-          title="My Apps"
-        >
-          <AppsGridIcon />
-          <span className="hidden md:inline text-sm">My Apps</span>
-        </button>
-      ) : (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="text-xs font-bold underline underline-offset-4 decoration-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer bg-transparent border-none"
-        >
-          Apps I Built
-        </button>
-      )}
+      {/* App fullscreen */}
+      <div
+        style={{
+          flex: 1, minHeight: 0, overflow: "hidden",
+          border: "1px solid #86EFAC",
+        }}
+      >
+        {activeApp === "sentiment" && <SentimentHeatmap />}
+        {activeApp === "mailfinder" && <MailFinder />}
+        {activeApp === "process" && <ProcessAgent />}
+        {activeApp === "competitorwatch" && <CompetitorWatch />}
+      </div>
+    </div>,
+    document.body
+  ) : null;
 
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: "rgba(247,251,248,0.92)", backdropFilter: "blur(6px)", animation: "fadeIn 0.25s ease-out" }}
+  const overlayPortal = isOpen ? createPortal(
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        backgroundColor: "rgba(247,251,248,0.92)",
+        backdropFilter: "blur(6px)",
+        animation: "appsfadeIn 0.25s ease-out",
+      }}
+      onClick={() => setIsOpen(false)}
+    >
+      {/* Content */}
+      <div
+        style={{
+          position: "relative",
+          display: "flex", flexDirection: "column", alignItems: "center",
+          gap: "28px", padding: "32px 40px",
+          animation: "appsScaleIn 0.25s ease-out",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close */}
+        <button
           onClick={() => setIsOpen(false)}
+          style={{
+            position: "absolute", top: "8px", right: "8px",
+            fontFamily: "'Share Tech Mono', monospace", fontSize: "10px",
+            color: "#166534", background: "none", border: "none",
+            cursor: "pointer", letterSpacing: "0.06em",
+          }}
         >
-          {/* Content */}
-          <div
-            className="relative flex flex-col items-center"
-            style={{ gap: "28px", padding: "32px 40px", animation: "scaleIn 0.25s ease-out" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close */}
+          [ × ]
+        </button>
+
+        {/* Title */}
+        <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "10px", color: "#166534", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+          // my apps
+        </div>
+
+        {/* Apps Grid */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", maxWidth: "560px" }}>
+          {apps.map((app, index) => (
             <button
-              onClick={() => setIsOpen(false)}
+              key={app.id}
+              onClick={() => handleAppClick(app.id)}
               style={{
-                position: "absolute", top: "8px", right: "8px",
-                fontFamily: "'Share Tech Mono', monospace", fontSize: "10px",
-                color: "#166534", background: "none", border: "none",
-                cursor: "pointer", letterSpacing: "0.06em",
+                fontFamily: "'Share Tech Mono', monospace",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
+                padding: "20px 24px", width: "130px",
+                background: "none", border: "1px solid #86EFAC", cursor: "pointer",
+                color: "#15803D", transition: "all 0.18s",
+                animation: `appsSlideUp 0.35s ease-out ${index * 0.07}s both`,
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(21,128,61,0.05)";
+                (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
+                (e.currentTarget as HTMLButtonElement).style.background = "none";
+                (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
               }}
             >
-              [ × ]
+              <div style={{ color: "#15803D", opacity: 0.7 }}>{app.icon}</div>
+              <span style={{ fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", textAlign: "center" }}>{app.name}</span>
+              <span style={{ fontSize: "9px", color: "#4A7A58", letterSpacing: "0.04em", textAlign: "center", lineHeight: "1.4" }}>{app.description}</span>
             </button>
-
-            {/* Title */}
-            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "10px", color: "#166534", letterSpacing: "0.14em", textTransform: "uppercase" }}>
-              // my apps
-            </div>
-
-            {/* Apps Grid */}
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", maxWidth: "560px" }}>
-              {apps.map((app, index) => (
-                <button
-                  key={app.id}
-                  onClick={() => handleAppClick(app.id)}
-                  style={{
-                    fontFamily: "'Share Tech Mono', monospace",
-                    display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
-                    padding: "20px 24px", width: "130px",
-                    background: "none", border: "1px solid #86EFAC", cursor: "pointer",
-                    color: "#15803D", transition: "all 0.18s",
-                    animation: `slideUp 0.35s ease-out ${index * 0.07}s both`,
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(21,128,61,0.05)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
-                    (e.currentTarget as HTMLButtonElement).style.background = "none";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
-                  }}
-                >
-                  <div style={{ color: "#15803D", opacity: 0.7 }}>{app.icon}</div>
-                  <span style={{ fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", textAlign: "center" }}>{app.name}</span>
-                  <span style={{ fontSize: "9px", color: "#4A7A58", letterSpacing: "0.04em", textAlign: "center", lineHeight: "1.4" }}>{app.description}</span>
-                </button>
-              ))}
-            </div>
-
-            <p style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "9px", color: "#86EFAC", letterSpacing: "0.06em" }}>
-              click anywhere to close
-            </p>
-          </div>
+          ))}
         </div>
-      )}
 
-      {/* Animations CSS */}
-      <style jsx global>{`
-        @keyframes fadeIn {
+        <p style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "9px", color: "#86EFAC", letterSpacing: "0.06em" }}>
+          click anywhere to close
+        </p>
+      </div>
+
+      <style>{`
+        @keyframes appsfadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
         }
-        @keyframes scaleIn {
-          from { 
-            opacity: 0; 
-            transform: scale(0.95);
-          }
-          to { 
-            opacity: 1; 
-            transform: scale(1);
-          }
+        @keyframes appsScaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
         }
-        @keyframes slideUp {
-          from { 
-            opacity: 0; 
-            transform: translateY(20px);
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0);
-          }
+        @keyframes appsSlideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+    </div>,
+    document.body
+  ) : null;
+
+  return (
+    <>
+      {trigger}
+      {activeAppPortal}
+      {overlayPortal}
     </>
   );
 }
