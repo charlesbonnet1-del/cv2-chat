@@ -119,7 +119,7 @@ function openChat() {
     chat.style.transition = 'opacity 0.38s';
     requestAnimationFrame(() => { chat.style.opacity = '1'; });
     (document.getElementById('chatInput') as HTMLInputElement).focus();
-    appendMsg('system', null, 'session ouverte — charles_clone v2.6 — posez vos questions');
+    appendMsg('system', null, 'session ouverte — charles_clone v2.6 — ask me anything about Charles');
   }, 340);
 }
 
@@ -452,15 +452,17 @@ export default function Home() {
 
         <div id="chat" style={{ display: 'none' }}>
           <div className="chat-header">
-            <span className="chat-title">// charles_clone@bonnet.ai — interactive session</span>
+            <span className="chat-title">// charles_clone — interactive session</span>
             <button className="chat-close" onClick={closeChat}>[ × close ]</button>
           </div>
           <div className="chat-messages" id="chatMessages"></div>
           <div className="chat-suggestions" id="chatSuggestions">
-            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>résume ton parcours</button>
-            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>tes projets IA</button>
-            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>key achievements</button>
-            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>pourquoi le poker</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>Résume ton parcours</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>Quelles sont tes principales réussites ?</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>Cite moi un livre qui t&apos;a marqué</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>Summarise your background</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>What are your key achievements?</button>
+            <button className="sug" onClick={(e) => sendQ(e.currentTarget)}>Name a book that marked you</button>
           </div>
           <div className="chat-input-row">
             <span className="prompt-prefix">&gt;&nbsp;</span>

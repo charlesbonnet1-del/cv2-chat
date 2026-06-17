@@ -124,45 +124,45 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
 
   if (!mounted) return null;
 
-  // Render active app — Cedar card fullscreen
+  // Render active app — terminal fullscreen overlay
   if (activeApp) {
     return (
       <div
-        className="fixed inset-0 z-50 flex flex-col gap-3 p-3 md:p-5"
-        style={{ backgroundColor: "var(--background)" }}
+        className="fixed inset-0 z-50 flex flex-col"
+        style={{ backgroundColor: "#F7FBF8", padding: "12px", gap: "8px" }}
       >
         {/* Back button row */}
         <div className="shrink-0">
           <button
             onClick={handleBack}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all"
             style={{
-              backgroundColor: "var(--bot-bubble-bg)",
-              color: "var(--foreground)",
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "11px",
+              letterSpacing: "0.08em",
+              color: "#15803D",
+              background: "none",
+              border: "1px solid #86EFAC",
+              padding: "5px 16px",
+              cursor: "pointer",
+              transition: "all 0.15s",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--accent)";
-              (e.currentTarget as HTMLButtonElement).style.color = "#fff";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
+              (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--bot-bubble-bg)";
-              (e.currentTarget as HTMLButtonElement).style.color = "var(--foreground)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
+              (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            My Apps
+            ← My Apps
           </button>
         </div>
 
-        {/* App in Cedar card */}
+        {/* App fullscreen */}
         <div
-          className="flex-1 min-h-0 rounded-2xl overflow-hidden"
-          style={{
-            boxShadow: "0 4px 4px 0 rgba(46,46,43,0.15)",
-            border: "1px solid var(--bot-bubble-bg)",
-          }}
+          className="flex-1 min-h-0 overflow-hidden"
+          style={{ border: "1px solid #86EFAC" }}
         >
           {activeApp === "sentiment" && <SentimentHeatmap />}
           {activeApp === "mailfinder" && <MailFinder />}
@@ -203,69 +203,67 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: "rgba(247,251,248,0.92)", backdropFilter: "blur(6px)", animation: "fadeIn 0.25s ease-out" }}
           onClick={() => setIsOpen(false)}
         >
-          {/* Backdrop with blur */}
-          <div
-            className="absolute inset-0 bg-[var(--background)]/80 backdrop-blur-md transition-all duration-300"
-            style={{ animation: "fadeIn 0.3s ease-out" }}
-          />
-
           {/* Content */}
           <div
-            className="relative z-10 flex flex-col items-center gap-6 md:gap-8 p-5 md:p-8"
+            className="relative flex flex-col items-center"
+            style={{ gap: "28px", padding: "32px 40px", animation: "scaleIn 0.25s ease-out" }}
             onClick={(e) => e.stopPropagation()}
-            style={{ animation: "scaleIn 0.3s ease-out" }}
           >
-            {/* Close button */}
+            {/* Close */}
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute -top-2 -right-2 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] hover:text-white transition-all"
-              aria-label="Close"
+              style={{
+                position: "absolute", top: "8px", right: "8px",
+                fontFamily: "'Share Tech Mono', monospace", fontSize: "10px",
+                color: "#166534", background: "none", border: "none",
+                cursor: "pointer", letterSpacing: "0.06em",
+              }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              [ × ]
             </button>
 
             {/* Title */}
-            <h2 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">
-              Apps I Built
-            </h2>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "10px", color: "#166534", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+              // my apps
+            </div>
 
             {/* Apps Grid */}
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8 max-w-2xl">
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", maxWidth: "560px" }}>
               {apps.map((app, index) => (
                 <button
                   key={app.id}
                   onClick={() => handleAppClick(app.id)}
-                  className="group flex flex-col items-center gap-3 p-4 md:p-6 rounded-2xl bg-[var(--bot-bubble-bg)] hover:bg-[var(--accent)] transition-all duration-300 w-36 md:w-44 border-none cursor-pointer"
                   style={{
-                    animation: `slideUp 0.4s ease-out ${index * 0.1}s both`,
+                    fontFamily: "'Share Tech Mono', monospace",
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
+                    padding: "20px 24px", width: "130px",
+                    background: "none", border: "1px solid #86EFAC", cursor: "pointer",
+                    color: "#15803D", transition: "all 0.18s",
+                    animation: `slideUp 0.35s ease-out ${index * 0.07}s both`,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
+                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(21,128,61,0.05)";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
+                    (e.currentTarget as HTMLButtonElement).style.background = "none";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
                   }}
                 >
-                  {/* Icon */}
-                  <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-[var(--background)] text-[var(--accent)] group-hover:bg-white group-hover:text-[var(--accent)] transition-all duration-300 shadow-sm">
-                    {app.icon}
-                  </div>
-
-                  {/* Name */}
-                  <span className="text-sm font-bold text-[var(--foreground)] group-hover:text-white transition-colors">
-                    {app.name}
-                  </span>
-
-                  {/* Description */}
-                  <span className="text-xs text-center text-[var(--foreground)]/60 group-hover:text-white/80 transition-colors leading-tight">
-                    {app.description}
-                  </span>
+                  <div style={{ color: "#15803D", opacity: 0.7 }}>{app.icon}</div>
+                  <span style={{ fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", textAlign: "center" }}>{app.name}</span>
+                  <span style={{ fontSize: "9px", color: "#4A7A58", letterSpacing: "0.04em", textAlign: "center", lineHeight: "1.4" }}>{app.description}</span>
                 </button>
               ))}
             </div>
 
-            {/* Hint */}
-            <p className="text-xs text-[var(--foreground)]/40">
-              Click anywhere to close
+            <p style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "9px", color: "#86EFAC", letterSpacing: "0.06em" }}>
+              click anywhere to close
             </p>
           </div>
         </div>
