@@ -26,6 +26,17 @@ type App = {
   icon: JSX.Element;
 };
 
+function TerminalGridIcon() {
+  return (
+    <svg viewBox="0 0 16 16">
+      <rect x="2" y="2" width="5" height="5" rx="1"/>
+      <rect x="9" y="2" width="5" height="5" rx="1"/>
+      <rect x="2" y="9" width="5" height="5" rx="1"/>
+      <rect x="9" y="9" width="5" height="5" rx="1"/>
+    </svg>
+  );
+}
+
 const apps: App[] = [
   {
     id: "sentiment",
@@ -78,7 +89,7 @@ const apps: App[] = [
 ];
 
 interface AppsShowcaseProps {
-  variant?: "link" | "sidebar";
+  variant?: "link" | "sidebar" | "terminal";
 }
 
 export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
@@ -165,7 +176,12 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
   return (
     <>
       {/* Trigger */}
-      {variant === "sidebar" ? (
+      {variant === "terminal" ? (
+        <button className="nav-link" onClick={() => setIsOpen(true)}>
+          <TerminalGridIcon />
+          My Apps
+        </button>
+      ) : variant === "sidebar" ? (
         <button
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--bot-bubble-bg)] hover:text-[var(--accent)] transition-all"
