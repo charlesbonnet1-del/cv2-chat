@@ -19,6 +19,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Instrument+Serif:ital@1&display=swap"
           rel="stylesheet"
         />
+        <script defer src="/_vercel/insights/script.js"></script>
       </head>
       <body>{children}</body>
     </html>
