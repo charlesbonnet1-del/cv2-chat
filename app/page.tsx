@@ -2,12 +2,6 @@
 import { useEffect } from "react";
 import AppsShowcase from "./components/AppsShowcase";
 
-const PIX    = 7;
-const GAP    = 1;
-const CELL   = PIX - GAP;
-const RADIUS = 8;
-const DECAY  = 0.92;
-
 const WORDS = ['B2C Subscription Legend','Ex-High Stakes Poker Pro','AI Builder','Media & Content Native','Growth Mindset'];
 
 let wIdx = 0;
@@ -144,19 +138,6 @@ const css = `
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; background: var(--term-bg); }
 
-#canvas { position: fixed; inset: 0; z-index: 0; }
-
-.vignette {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
-}
-
-.scanline {
-  position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  background: repeating-linear-gradient(0deg,
-    transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px);
-}
-
 #terminal {
   position: fixed; inset: 0; z-index: 10;
   display: flex; flex-direction: column;
@@ -165,18 +146,7 @@ html, body { height: 100%; overflow: hidden; background: var(--term-bg); }
   font-family: var(--term-font);
 }
 
-#boot { width: 100%; max-width: 640px; display: flex; flex-direction: column; }
-
-.boot-line {
-  font-size: 12px; color: var(--term-fg);
-  line-height: 1.85; opacity: 0;
-  white-space: pre;
-}
-.boot-line.dim   { color: var(--term-muted); }
-.boot-line.white { color: var(--term-fg-bright); }
-.boot-ok { color: var(--term-accent); }
-
-#hero { display: none; flex-direction: column; align-items: flex-start; text-align: left; width: 100%; max-width: 640px; }
+#hero { display: flex; flex-direction: column; align-items: flex-start; text-align: left; width: 100%; max-width: 640px; }
 
 .hero-cmd { font-size: 12px; color: var(--term-muted); margin-bottom: 14px; }
 .hero-cmd .ps1 { color: var(--term-accent); }
@@ -211,7 +181,7 @@ html, body { height: 100%; overflow: hidden; background: var(--term-bg); }
 #chat {
   display: none; flex-direction: column;
   width: 100%; max-width: 720px; height: min(580px, 80vh);
-  border: 1px solid var(--term-border); background: rgba(11,11,11,0.92);
+  border: 1px solid var(--term-border); background: var(--term-bg);
 }
 
 .chat-header {
@@ -317,80 +287,8 @@ html, body { height: 100%; overflow: hidden; background: var(--term-bg); }
 
 export default function Home() {
   useEffect(() => {
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const ctx    = canvas.getContext('2d')!;
-
-    let cols: number, rows: number, grid: Float32Array;
-    let mouseX = -9999, mouseY = -9999;
-    let animFrameId: number;
-
-    function initGrid() {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-      cols = Math.ceil(canvas.width  / PIX) + 1;
-      rows = Math.ceil(canvas.height / PIX) + 1;
-      grid = new Float32Array(cols * rows);
-    }
-
-    const resizeHandler = () => initGrid();
-    window.addEventListener('resize', resizeHandler);
-    initGrid();
-
-    const mouseMoveHandler = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; };
-    document.addEventListener('mousemove', mouseMoveHandler);
-
-    function drawFrame() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const mx = mouseX, my = mouseY;
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const px = c * PIX, py = r * PIX;
-          const dx = px - mx, dy = py - my;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          let b = grid[r * cols + c];
-          if (dist < RADIUS) b = Math.min(1, b + (1 - dist / RADIUS) * 0.55);
-          b *= DECAY;
-          grid[r * cols + c] = b;
-          if (b < 0.005) {
-            ctx.fillStyle = 'rgba(255,255,255,0.018)';
-          } else {
-            ctx.fillStyle = `rgba(156,204,156,${b * 0.22})`;
-          }
-          ctx.fillRect(px, py, CELL, CELL);
-        }
-      }
-      animFrameId = requestAnimationFrame(drawFrame);
-    }
-    animFrameId = requestAnimationFrame(drawFrame);
-
-    [
-      {id:'b0',d:0},{id:'b1',d:180},{id:'b2',d:420},{id:'b3',d:660},
-      {id:'b4',d:900},{id:'b5',d:1140},{id:'b6',d:1360},{id:'b7',d:1580}
-    ].forEach(({id,d}) => setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) { el.style.transition = 'opacity 0.22s'; el.style.opacity = '1'; }
-    }, d));
-
-    const bootTimeout = setTimeout(() => {
-      const boot = document.getElementById('boot')!;
-      boot.style.transition = 'opacity 0.55s';
-      boot.style.opacity = '0';
-      setTimeout(() => {
-        boot.style.display = 'none';
-        const hero = document.getElementById('hero')!;
-        hero.style.display = 'flex';
-        hero.style.opacity = '0';
-        hero.style.transition = 'opacity 0.7s';
-        requestAnimationFrame(() => { hero.style.opacity = '1'; });
-        startRotating();
-      }, 580);
-    }, 2400);
-
+    startRotating();
     return () => {
-      cancelAnimationFrame(animFrameId);
-      window.removeEventListener('resize', resizeHandler);
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      clearTimeout(bootTimeout);
       if (rotInt) { clearInterval(rotInt); rotInt = null; }
     };
   }, []);
@@ -398,10 +296,6 @@ export default function Home() {
   return (
     <>
       <style>{css}</style>
-
-      <canvas id="canvas"></canvas>
-      <div className="vignette"></div>
-      <div className="scanline"></div>
 
       <div className="corner corner-tl">
         <span className="corner-label">charlesbonnet.xyz · v2.6.1</span>
@@ -428,18 +322,7 @@ export default function Home() {
 
       <div id="terminal">
 
-        <div id="boot">
-          <div className="boot-line dim"  id="b0">CHARLES_BONNET.AI — SYSTEM BOOT</div>
-          <div className="boot-line dim"  id="b1">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-          <div className="boot-line"      id="b2">loading profile .............. <span className="boot-ok">[ OK ]</span></div>
-          <div className="boot-line"      id="b3">initializing growth engine ... <span className="boot-ok">[ OK ]</span></div>
-          <div className="boot-line"      id="b4">mounting subscription stack .. <span className="boot-ok">[ OK ]</span></div>
-          <div className="boot-line"      id="b5">connecting anthropic api ..... <span className="boot-ok">[ OK ]</span></div>
-          <div className="boot-line dim"  id="b6">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-          <div className="boot-line white"id="b7">all systems operational. <span className="blink"></span></div>
-        </div>
-
-        <div id="hero" style={{ display: 'none' }}>
+        <div id="hero">
           <div className="hero-cmd"><span className="ps1">guest@charlesbonnet:~$</span> whoami</div>
           <div className="hero-name">Charles Bonnet</div>
           <div className="hero-divider"></div>
