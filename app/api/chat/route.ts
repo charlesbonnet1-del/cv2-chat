@@ -1,7 +1,8 @@
-import { createAnthropic } from '@ai-sdk/anthropic';
-import { generateText } from 'ai';
+import Anthropic from '@anthropic-ai/sdk';
 
-const anthropic = createAnthropic({
+// Official Anthropic SDK (the legacy AI SDK v4 always sends `temperature`,
+// which Claude Sonnet 5.5 rejects).
+const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
@@ -182,13 +183,30 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages } = (await req.json()) as { messages: Anthropic.Beta.BetaMessageParam[] };
 
-    const { text } = await generateText({
-      model: anthropic('claude-sonnet-5-5'),
+    const response = await client.beta.messages.create({
+      model: 'claude-sonnet-5-5',
+      max_tokens: 8000,
       system: SYSTEM_PROMPT,
       messages,
+      // Conversational route: low effort keeps answers fast within maxDuration.
+      output_config: { effort: 'low' },
+      // Server-side fallback if a safety classifier declines the request.
+      betas: ['server-side-fallback-2026-07-01'],
+      fallbacks: 'default',
     });
+
+    if (response.stop_reason === 'refusal') {
+      return new Response(JSON.stringify({ reply: "Je ne suis pas à même de répondre à cette question." }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const text = response.content
+      .filter((b): b is Anthropic.Beta.BetaTextBlock => b.type === 'text')
+      .map((b) => b.text)
+      .join('');
 
     return new Response(JSON.stringify({ reply: text }), {
       headers: { 'Content-Type': 'application/json' },
