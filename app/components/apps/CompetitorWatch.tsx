@@ -192,8 +192,8 @@ export default function CompetitorWatch() {
                 {
                     label: "Fréquence des Promos (30j)",
                     data: counts,
-                    borderColor: "#913104",
-                    backgroundColor: "rgba(145, 49, 4, 0.1)",
+                    borderColor: "var(--term-accent)",
+                    backgroundColor: "var(--term-accent-bg)",
                     fill: true,
                     tension: 0.4,
                 },
@@ -204,7 +204,7 @@ export default function CompetitorWatch() {
     const getBadgeColor = (category: string) => {
         switch (category) {
             case "Price": return "bg-red-500/20 text-red-500 border-red-500/50";
-            case "Design": return "bg-blue-500/20 text-blue-500 border-blue-500/50";
+            case "Design": return "bg-zinc-500/20 text-zinc-500 border-zinc-500/50";
             case "Product": return "bg-green-500/20 text-green-500 border-green-500/50";
             default: return "bg-gray-500/20 text-gray-500 border-gray-500/50";
         }
@@ -289,7 +289,7 @@ export default function CompetitorWatch() {
                                 )}
                                 <button
                                     onClick={addOrUpdateCompetitor}
-                                    className="flex-[2] bg-[var(--app-accent)] text-white py-1.5 rounded text-[10px] uppercase font-bold tracking-wider transition-all hover:brightness-110 shadow-lg shadow-[var(--app-accent)]/20"
+                                    className="flex-[2] bg-[var(--app-accent)] text-[var(--term-bg)] py-1.5 rounded text-[10px] uppercase font-bold tracking-wider transition-all hover:brightness-110 shadow-lg shadow-[var(--app-accent)]/20"
                                 >
                                     {editingCompetitor ? "Mettre à jour" : "Ajouter au suivi"}
                                 </button>
@@ -465,7 +465,7 @@ export default function CompetitorWatch() {
                                 </button>
                                 <button
                                     onClick={handleAdminLogin}
-                                    className="flex-1 px-4 py-2 rounded-lg bg-[var(--app-accent)] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[var(--app-accent)]/30"
+                                    className="flex-1 px-4 py-2 rounded-lg bg-[var(--app-accent)] text-[var(--term-bg)] text-xs font-bold uppercase tracking-wider shadow-lg shadow-[var(--app-accent)]/30"
                                 >
                                     Valider
                                 </button>
@@ -501,7 +501,7 @@ export default function CompetitorWatch() {
                             <input type="range" min="0" max="100" value={sliderPos} onChange={e => setSliderPos(Number(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 z-30 cursor-col-resize" />
 
                             <div className="absolute bottom-6 left-6 px-4 py-2 bg-black/80 backdrop-blur-md rounded-lg text-[10px] uppercase font-black text-white tracking-[0.2em] z-10 border border-white/10 shadow-2xl">Yesterday</div>
-                            <div className="absolute bottom-6 right-6 px-4 py-2 bg-[var(--app-accent)] rounded-lg text-[10px] uppercase font-black text-white tracking-[0.2em] z-10 border border-white/10 shadow-2xl">Today</div>
+                            <div className="absolute bottom-6 right-6 px-4 py-2 bg-[var(--app-accent)] rounded-lg text-[10px] uppercase font-black text-[var(--term-bg)] tracking-[0.2em] z-10 border border-white/10 shadow-2xl">Today</div>
                         </div>
                     </motion.div>
                 )}

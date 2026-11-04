@@ -2,52 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- 1. PALETTE CHARTE (Orange / Marron / Beige) --- */
+/* ==========================================================================
+   TERMINAL DESIGN SYSTEM — charlesbonnet.xyz
+   Sober console look: monospace, flat surfaces, hairline borders,
+   monochrome palette + one phosphor accent. No radius, no shadows.
+   ========================================================================== */
+
 :root {
-  /* LIGHT MODE */
-  --background: #F9F7F1;    /* Beige Crème */
-  --foreground: black;    /* NOIR */
-  --accent: #913104;        /* ORANGE BRÛLÉ */
+  /* --- Core terminal tokens --- */
+  --term-bg:        #0b0b0b;
+  --term-surface:   #111111;
+  --term-surface-2: #161616;
+  --term-fg:        #d6d6d6;
+  --term-fg-bright: #f2f2f2;
+  --term-dim:       #8a8a8a;
+  --term-muted:     #5c5c5c;
+  --term-border:    #262626;
+  --term-border-2:  #3a3a3a;
+  --term-accent:    #9ccc9c;
+  --term-accent-dim:#6d936d;
+  --term-accent-bg: rgba(156, 204, 156, 0.08);
+  --term-danger:    #d78787;
+  --term-font: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --bot-bubble-bg: #E5E0D8; /* Beige Pierre */
-  --bot-bubble-text: #44403C; /* Marron Foncé */
+  /* --- Legacy tokens (kept for existing components) --- */
+  --background:        var(--term-bg);
+  --foreground:        var(--term-fg);
+  --accent:            var(--term-accent);
+  --bot-bubble-bg:     var(--term-surface-2);
+  --bot-bubble-text:   var(--term-dim);
+  --user-bubble-bg:    var(--term-accent);
+  --user-bubble-text:  var(--term-bg);
+  --input-placeholder: var(--term-muted);
+  --card-bg:           var(--term-surface);
+  --sidebar-bg:        var(--term-surface);
 
-  --user-bubble-bg: #913104; /* Orange Accent */
-  --user-bubble-text: #FFFFFF; /* Blanc */
-
-  --input-placeholder: #A8A29E;
-  --card-bg: #FFFFFF;       /* Cedar card background */
-  --sidebar-bg: #F2EFE8;    /* Sidebar légèrement plus sombre */
+  color-scheme: dark;
 }
 
-/* DARK MODE (Marron Foncé / Pierre) */
-:root.dark {
-  --background: #66625e;    /* Marron Gris (Dark background requested) */
-  --foreground: white;    /* BLANC */
-  --accent: #913104;        /* Orange brûlé */
-
-  --bot-bubble-bg: #1C1917; /* Marron très sombre */
-  --bot-bubble-text: #E7E5E4;
-
-  --user-bubble-bg: #913104;
-  --user-bubble-text: #FFFFFF;
-  --card-bg: #2a2724;       /* Cedar card background dark */
-  --sidebar-bg: #504c49;    /* Sidebar dark */
+/* Light variant ("paper terminal"), toggled via ThemeToggle */
+:root.light {
+  --term-bg:        #f4f4f0;
+  --term-surface:   #ecece7;
+  --term-surface-2: #e4e4de;
+  --term-fg:        #1c1c1c;
+  --term-fg-bright: #000000;
+  --term-dim:       #5e5e5e;
+  --term-muted:     #8f8f8a;
+  --term-border:    #d2d2cc;
+  --term-border-2:  #b5b5ae;
+  --term-accent:    #2f6a3a;
+  --term-accent-dim:#4f7f58;
+  --term-accent-bg: rgba(47, 106, 58, 0.07);
+  --term-danger:    #a33a3a;
+  color-scheme: light;
 }
 
-/* --- 2. CONFIGURATION GLOBALE --- */
+/* --- Global base --- */
 html, body {
-  background-color: var(--background);
-  color: var(--foreground);
-  /* font-family is now handled by Next.js font in layout.tsx */
-  caret-color: var(--accent); /* Curseur Orange PARTOUT */
+  background-color: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--term-font);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--term-accent);
 }
 
-/* Scrollbar discrète */
-::-webkit-scrollbar { width: 6px; }
+body, button, input, textarea, select, code, pre, kbd, samp {
+  font-family: var(--term-font) !important;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Flat everything: no rounded corners, no drop shadows */
+*, *::before, *::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Tame heavy weights — a terminal has regular and bold */
+.font-black, .font-extrabold { font-weight: 700 !important; }
+.italic { font-style: normal !important; }
+
+::selection { background: var(--term-accent); color: var(--term-bg); }
+
+a { color: inherit; }
+
+input::placeholder, textarea::placeholder { color: var(--term-muted); opacity: 1; }
+
+:focus-visible { outline: 1px dashed var(--term-accent); outline-offset: 2px; }
+
+/* Scrollbar — thin, square */
+* { scrollbar-width: thin; scrollbar-color: var(--term-border-2) transparent; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background-color: var(--bot-bubble-bg); border-radius: 20px; }
+::-webkit-scrollbar-thumb { background-color: var(--term-border-2); }
 
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--bot-bubble-bg); border-radius: 20px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--term-border-2); }

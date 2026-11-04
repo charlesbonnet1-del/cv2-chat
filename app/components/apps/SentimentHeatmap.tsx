@@ -93,7 +93,7 @@ export default function SentimentHeatmap() {
   };
 
   const getColor = (score: number) => {
-    if (score > 0.4) return 'bg-[#0070f3]'; // Positive
+    if (score > 0.4) return 'bg-[var(--app-accent)]'; // Positive
     if (score < -0.4) return 'bg-red-500/60'; // Negative
     return 'bg-[var(--app-border)]'; // Neutral
   };
@@ -141,7 +141,7 @@ export default function SentimentHeatmap() {
             className={`
               w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
               ${!isAnalyzing && inputText.trim()
-                ? "bg-[var(--app-accent)] text-white hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
+                ? "bg-[var(--app-accent)] text-[var(--term-bg)] hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
                 : "bg-[var(--app-bg-secondary)] text-[var(--app-text-muted)] cursor-not-allowed"}
             `}
           >
@@ -262,8 +262,8 @@ export default function SentimentHeatmap() {
                             <div className="text-[8px] uppercase text-red-400 mb-1">Replace</div>
                             <div className="text-[10px] line-through">{rec.before}</div>
                           </div>
-                          <div className="p-2 bg-blue-500/5 rounded border border-blue-500/10">
-                            <div className="text-[8px] uppercase text-blue-400 mb-1">Adopt</div>
+                          <div className="p-2 bg-zinc-500/5 rounded border border-zinc-500/10">
+                            <div className="text-[8px] uppercase text-zinc-400 mb-1">Adopt</div>
                             <div className="text-[10px] text-[var(--app-text-primary)]/80 font-bold">{rec.after}</div>
                           </div>
                         </div>

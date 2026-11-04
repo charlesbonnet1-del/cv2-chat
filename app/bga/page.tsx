@@ -188,7 +188,7 @@ function ComparisonSection() {
           <button
             onClick={() => setActiveTab("media")}
             className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "media"
-                ? "bg-[var(--accent)] text-white"
+                ? "bg-[var(--accent)] text-[var(--term-bg)]"
                 : "text-[var(--foreground)] opacity-60 hover:opacity-100"
               }`}
           >
@@ -197,7 +197,7 @@ function ComparisonSection() {
           <button
             onClick={() => setActiveTab("gaming")}
             className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "gaming"
-                ? "bg-[var(--accent)] text-white"
+                ? "bg-[var(--accent)] text-[var(--term-bg)]"
                 : "text-[var(--foreground)] opacity-60 hover:opacity-100"
               }`}
           >
@@ -398,7 +398,7 @@ function PromoPopup() {
             </button>
 
             <div className="mb-4">
-              <span className="inline-block bg-[var(--accent)] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest mb-2">
+              <span className="inline-block bg-[var(--accent)] text-[var(--term-bg)] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest mb-2">
                 Nouveau
               </span>
               <p className="text-[var(--foreground)] font-medium leading-relaxed">
@@ -409,13 +409,13 @@ function PromoPopup() {
             <div className="flex flex-col gap-3">
               <motion.a
                 href="/bga2"
-                className="bg-[var(--accent)] text-white text-center py-2.5 rounded-xl font-bold shadow-lg shadow-[var(--accent)]/20 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                className="bg-[var(--accent)] text-[var(--term-bg)] text-center py-2.5 rounded-xl font-bold shadow-lg shadow-[var(--accent)]/20 hover:scale-[1.02] active:scale-[0.98] transition-transform"
                 whileHover={{ scale: 1.02 }}
               >
                 Découvrir BGA2 →
               </motion.a>
 
-              <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400 text-xs">
+              <div className="flex items-center gap-2 p-3 bg-zinc-500/10 border border-zinc-500/20 rounded-xl text-zinc-600 dark:text-zinc-400 text-xs">
                 <span>⚠️</span>
                 <p>Ce n&apos;est qu&apos;une maquette, tout n&apos;est pas fonctionnel.</p>
               </div>
@@ -747,14 +747,14 @@ export default function BGAPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="text-orange-400 mt-0.5">●</span>
+                    <span className="text-zinc-400 mt-0.5">●</span>
                     <div>
                       <strong>Modération communautaire</strong>
                       <p className="opacity-60">Perception négative, support technique limité</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="text-orange-400 mt-0.5">●</span>
+                    <span className="text-zinc-400 mt-0.5">●</span>
                     <div>
                       <strong>Dépendance au bénévolat</strong>
                       <p className="opacity-60">Traduction et débogage par la communauté</p>
@@ -875,7 +875,7 @@ export default function BGAPage() {
                 {/* SEO/Content */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">1.1</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">1.1</span>
                     SEO/Content : devenir le &quot;Wikipedia du jeu de société&quot;
                   </h5>
                   <p className="text-sm opacity-70 mb-4">
@@ -897,7 +897,7 @@ export default function BGAPage() {
                 {/* Paid Acquisition */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">1.2</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">1.2</span>
                     Paid Acquisition ciblée
                   </h5>
                   <p className="text-sm opacity-70 mb-4">Pas de spray-and-pray. 3 segments précis :</p>
@@ -908,16 +908,16 @@ export default function BGAPage() {
                       <p className="text-sm text-[var(--accent)]">&quot;Ton jeu préféré, jouable en 2 clics&quot;</p>
                       <p className="text-xs opacity-40 mt-2">40% du budget</p>
                     </div>
-                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 border-l-4 border-blue-500">
+                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 border-l-4 border-zinc-500">
                       <h6 className="font-semibold text-sm mb-2">Gamers casual mobile</h6>
                       <p className="text-xs opacity-60 mb-2">TikTok + App Store Ads</p>
-                      <p className="text-sm text-blue-400">&quot;Une partie en 15 min pendant ta pause&quot;</p>
+                      <p className="text-sm text-zinc-400">&quot;Une partie en 15 min pendant ta pause&quot;</p>
                       <p className="text-xs opacity-40 mt-2">35% du budget</p>
                     </div>
-                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 border-l-4 border-purple-500">
+                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-4 border-l-4 border-zinc-500">
                       <h6 className="font-semibold text-sm mb-2">Lapsed users (inactifs)</h6>
                       <p className="text-xs opacity-60 mb-2">Email + retargeting Meta</p>
-                      <p className="text-sm text-purple-400">&quot;Tes amis jouent ce soir — rejoins-les&quot;</p>
+                      <p className="text-sm text-zinc-400">&quot;Tes amis jouent ce soir — rejoins-les&quot;</p>
                       <p className="text-xs opacity-40 mt-2">25% du budget</p>
                     </div>
                   </div>
@@ -926,7 +926,7 @@ export default function BGAPage() {
                 {/* Ambassador Program */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">1.3</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">1.3</span>
                     Programme d&apos;Ambassadeurs structuré
                   </h5>
                   <p className="text-sm opacity-70 mb-4">
@@ -959,7 +959,7 @@ export default function BGAPage() {
                 {/* Paywall Redesign */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">2.1</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">2.1</span>
                     Refonte du Paywall
                   </h5>
                   <p className="text-sm opacity-70 mb-4">
@@ -987,7 +987,7 @@ export default function BGAPage() {
                 {/* Conversion Triggers */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">2.2</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">2.2</span>
                     Triggers de conversion contextuelle
                   </h5>
                   <p className="text-sm opacity-70 mb-4">
@@ -1004,7 +1004,7 @@ export default function BGAPage() {
                 {/* Conversion Funnel */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">2.3</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">2.3</span>
                     Parcours d&apos;upgrade
                   </h5>
                   <div className="space-y-2">
@@ -1042,7 +1042,7 @@ export default function BGAPage() {
                 {/* Onboarding */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">3.1</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">3.1</span>
                     Onboarding repensé
                   </h5>
                   <p className="text-sm opacity-70 mb-4">
@@ -1050,28 +1050,28 @@ export default function BGAPage() {
                   </p>
                   <div className="flex flex-col gap-3">
                     <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-4 flex items-start gap-3">
-                      <span className="bg-[var(--accent)] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">1</span>
+                      <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">1</span>
                       <div>
                         <strong>Questionnaire rapide (3 questions)</strong>
                         <p className="text-sm opacity-60">&quot;Seul ou entre amis ?&quot;, &quot;Partie rapide ou longue ?&quot;, &quot;Stratégie ou ambiance ?&quot;</p>
                       </div>
                     </div>
                     <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-4 flex items-start gap-3">
-                      <span className="bg-[var(--accent)] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">2</span>
+                      <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">2</span>
                       <div>
                         <strong>Recommandation de 3 jeux + tutoriel interactif</strong>
                         <p className="text-sm opacity-60">Pas un PDF. Un tutoriel jouable, étape par étape.</p>
                       </div>
                     </div>
                     <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-4 flex items-start gap-3">
-                      <span className="bg-[var(--accent)] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">3</span>
+                      <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">3</span>
                       <div>
                         <strong>Première partie guidée</strong>
                         <p className="text-sm opacity-60">Contre IA ou matchmaking &quot;débutants protégés&quot;</p>
                       </div>
                     </div>
                     <div className="bg-[var(--bot-bubble-bg)] rounded-lg p-4 flex items-start gap-3">
-                      <span className="bg-[var(--accent)] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">4</span>
+                      <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">4</span>
                       <div>
                         <strong>Notification J+1</strong>
                         <p className="text-sm opacity-60">&quot;Tu as joué à Carcassonne — essaie Kingdomino, c&apos;est similaire mais en 10 min&quot;</p>
@@ -1083,7 +1083,7 @@ export default function BGAPage() {
                 {/* Season Pass */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">3.2</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">3.2</span>
                     Le &quot;Season Pass&quot; BGA — L&apos;opportunité majeure
                   </h5>
                   <div className="bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent)]/5 rounded-2xl p-6 mb-4 border border-[var(--accent)]/30">
@@ -1127,7 +1127,7 @@ export default function BGAPage() {
                 {/* CRM & Email */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">3.3</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">3.3</span>
                     CRM & email automation
                   </h5>
                   <p className="text-sm opacity-70 mb-4">La newsletter est &quot;sous-exploitée&quot; (rapport). Flows prioritaires :</p>
@@ -1166,7 +1166,7 @@ export default function BGAPage() {
                     {/* Phase 1 */}
                     <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-[var(--accent)]">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">Phase 1</span>
+                        <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">Phase 1</span>
                         <span className="text-sm opacity-60">Q3 2025 — Quick wins sur l&apos;app existante</span>
                       </div>
                       <ul className="space-y-2 text-sm">
@@ -1177,27 +1177,27 @@ export default function BGAPage() {
                     </div>
 
                     {/* Phase 2 */}
-                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-blue-500">
+                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-zinc-500">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">Phase 2</span>
+                        <span className="bg-zinc-500 text-white text-xs font-bold px-2 py-1 rounded-full">Phase 2</span>
                         <span className="text-sm opacity-60">Q1 2026 — Progressive Web App (PWA)</span>
                       </div>
                       <ul className="space-y-2 text-sm">
-                        <li className="flex items-start gap-2"><span className="text-blue-400">→</span> Notifications push natives</li>
-                        <li className="flex items-start gap-2"><span className="text-blue-400">→</span> Mode hors-ligne pour le tour par tour</li>
-                        <li className="flex items-start gap-2"><span className="text-blue-400">→</span> Interface adaptative (pas responsive bricolé)</li>
+                        <li className="flex items-start gap-2"><span className="text-zinc-400">→</span> Notifications push natives</li>
+                        <li className="flex items-start gap-2"><span className="text-zinc-400">→</span> Mode hors-ligne pour le tour par tour</li>
+                        <li className="flex items-start gap-2"><span className="text-zinc-400">→</span> Interface adaptative (pas responsive bricolé)</li>
                       </ul>
                     </div>
 
                     {/* Phase 3 */}
-                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-purple-500">
+                    <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border-l-4 border-zinc-500">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">Phase 3</span>
+                        <span className="bg-zinc-500 text-white text-xs font-bold px-2 py-1 rounded-full">Phase 3</span>
                         <span className="text-sm opacity-60">Q3 2026 — Features mobiles exclusives</span>
                       </div>
                       <ul className="space-y-2 text-sm">
-                        <li className="flex items-start gap-2"><span className="text-purple-400">→</span> Mode &quot;Commute&quot; : parties de 5 min calibrées pour le trajet</li>
-                        <li className="flex items-start gap-2"><span className="text-purple-400">→</span> Widgets iOS/Android : &quot;Ton tour !&quot; sur l&apos;écran d&apos;accueil</li>
+                        <li className="flex items-start gap-2"><span className="text-zinc-400">→</span> Mode &quot;Commute&quot; : parties de 5 min calibrées pour le trajet</li>
+                        <li className="flex items-start gap-2"><span className="text-zinc-400">→</span> Widgets iOS/Android : &quot;Ton tour !&quot; sur l&apos;écran d&apos;accueil</li>
                       </ul>
                     </div>
                   </div>
@@ -1225,7 +1225,7 @@ export default function BGAPage() {
                 {/* Try Before You Buy */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">5.1</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">5.1</span>
                     &quot;Try Before You Buy&quot; systématisé
                   </h5>
                   <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5">
@@ -1262,7 +1262,7 @@ export default function BGAPage() {
                 {/* Board Game Cafés */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">5.2</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">5.2</span>
                     Programme &quot;Cafés-Jeux&quot; — Opportunité B2B
                   </h5>
                   <div className="bg-gradient-to-r from-[var(--bot-bubble-bg)] to-[var(--background)] rounded-2xl p-6 border border-[var(--foreground)]/10">
@@ -1296,7 +1296,7 @@ export default function BGAPage() {
                 {/* Data Phygitale */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">5.3</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">5.3</span>
                     Data phygitale — Mine d&apos;or pour Asmodee
                   </h5>
                   <div className="grid md:grid-cols-3 gap-4">
@@ -1332,7 +1332,7 @@ export default function BGAPage() {
                 {/* Japan */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">6.1</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">6.1</span>
                     🇯🇵 Japon (Priorité 1)
                   </h5>
                   <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5 border border-[var(--accent)]/30">
@@ -1353,7 +1353,7 @@ export default function BGAPage() {
                 {/* Korea & SEA */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">6.2</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">6.2</span>
                     🇰🇷 Corée du Sud & Asie du Sud-Est (Priorité 2)
                   </h5>
                   <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5">
@@ -1368,7 +1368,7 @@ export default function BGAPage() {
                 {/* Brazil / LATAM */}
                 <div>
                   <h5 className="font-semibold mb-4 flex items-center gap-2">
-                    <span className="bg-[var(--accent)] text-white text-xs font-bold px-2 py-1 rounded-full">6.3</span>
+                    <span className="bg-[var(--accent)] text-[var(--term-bg)] text-xs font-bold px-2 py-1 rounded-full">6.3</span>
                     🇧🇷 Brésil / Amérique Latine (Priorité 3)
                   </h5>
                   <div className="bg-[var(--bot-bubble-bg)] rounded-xl p-5">
@@ -1488,7 +1488,7 @@ export default function BGAPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.a
                 href="mailto:charles.bonnet@pm.me?subject=Candidature%20Growth%20Officer%20Board%20Game%20Arena&body=Bonjour%20Charles,%0A%0AJ'ai%20vu%20votre%20page%20de%20candidature%20pour%20BGA%20et%20j'aimerais%20échanger%20avec%20vous."
-                className="inline-flex items-center gap-3 bg-[var(--accent)] text-white font-semibold px-8 py-4 rounded-full text-lg overflow-hidden group hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-3 bg-[var(--accent)] text-[var(--term-bg)] font-semibold px-8 py-4 rounded-full text-lg overflow-hidden group hover:opacity-90 transition-opacity"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={() => setHoveredCTA(true)}
