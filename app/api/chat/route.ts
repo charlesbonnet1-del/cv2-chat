@@ -185,10 +185,9 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const { text } = await generateText({
-      model: anthropic('claude-sonnet-4-6'),
+      model: anthropic('claude-sonnet-5-5'),
       system: SYSTEM_PROMPT,
       messages,
-      temperature: 0.1,
     });
 
     return new Response(JSON.stringify({ reply: text }), {
