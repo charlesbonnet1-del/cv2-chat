@@ -119,7 +119,7 @@ export default function ProcessAgent() {
                     className={`
             relative flex items-center gap-2 px-6 py-3 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-wider
             ${input.trim() && !isLoading
-                            ? "bg-[var(--app-accent)] text-white hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
+                            ? "bg-[var(--app-accent)] text-[var(--term-bg)] hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
                             : "bg-[var(--app-border)] text-[var(--app-text-muted)] cursor-not-allowed"}
           `}
                 >

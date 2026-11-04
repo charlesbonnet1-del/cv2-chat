@@ -1,14 +1,14 @@
-/* ── Terminal palette (aligned with charlesbonnet.xyz) ─────────────────── */
+/* ── App palette — mapped onto the global terminal design system ───────── */
 :root {
-    --app-bg-primary: #F7FBF8;
-    --app-bg-secondary: #EEF5F0;
-    --app-border: #86EFAC;
-    --app-accent: #15803D;
-    --app-accent-glow: rgba(21,128,61,0.15);
-    --app-text-primary: #052e16;
-    --app-text-dim: #166534;
-    --app-text-muted: #4A7A58;
-    --app-font: 'Share Tech Mono', monospace;
+    --app-bg-primary:   var(--term-bg);
+    --app-bg-secondary: var(--term-surface);
+    --app-border:       var(--term-border);
+    --app-accent:       var(--term-accent);
+    --app-accent-glow:  var(--term-accent-bg);
+    --app-text-primary: var(--term-fg);
+    --app-text-dim:     var(--term-dim);
+    --app-text-muted:   var(--term-muted);
+    --app-font:         var(--term-font);
 }
 
 /* ── Utilities ───────────────────────────────────────────────────────── */

@@ -172,10 +172,10 @@ export function Callout({
   children: ReactNode;
 }) {
   const styles = {
-    insight: "border-blue-500/30 bg-blue-500/10",
+    insight: "border-zinc-500/30 bg-zinc-500/10",
     action: "border-[var(--accent)]/30 bg-[var(--accent)]/10",
     proof: "border-green-500/30 bg-green-500/10",
-    personal: "border-purple-500/30 bg-purple-500/10",
+    personal: "border-zinc-500/30 bg-zinc-500/10",
   };
 
   const icons = {
@@ -210,7 +210,7 @@ export function StrategyTabs({ children }: { children: ReactNode }) {
             onClick={() => setActiveTab(index)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               activeTab === index
-                ? "bg-[var(--accent)] text-white"
+                ? "bg-[var(--accent)] text-[var(--term-bg)]"
                 : "bg-[var(--bot-bubble-bg)] opacity-60 hover:opacity-100"
             }`}
           >
@@ -288,7 +288,7 @@ export function TimelineMonth({
       transition={{ duration: 0.5 }}
     >
       {/* Month indicator */}
-      <div className="absolute -left-4 top-0 w-8 h-8 rounded-full bg-[var(--accent)] flex items-center justify-center text-white font-bold text-sm">
+      <div className="absolute -left-4 top-0 w-8 h-8 rounded-full bg-[var(--accent)] flex items-center justify-center text-[var(--term-bg)] font-bold text-sm">
         {month}
       </div>
 

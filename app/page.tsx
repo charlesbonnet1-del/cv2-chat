@@ -38,10 +38,10 @@ function appendMsg(role: string, _: unknown, bodyHTML: string) {
   const div  = document.createElement('div');
   div.className = 'msg-line';
   const pre = role === 'user'
-    ? `<div class="msg-prompt user-prompt">&gt; you</div>`
+    ? `<div class="msg-prompt user-prompt">guest@charlesbonnet:~$</div>`
     : role === 'system'
-    ? `<div class="msg-prompt" style="color:#86EFAC">// system</div>`
-    : `<div class="msg-prompt">// charles_clone</div>`;
+    ? `<div class="msg-prompt sys-prompt">[sys]</div>`
+    : `<div class="msg-prompt">charles_clone ›</div>`;
   div.innerHTML = pre + `<div class="msg-body"></div>`;
   wrap.appendChild(div);
   const el = div.querySelector('.msg-body')!;
@@ -65,7 +65,7 @@ async function sendQ(btn: HTMLElement | null, custom?: string) {
   const loadEl = document.createElement('div');
   loadEl.id = 'loadMsg';
   loadEl.className = 'msg-line';
-  loadEl.innerHTML = '<div class="msg-prompt">// charles_clone</div><div class="msg-body"><span class="blink"></span></div>';
+  loadEl.innerHTML = '<div class="msg-prompt">charles_clone ›</div><div class="msg-body"><span class="blink"></span></div>';
   wrap.appendChild(loadEl);
   wrap.scrollTop = 99999;
   input.disabled = true;
@@ -142,20 +142,19 @@ function closeChat() {
 
 const css = `
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; background: #F7FBF8; }
+html, body { height: 100%; overflow: hidden; background: var(--term-bg); }
 
 #canvas { position: fixed; inset: 0; z-index: 0; }
 
 .vignette {
   position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse 80% 80% at 50% 50%,
-    transparent 50%, rgba(210,235,215,0.3) 85%, rgba(195,225,205,0.5) 100%);
+  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
 }
 
 .scanline {
   position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: repeating-linear-gradient(0deg,
-    transparent, transparent 3px, rgba(0,0,0,0.006) 3px, rgba(0,0,0,0.006) 4px);
+    transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px);
 }
 
 #terminal {
@@ -163,129 +162,128 @@ html, body { height: 100%; overflow: hidden; background: #F7FBF8; }
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   padding: 40px 24px;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--term-font);
 }
 
 #boot { width: 100%; max-width: 640px; display: flex; flex-direction: column; }
 
 .boot-line {
-  font-size: 13px; color: #166534;
-  line-height: 1.8; opacity: 0;
-  letter-spacing: 0.04em; white-space: pre;
+  font-size: 12px; color: var(--term-fg);
+  line-height: 1.85; opacity: 0;
+  white-space: pre;
 }
-.boot-line.dim   { color: #4A7A58; }
-.boot-line.white { color: #052e16; font-weight: bold; }
+.boot-line.dim   { color: var(--term-muted); }
+.boot-line.white { color: var(--term-fg-bright); }
+.boot-ok { color: var(--term-accent); }
 
-#hero { display: none; flex-direction: column; align-items: center; text-align: center; }
+#hero { display: none; flex-direction: column; align-items: flex-start; text-align: left; width: 100%; max-width: 640px; }
+
+.hero-cmd { font-size: 12px; color: var(--term-muted); margin-bottom: 14px; }
+.hero-cmd .ps1 { color: var(--term-accent); }
 
 .hero-name {
-  font-family: 'Instrument Serif', serif; font-style: italic;
-  font-size: clamp(42px, 7vw, 82px); color: #052e16;
-  letter-spacing: -0.03em; line-height: 1;
+  font-family: var(--term-font); font-weight: 500;
+  font-size: clamp(30px, 5.2vw, 56px); color: var(--term-fg-bright);
+  letter-spacing: -0.02em; line-height: 1.05;
 }
 
 .hero-divider {
-  width: 1px; height: 28px;
-  background: linear-gradient(to bottom, #4ADE80, transparent);
-  margin: 16px auto;
+  width: 100%; height: 1px;
+  background: var(--term-border);
+  margin: 20px 0 16px;
 }
 
 .hero-rotating {
-  font-size: clamp(12px, 1.6vw, 15px); color: #15803D;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  height: 22px; display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+  font-size: 13px; color: var(--term-fg);
+  height: 22px; display: flex; align-items: center; gap: 8px; margin-bottom: 26px;
 }
-.hero-rotating .prefix { color: #4ADE80; }
+.hero-rotating .prefix { color: var(--term-muted); }
 .rotating-word { display: inline-block; min-width: 180px; text-align: left; }
 
 .ask-btn {
-  font-family: 'Share Tech Mono', monospace; font-size: 13px;
-  color: #15803D; background: none; border: 1px solid #4ADE80;
-  padding: 11px 34px; cursor: pointer; letter-spacing: 0.14em;
-  text-transform: uppercase; transition: all 0.2s;
-  animation: pulse-border 2.5s ease-in-out infinite;
+  font-family: var(--term-font); font-size: 12px;
+  color: var(--term-bg); background: var(--term-fg); border: 1px solid var(--term-fg);
+  padding: 9px 22px; cursor: pointer; letter-spacing: 0.06em;
+  text-transform: lowercase; transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.ask-btn:hover {
-  background: rgba(21,128,61,0.06); color: #14532D;
-  border-color: #16A34A; box-shadow: 0 0 18px rgba(21,128,61,0.12);
-  animation: none; letter-spacing: 0.18em;
-}
-@keyframes pulse-border {
-  0%,100% { border-color: #86EFAC; box-shadow: none; }
-  50%      { border-color: #4ADE80; box-shadow: 0 0 12px rgba(74,222,128,0.14); }
-}
+.ask-btn:hover { background: var(--term-accent); border-color: var(--term-accent); color: var(--term-bg); }
 
 #chat {
   display: none; flex-direction: column;
-  width: 100%; max-width: 680px; height: min(560px, 80vh);
+  width: 100%; max-width: 720px; height: min(580px, 80vh);
+  border: 1px solid var(--term-border); background: rgba(11,11,11,0.92);
 }
 
 .chat-header {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #4ADE80;
+  padding: 8px 14px; border-bottom: 1px solid var(--term-border);
+  background: var(--term-surface);
 }
-.chat-title { font-size: 10px; color: #166534; letter-spacing: 0.12em; text-transform: uppercase; }
+.chat-title { font-size: 11px; color: var(--term-dim); }
 .chat-close {
-  font-size: 10px; color: #166534; cursor: pointer;
-  background: none; border: none; font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 0.08em; transition: color 0.15s;
+  font-size: 11px; color: var(--term-dim); cursor: pointer;
+  background: none; border: none; font-family: var(--term-font);
+  transition: color 0.15s;
 }
-.chat-close:hover { color: #14532D; }
+.chat-close:hover { color: var(--term-fg-bright); }
 
 .chat-messages {
   flex: 1; overflow-y: auto; display: flex; flex-direction: column;
-  gap: 20px; padding-right: 6px; margin-bottom: 16px;
-  scrollbar-width: thin; scrollbar-color: #86EFAC transparent;
+  gap: 18px; padding: 16px 14px; margin-bottom: 0;
 }
 
-.msg-line { display: flex; flex-direction: column; gap: 5px; }
-.msg-prompt { font-size: 10px; color: #166534; letter-spacing: 0.06em; }
-.msg-prompt.user-prompt { color: #15803D; font-weight: bold; }
+.msg-line { display: flex; flex-direction: column; gap: 4px; }
+.msg-prompt { font-size: 11px; color: var(--term-muted); }
+.msg-prompt.user-prompt { color: var(--term-accent); }
+.msg-prompt.sys-prompt { color: var(--term-accent-dim); }
 
 .msg-body {
-  font-size: 13px; line-height: 1.78; color: #052e16;
-  padding-left: 14px; border-left: 2px solid #86EFAC;
+  font-size: 13px; line-height: 1.75; color: var(--term-fg);
+  padding-left: 14px; border-left: 1px solid var(--term-border-2);
 }
-.msg-body .hi  { color: #14532D; font-weight: bold; }
-.msg-body .num { color: #15803D; }
+.msg-body .hi  { color: var(--term-fg-bright); font-weight: bold; }
+.msg-body .num { color: var(--term-accent); }
 
-.chat-suggestions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.chat-suggestions { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 14px 12px; }
 .sug {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: #166534; background: none; border: 1px solid #86EFAC;
-  padding: 5px 12px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s;
+  font-family: var(--term-font); font-size: 11px;
+  color: var(--term-dim); background: none; border: 1px solid var(--term-border);
+  padding: 4px 10px; cursor: pointer; transition: all 0.15s;
 }
-.sug::before { content: '> '; color: #4ADE80; }
-.sug:hover { color: #14532D; border-color: #4ADE80; background: rgba(21,128,61,0.04); }
+.sug::before { content: '> '; color: var(--term-muted); }
+.sug:hover { color: var(--term-fg-bright); border-color: var(--term-border-2); background: var(--term-surface); }
+.sug:hover::before { color: var(--term-accent); }
 
 .chat-input-row {
   display: flex; align-items: center;
-  border-top: 1px solid #86EFAC; padding-top: 13px;
+  border-top: 1px solid var(--term-border); padding: 10px 14px;
 }
-.prompt-prefix { font-size: 13px; color: #15803D; margin-right: 8px; flex-shrink: 0; }
+.prompt-prefix { font-size: 13px; color: var(--term-accent); margin-right: 8px; flex-shrink: 0; }
 .chat-input {
   flex: 1; background: none; border: none; outline: none;
-  font-family: 'Share Tech Mono', monospace; font-size: 13px;
-  color: #052e16; caret-color: #15803D; letter-spacing: 0.03em;
+  font-family: var(--term-font); font-size: 13px;
+  color: var(--term-fg-bright); caret-color: var(--term-accent);
 }
-.chat-input::placeholder { color: #86EFAC; }
+.chat-input:focus-visible { outline: none; }
+.chat-input::placeholder { color: var(--term-muted); }
 .chat-send {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: #166534; background: none; border: 1px solid #86EFAC;
-  padding: 5px 12px; cursor: pointer; letter-spacing: 0.06em;
+  font-family: var(--term-font); font-size: 11px;
+  color: var(--term-dim); background: none; border: 1px solid var(--term-border);
+  padding: 4px 10px; cursor: pointer;
   transition: all 0.15s; flex-shrink: 0;
 }
-.chat-send:hover { color: #15803D; border-color: #4ADE80; }
+.chat-send:hover { color: var(--term-fg-bright); border-color: var(--term-border-2); }
 
 .corner {
   position: fixed; z-index: 15;
-  font-family: 'Share Tech Mono', monospace; font-size: 10px;
-  color: #166534; letter-spacing: 0.06em; line-height: 1.7;
+  font-family: var(--term-font); font-size: 10px;
+  color: var(--term-muted); line-height: 1.7;
   pointer-events: none;
 }
 .corner-tl { top: 20px; left: 24px; }
 .corner-tr { top: 20px; right: 24px; text-align: right; }
-.corner-label { display: block; color: #166534; }
+.corner-label { display: block; }
+.status-dot { color: var(--term-accent); }
 
 .bottom-nav {
   position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
@@ -293,24 +291,25 @@ html, body { height: 100%; overflow: hidden; background: #F7FBF8; }
 }
 .nav-link {
   display: inline-flex; align-items: center; gap: 7px;
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: #15803D; text-decoration: none; letter-spacing: 0.08em;
-  padding: 7px 16px; border: 1px solid #4ADE80;
-  transition: all 0.18s; white-space: nowrap;
-  background: rgba(247,251,248,0.90);
-  backdrop-filter: blur(4px);
+  font-family: var(--term-font); font-size: 11px;
+  color: var(--term-dim); text-decoration: none;
+  padding: 6px 14px; border: 1px solid var(--term-border);
+  transition: all 0.15s; white-space: nowrap; cursor: pointer;
+  background: var(--term-bg);
 }
 .nav-link svg { width: 12px; height: 12px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.nav-link:hover {
-  color: #14532D; border-color: #16A34A;
-  background: rgba(247,251,248,1);
-  box-shadow: 0 0 10px rgba(74,222,128,0.10);
+.nav-link:hover { color: var(--term-fg-bright); border-color: var(--term-border-2); background: var(--term-surface); }
+.nav-sep { font-family: var(--term-font); font-size: 10px; color: var(--term-border-2); padding: 0 2px; }
+
+@media (max-width: 560px) {
+  .corner-tr { display: none; }
+  .nav-link { padding: 6px 9px; }
+  .nav-sep { display: none; }
 }
-.nav-sep { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #86EFAC; padding: 0 2px; }
 
 .blink {
-  display: inline-block; width: 7px; height: 13px;
-  background: #15803D; vertical-align: middle; margin-left: 2px;
+  display: inline-block; width: 7px; height: 14px;
+  background: var(--term-fg); vertical-align: middle; margin-left: 2px;
   animation: blink 1s step-end infinite;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -353,9 +352,9 @@ export default function Home() {
           b *= DECAY;
           grid[r * cols + c] = b;
           if (b < 0.005) {
-            ctx.fillStyle = 'rgba(0,0,0,0.03)';
+            ctx.fillStyle = 'rgba(255,255,255,0.018)';
           } else {
-            ctx.fillStyle = `rgba(30,60,35,${b * 0.13})`;
+            ctx.fillStyle = `rgba(156,204,156,${b * 0.22})`;
           }
           ctx.fillRect(px, py, CELL, CELL);
         }
@@ -410,7 +409,7 @@ export default function Home() {
       </div>
       <div className="corner corner-tr">
         <span className="corner-label">digital_clone · ai</span>
-        <span className="corner-label">status: online</span>
+        <span className="corner-label"><span className="status-dot">●</span> status: online</span>
       </div>
 
       <nav className="bottom-nav">
@@ -432,28 +431,29 @@ export default function Home() {
         <div id="boot">
           <div className="boot-line dim"  id="b0">CHARLES_BONNET.AI — SYSTEM BOOT</div>
           <div className="boot-line dim"  id="b1">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-          <div className="boot-line"      id="b2">loading profile .............. <span style={{ color: '#15803D' }}>[OK]</span></div>
-          <div className="boot-line"      id="b3">initializing growth engine ... <span style={{ color: '#15803D' }}>[OK]</span></div>
-          <div className="boot-line"      id="b4">mounting subscription stack .. <span style={{ color: '#15803D' }}>[OK]</span></div>
-          <div className="boot-line"      id="b5">connecting anthropic api ..... <span style={{ color: '#15803D' }}>[OK]</span></div>
+          <div className="boot-line"      id="b2">loading profile .............. <span className="boot-ok">[ OK ]</span></div>
+          <div className="boot-line"      id="b3">initializing growth engine ... <span className="boot-ok">[ OK ]</span></div>
+          <div className="boot-line"      id="b4">mounting subscription stack .. <span className="boot-ok">[ OK ]</span></div>
+          <div className="boot-line"      id="b5">connecting anthropic api ..... <span className="boot-ok">[ OK ]</span></div>
           <div className="boot-line dim"  id="b6">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
           <div className="boot-line white"id="b7">all systems operational. <span className="blink"></span></div>
         </div>
 
         <div id="hero" style={{ display: 'none' }}>
+          <div className="hero-cmd"><span className="ps1">guest@charlesbonnet:~$</span> whoami</div>
           <div className="hero-name">Charles Bonnet</div>
           <div className="hero-divider"></div>
           <div className="hero-rotating">
-            <span className="prefix">// </span>
+            <span className="prefix">--role</span>
             <span className="rotating-word" id="rotWord">B2C Subscription Legend</span>
           </div>
-          <button className="ask-btn" onClick={openChat}>[ Ask me ]</button>
+          <button className="ask-btn" onClick={openChat}>&gt; ask_me</button>
         </div>
 
         <div id="chat" style={{ display: 'none' }}>
           <div className="chat-header">
-            <span className="chat-title">// charles_clone — interactive session</span>
-            <button className="chat-close" onClick={closeChat}>[ × close ]</button>
+            <span className="chat-title">charles_clone — interactive session — tty1</span>
+            <button className="chat-close" onClick={closeChat}>[x] close</button>
           </div>
           <div className="chat-messages" id="chatMessages"></div>
           <div className="chat-suggestions" id="chatSuggestions">

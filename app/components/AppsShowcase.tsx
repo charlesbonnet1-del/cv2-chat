@@ -153,7 +153,7 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
         display: "flex", flexDirection: "column",
-        backgroundColor: "#F7FBF8", padding: "12px", gap: "8px",
+        backgroundColor: "var(--term-bg)", padding: "12px", gap: "8px",
       }}
     >
       {/* Back button row */}
@@ -161,23 +161,23 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
         <button
           onClick={handleBack}
           style={{
-            fontFamily: "'Share Tech Mono', monospace",
+            fontFamily: "var(--term-font)",
             fontSize: "11px",
             letterSpacing: "0.08em",
-            color: "#15803D",
+            color: "var(--term-dim)",
             background: "none",
-            border: "1px solid #86EFAC",
+            border: "1px solid var(--term-border)",
             padding: "5px 16px",
             cursor: "pointer",
             transition: "all 0.15s",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
-            (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--term-border-2)";
+            (e.currentTarget as HTMLButtonElement).style.color = "var(--term-fg-bright)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
-            (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--term-border)";
+            (e.currentTarget as HTMLButtonElement).style.color = "var(--term-dim)";
           }}
         >
           ← My Apps
@@ -188,7 +188,7 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
       <div
         style={{
           flex: 1, minHeight: 0, overflow: "hidden",
-          border: "1px solid #86EFAC",
+          border: "1px solid var(--term-border)",
         }}
       >
         {activeApp === "sentiment" && <SentimentHeatmap />}
@@ -205,7 +205,7 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
         display: "flex", alignItems: "center", justifyContent: "center",
-        backgroundColor: "rgba(247,251,248,0.92)",
+        backgroundColor: "rgba(11,11,11,0.94)",
         backdropFilter: "blur(6px)",
         animation: "appsfadeIn 0.25s ease-out",
       }}
@@ -226,8 +226,8 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
           onClick={() => setIsOpen(false)}
           style={{
             position: "absolute", top: "8px", right: "8px",
-            fontFamily: "'Share Tech Mono', monospace", fontSize: "10px",
-            color: "#166534", background: "none", border: "none",
+            fontFamily: "var(--term-font)", fontSize: "10px",
+            color: "var(--term-dim)", background: "none", border: "none",
             cursor: "pointer", letterSpacing: "0.06em",
           }}
         >
@@ -235,8 +235,8 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
         </button>
 
         {/* Title */}
-        <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "10px", color: "#166534", letterSpacing: "0.14em", textTransform: "uppercase" }}>
-          // my apps
+        <div style={{ fontFamily: "var(--term-font)", fontSize: "11px", color: "var(--term-dim)", letterSpacing: "0.04em" }}>
+          $ ls ~/apps
         </div>
 
         {/* Apps Grid */}
@@ -246,32 +246,32 @@ export default function AppsShowcase({ variant = "link" }: AppsShowcaseProps) {
               key={app.id}
               onClick={() => handleAppClick(app.id)}
               style={{
-                fontFamily: "'Share Tech Mono', monospace",
+                fontFamily: "var(--term-font)",
                 display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
                 padding: "20px 24px", width: "130px",
-                background: "none", border: "1px solid #86EFAC", cursor: "pointer",
-                color: "#15803D", transition: "all 0.18s",
+                background: "none", border: "1px solid var(--term-border)", cursor: "pointer",
+                color: "var(--term-dim)", transition: "all 0.18s",
                 animation: `appsSlideUp 0.35s ease-out ${index * 0.07}s both`,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#4ADE80";
-                (e.currentTarget as HTMLButtonElement).style.background = "rgba(21,128,61,0.05)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#14532D";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--term-border-2)";
+                (e.currentTarget as HTMLButtonElement).style.background = "var(--term-surface)";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--term-fg-bright)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#86EFAC";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--term-border)";
                 (e.currentTarget as HTMLButtonElement).style.background = "none";
-                (e.currentTarget as HTMLButtonElement).style.color = "#15803D";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--term-dim)";
               }}
             >
-              <div style={{ color: "#15803D", opacity: 0.7 }}>{app.icon}</div>
+              <div style={{ color: "var(--term-dim)", opacity: 0.7 }}>{app.icon}</div>
               <span style={{ fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", textAlign: "center" }}>{app.name}</span>
-              <span style={{ fontSize: "9px", color: "#4A7A58", letterSpacing: "0.04em", textAlign: "center", lineHeight: "1.4" }}>{app.description}</span>
+              <span style={{ fontSize: "9px", color: "var(--term-muted)", letterSpacing: "0.04em", textAlign: "center", lineHeight: "1.4" }}>{app.description}</span>
             </button>
           ))}
         </div>
 
-        <p style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "9px", color: "#86EFAC", letterSpacing: "0.06em" }}>
+        <p style={{ fontFamily: "var(--term-font)", fontSize: "9px", color: "var(--term-border)", letterSpacing: "0.06em" }}>
           click anywhere to close
         </p>
       </div>

@@ -226,7 +226,7 @@ export default function MailFinder() {
             className={`
               w-full flex items-center justify-center gap-2 px-6 py-4 rounded-md transition-all duration-300 text-xs font-bold uppercase tracking-widest
               ${!isSearching && firstName && lastName && domain
-                ? "bg-[var(--app-accent)] text-white hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
+                ? "bg-[var(--app-accent)] text-[var(--term-bg)] hover:opacity-90 shadow-[0_0_20px_var(--app-accent-glow)] active:scale-95"
                 : "bg-[var(--app-bg-secondary)] text-[var(--app-text-muted)] cursor-not-allowed"}
             `}
           >
@@ -278,7 +278,7 @@ export default function MailFinder() {
                       {result.status.replace('_', ' ')}
                     </span>
                     {result.provider && result.provider !== 'none' && (
-                      <span className="text-[8px] px-1 bg-blue-500/20 text-blue-400 rounded">
+                      <span className="text-[8px] px-1 bg-zinc-500/20 text-zinc-400 rounded">
                         {result.provider}
                       </span>
                     )}

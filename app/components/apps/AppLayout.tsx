@@ -36,7 +36,7 @@ export default function AppLayout({
             >
                 <div className="flex flex-col gap-0.5 min-w-0">
                     <div className="flex items-center gap-1.5">
-                        <span style={{ color: "#4ADE80", fontSize: "10px" }}>// </span>
+                        <span style={{ color: "var(--term-border-2)", fontSize: "10px" }}>// </span>
                         <h1
                             className="truncate"
                             style={{ fontSize: "10px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--app-text-dim)" }}
